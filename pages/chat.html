@@ -1,0 +1,309 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Jury AI - Legal Chat Assistant</title>
+    
+    <!-- Bootstrap CSS -->
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.0/css/bootstrap.min.css" rel="stylesheet">
+    
+    <!-- Font Awesome -->
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
+    
+    <!-- Google Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;700&family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet">
+    
+    <!-- Main CSS -->
+    <link rel="stylesheet" href="../css/style.css">
+    <link rel="stylesheet" href="../css/chat.css">
+</head>
+<body class="no-copy">
+    <!-- Header -->
+    <nav class="navbar navbar-expand-lg" id="navbar">
+        <div class="container-fluid">
+            <a class="navbar-brand" href="../index.html">
+                <i class="fas fa-balance-scale logo-animation"></i>
+                <span>Jury AI</span>
+            </a>
+            
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            
+            <div class="collapse navbar-collapse" id="navbarNav">
+                <div class="ms-auto auth-buttons">
+                    <a href="#" class="auth-btn btn-outline-light" onclick="toggleSidebar()">
+                        <i class="fas fa-bars"></i> Menu
+                    </a>
+                    <a href="../index.html" class="auth-btn btn-outline-light">
+                        <i class="fas fa-home"></i> Home
+                    </a>
+                </div>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Main Chat Layout -->
+    <div class="chat-main-container">
+        <!-- Sidebar -->
+        <div class="chat-sidebar" id="chatSidebar">
+            <div class="sidebar-header">
+                <h5><i class="fas fa-history"></i> Chat History</h5>
+                <button class="btn btn-sm btn-light" onclick="newChat()">
+                    <i class="fas fa-plus"></i> New Chat
+                </button>
+            </div>
+            
+            <div class="sidebar-content">
+                <div class="chat-history-section">
+                    <h6 class="section-title">Today</h6>
+                    <div class="history-item active" onclick="loadChat(1)">
+                        <i class="fas fa-message"></i>
+                        <span>Understanding Patent Process</span>
+                        <button class="delete-btn" onclick="deleteChat(1)"><i class="fas fa-trash"></i></button>
+                    </div>
+                    <div class="history-item" onclick="loadChat(2)">
+                        <i class="fas fa-message"></i>
+                        <span>GST Compliance Guide</span>
+                        <button class="delete-btn" onclick="deleteChat(2)"><i class="fas fa-trash"></i></button>
+                    </div>
+                </div>
+                
+                <div class="chat-history-section">
+                    <h6 class="section-title">Previous 7 Days</h6>
+                    <div class="history-item" onclick="loadChat(3)">
+                        <i class="fas fa-message"></i>
+                        <span>Contract Review Tips</span>
+                        <button class="delete-btn" onclick="deleteChat(3)"><i class="fas fa-trash"></i></button>
+                    </div>
+                    <div class="history-item" onclick="loadChat(4)">
+                        <i class="fas fa-message"></i>
+                        <span>Family Law FAQs</span>
+                        <button class="delete-btn" onclick="deleteChat(4)"><i class="fas fa-trash"></i></button>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="sidebar-footer">
+                <hr>
+                <div class="sidebar-menu-item">
+                    <i class="fas fa-sliders-h"></i>
+                    <span>Settings</span>
+                </div>
+                <div class="sidebar-menu-item">
+                    <i class="fas fa-question-circle"></i>
+                    <span>Help & FAQ</span>
+                </div>
+                <div class="sidebar-menu-item">
+                    <i class="fas fa-info-circle"></i>
+                    <span>About Jury AI</span>
+                </div>
+            </div>
+        </div>
+
+        <!-- Chat Area -->
+        <div class="chat-area">
+            <div class="chat-container" id="chatContainer">
+                
+                <!-- Empty State / Welcome Message -->
+                <div id="welcomeState" class="welcome-state active">
+                    <div class="welcome-content">
+                        <div class="welcome-header">
+                            <div class="logo-large">
+                                <i class="fas fa-balance-scale"></i>
+                            </div>
+                            <h1>Jury AI Legal Assistant</h1>
+                            <p>Get expert legal guidance, document analysis, and legal information all in one place</p>
+                        </div>
+                        
+                        <div class="search-modes">
+                            <h6>Choose Your Mode:</h6>
+                            <div class="mode-grid">
+                                <div class="mode-card" onclick="selectMode('standard')">
+                                    <div class="mode-icon">
+                                        <i class="fas fa-message"></i>
+                                    </div>
+                                    <h6>Standard Chat</h6>
+                                    <p>Quick legal questions and guidance</p>
+                                </div>
+                                
+                                <div class="mode-card" onclick="selectMode('deep')">
+                                    <div class="mode-icon">
+                                        <i class="fas fa-book-open"></i>
+                                    </div>
+                                    <h6>Deep Legal Info</h6>
+                                    <p>Comprehensive laws and case details</p>
+                                </div>
+                                
+                                <div class="mode-card" onclick="selectMode('startup')">
+                                    <div class="mode-icon">
+                                        <i class="fas fa-rocket"></i>
+                                    </div>
+                                    <h6>Startup Process</h6>
+                                    <p>Startup registration & compliance</p>
+                                </div>
+                                
+                                <div class="mode-card" onclick="selectMode('clause')">
+                                    <div class="mode-icon">
+                                        <i class="fas fa-file-pdf"></i>
+                                    </div>
+                                    <h6>Clause Detection</h6>
+                                    <p>Analyze PDFs for faulty clauses</p>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <div class="suggested-prompts">
+                            <h6>Try These Questions:</h6>
+                            <div class="prompts-grid">
+                                <button class="prompt-card" onclick="selectPrompt('What are the key changes in the Consumer Protection Act 2019?')">
+                                    <i class="fas fa-bolt"></i>
+                                    <span>Consumer Protection Act 2019</span>
+                                </button>
+                                <button class="prompt-card" onclick="selectPrompt('Guide me through the trademark registration process')">
+                                    <i class="fas fa-lightning"></i>
+                                    <span>Trademark Registration Process</span>
+                                </button>
+                                <button class="prompt-card" onclick="selectPrompt('What documents are needed to incorporate a startup?')">
+                                    <i class="fas fa-sparkles"></i>
+                                    <span>Startup Incorporation Docs</span>
+                                </button>
+                                <button class="prompt-card" onclick="selectPrompt('Explain GST and its implications for businesses')">
+                                    <i class="fas fa-star"></i>
+                                    <span>GST Guidelines & Implications</span>
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Messages Area -->
+                <div id="messagesArea" class="messages-area" style="display: none;">
+                    <!-- Messages will be added here dynamically -->
+                </div>
+            </div>
+
+            <!-- Chat Input Area -->
+            <div class="chat-input-wrapper">
+                <!-- Selected Mode Indicator -->
+                <div id="modeIndicator" class="mode-indicator" style="display: none;">
+                    <span id="modeText"></span>
+                    <button class="btn btn-sm btn-light" onclick="changeChatMode()">Change</button>
+                </div>
+
+                <!-- File Upload Area -->
+                <div id="uploadArea" class="upload-area" style="display: none;">
+                    <div class="upload-content">
+                        <i class="fas fa-file-pdf"></i>
+                        <p>Drop PDF here or <a href="#">click to upload</a></p>
+                        <small>Analyzing document for clause detection...</small>
+                        <input type="file" id="fileInput" accept=".pdf" style="display: none;" onchange="handleFileUpload(event)">
+                    </div>
+                </div>
+
+                <div class="chat-input-box">
+                    <div class="input-container">
+                        <button class="input-btn attach-btn" id="attachBtn" onclick="toggleFileUpload()">
+                            <i class="fas fa-paperclip"></i>
+                        </button>
+                        
+                        <input 
+                            type="text" 
+                            class="chat-input-field" 
+                            id="chatInput" 
+                            placeholder="Ask a legal question or type your message..." 
+                            onkeypress="handleKeyPress(event)"
+                        >
+                        
+                        <button class="input-btn mode-btn" id="modeBtn" onclick="toggleModeSelector()">
+                            <i class="fas fa-sliders-h"></i>
+                        </button>
+                        
+                        <button class="input-btn send-btn" onclick="sendMessage()" id="sendBtn">
+                            <i class="fas fa-paper-plane"></i>
+                        </button>
+                    </div>
+                    
+                    <div class="input-footer">
+                        <small>Jury AI can make mistakes. Always consult qualified legal professionals for important matters.</small>
+                    </div>
+                </div>
+
+                <!-- Mode Selector Dropdown -->
+                <div id="modeSelector" class="mode-selector" style="display: none;">
+                    <div class="mode-option" onclick="selectModeDropdown('standard')">
+                        <i class="fas fa-message"></i>
+                        <div>
+                            <strong>Standard Chat</strong>
+                            <small>Quick legal guidance</small>
+                        </div>
+                    </div>
+                    <div class="mode-option" onclick="selectModeDropdown('deep')">
+                        <i class="fas fa-book-open"></i>
+                        <div>
+                            <strong>Deep Legal Info</strong>
+                            <small>Comprehensive details</small>
+                        </div>
+                    </div>
+                    <div class="mode-option" onclick="selectModeDropdown('startup')">
+                        <i class="fas fa-rocket"></i>
+                        <div>
+                            <strong>Startup Process</strong>
+                            <small>Registration & compliance</small>
+                        </div>
+                    </div>
+                    <div class="mode-option" onclick="selectModeDropdown('clause')">
+                        <i class="fas fa-file-pdf"></i>
+                        <div>
+                            <strong>Clause Detection</strong>
+                            <small>PDF analysis</small>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Message Template (for reference) -->
+    <template id="messageTemplate">
+        <div class="message-group">
+            <div class="message user-message">
+                <div class="message-content">
+                    <p></p>
+                </div>
+            </div>
+        </div>
+    </template>
+
+    <template id="aiResponseTemplate">
+        <div class="message-group">
+            <div class="ai-avatar">
+                <i class="fas fa-balance-scale"></i>
+            </div>
+            <div class="message ai-message">
+                <div class="message-content">
+                    <p></p>
+                </div>
+                <div class="message-actions">
+                    <button class="action-btn" onclick="copyMessage(this)">
+                        <i class="fas fa-copy"></i> Copy
+                    </button>
+                    <button class="action-btn" onclick="likeMessage(this)">
+                        <i class="fas fa-thumbs-up"></i> Helpful
+                    </button>
+                    <button class="action-btn" onclick="dislikeMessage(this)">
+                        <i class="fas fa-thumbs-down"></i> Not Helpful
+                    </button>
+                </div>
+            </div>
+        </div>
+    </template>
+
+    <!-- Bootstrap JS -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.0/js/bootstrap.bundle.min.js"></script>
+    
+    <!-- Main Chat JS -->
+    <script src="../js/chat.js"></script>
+</body>
+</html>
