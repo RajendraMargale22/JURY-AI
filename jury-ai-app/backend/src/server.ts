@@ -67,9 +67,6 @@ app.use(express.json({ limit: '10mb' }));
 app.use(express.urlencoded({ extended: true }));
 app.use(cookieParser());
 
-// Handle preflight requests
-app.options('*', cors());
-
 // Static files
 app.use('/uploads', express.static('uploads'));
 

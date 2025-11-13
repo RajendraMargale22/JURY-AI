@@ -1,0 +1,214 @@
+@startuml system_architecture
+!theme vibrant
+skinparam backgroundColor #FFFFFF
+skinparam packageStyle rectangle
+skinparam shadowing false
+skinparam defaultFontSize 11
+skinparam arrowThickness 2
+
+title JURI AI - Multi-Tier System Architecture
+
+' Client Layer
+package "**Client Layer**" #E8F5E9 {
+  component "Web Browser" as Browser {
+    [React SPA] as ReactApp
+    [TypeScript] as TS
+    [Socket.io Client] as SocketClient
+  }
+  
+  component "Mobile App" as Mobile {
+    [React Native] as RN
+  }
+}
+
+' Frontend Layer
+package "**Frontend Layer**\n(Presentation Tier)" #E3F2FD {
+  component "React Components" as Frontend {
+    [User Dashboard] as UserDash
+    [Chat Interface] as ChatUI
+    [Document Upload UI] as UploadUI
+    [Template Browser] as TemplateUI
+    [Appointment Booking] as BookingUI
+    [Lawyer Dashboard] as LawyerDash
+    [Admin Panel] as AdminUI
+  }
+  
+  component "State Management" as State {
+    [Context API] as Context
+    [React Router] as Router
+  }
+}
+
+' API Gateway & Load Balancer
+node "**Load Balancer**" as LB #FFF9C4 {
+  [NGINX] as NGINX
+}
+
+' Backend Layer
+package "**Backend Layer**\n(Business Logic Tier)" #FCE4EC {
+  component "Node.js + Express" as Backend {
+    [API Gateway] as APIGateway
+    [Auth Controller] as AuthCtrl
+    [User Controller] as UserCtrl
+    [Template Controller] as TemplateCtrl
+    [Appointment Controller] as ApptCtrl
+  }
+  
+  component "Middleware" as Middleware {
+    [JWT Validator] as JWT
+    [Rate Limiter] as RateLimit
+    [CORS Handler] as CORS
+    [Error Handler] as ErrorHandler
+  }
+  
+  component "Services" as Services {
+    [Email Service] as EmailSvc
+    [SMS Service] as SMSSvc
+    [Payment Gateway] as PaymentSvc
+  }
+}
+
+' AI Backend Layer
+package "**AI Backend Layer**\n(Intelligence Tier)" #F3E5F5 {
+  component "FastAPI Server" as AIBackend {
+    [RAG Chatbot] as RAGBot
+    [Document Processor] as DocProcessor
+    [Contract Analyzer] as ContractAnalyzer
+    [Template Generator] as TemplateGen
+  }
+  
+  component "AI Models" as Models {
+    [LLaMA 3.3 70B\n(Groq API)] as LLM
+    [Legal-BERT\n(Fine-tuned)] as LegalBERT
+    [Sentence-MPNET\n(Embeddings)] as EmbedModel
+  }
+  
+  component "Model Cache" as Cache {
+    [Redis Cache] as Redis
+  }
+}
+
+' Data Layer
+package "**Data Layer**\n(Persistence Tier)" #FFF3E0 {
+  database "MongoDB Atlas" as MongoDB {
+    [Users Collection] as UsersDB
+    [Lawyers Collection] as LawyersDB
+    [Chats Collection] as ChatsDB
+    [Templates Collection] as TemplatesDB
+    [Appointments Collection] as ApptsDB
+  }
+  
+  database "Pinecone\nVector Database" as Pinecone {
+    [Document Embeddings\n(768-dim vectors)] as Embeddings
+    [Metadata Store] as Metadata
+  }
+  
+  storage "AWS S3" as S3 {
+    [Uploaded Documents] as S3Docs
+    [User Avatars] as S3Avatars
+    [Templates] as S3Templates
+  }
+}
+
+' External Services
+cloud "**External Services**" #E0F2F1 {
+  [Groq API\n(LLM Inference)] as GroqAPI
+  [SendGrid\n(Email)] as SendGrid
+  [Twilio\n(SMS)] as Twilio
+  [Razorpay\n(Payments)] as Razorpay
+}
+
+' Connections - Client to Frontend
+Browser --> ReactApp
+Mobile --> RN
+ReactApp --> Frontend : HTTPS
+RN --> Frontend : HTTPS
+SocketClient ..> Backend : WebSocket
+
+' Frontend to Load Balancer
+Frontend --> LB : REST API\nHTTPS
+
+' Load Balancer to Backend
+LB --> Backend : Round Robin
+
+' Backend Internal
+APIGateway --> Middleware
+Middleware --> AuthCtrl
+Middleware --> UserCtrl
+Middleware --> TemplateCtrl
+Middleware --> ApptCtrl
+
+' Backend to Services
+Backend --> Services
+Services --> SendGrid : SMTP
+Services --> Twilio : REST API
+Services --> Razorpay : REST API
+
+' Backend to Data Layer
+Backend --> MongoDB : Mongoose ODM
+Backend --> S3 : AWS SDK
+
+' Backend to AI Backend
+Backend --> AIBackend : HTTP Proxy
+
+' AI Backend Internal
+AIBackend --> Models
+AIBackend --> Cache
+
+' AI Backend to External Services
+RAGBot --> GroqAPI : API Call
+Models --> LLM : Inference
+
+' AI Backend to Data Layer
+DocProcessor --> Pinecone : Upsert Vectors
+RAGBot --> Pinecone : Vector Search
+ContractAnalyzer --> LegalBERT : Classify
+DocProcessor --> S3 : Store Documents
+
+' Data Flow Annotations
+note right of MongoDB
+  **Primary Database**
+  - User authentication
+  - Chat history
+  - Template metadata
+  - Appointment records
+end note
+
+note right of Pinecone
+  **Vector Database**
+  - 768-dim embeddings
+  - Semantic search
+  - Cosine similarity
+  - <100ms latency
+end note
+
+note bottom of AIBackend
+  **AI Processing**
+  - RAG pipeline
+  - Contract analysis
+  - Risk detection
+  - Response generation
+end note
+
+note top of LB
+  **Scalability**
+  - Horizontal scaling
+  - Auto-scaling groups
+  - Health checks
+end note
+
+legend right
+  |= Symbol |= Meaning |
+  | → | HTTP/REST API |
+  | ..> | WebSocket |
+  | === | Database Connection |
+  
+  **Key Technologies:**
+  • Frontend: React 18.2, TypeScript 4.9
+  • Backend: Node.js 18, Express 4.18
+  • AI: FastAPI 0.104, LangChain
+  • Databases: MongoDB, Pinecone, Redis
+  • LLM: LLaMA 3.3 70B via Groq
+end legend
+
+@enduml
