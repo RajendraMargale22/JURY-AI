@@ -1,0 +1,33 @@
+.legal-facts-section {
+  padding: 4rem 0;
+}
+
+.fact-card {
+  background-color: #fff;
+  border-radius: 15px;
+  padding: 2rem;
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.05);
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+  height: 100%;
+}
+
+.fact-card:hover {
+  transform: translateY(-10px);
+  box-shadow: 0 8px 25px rgba(0, 0, 0, 0.1);
+}
+
+.fact-icon {
+  font-size: 2.5rem;
+  color: #4a4a8a;
+  margin-bottom: 1rem;
+}
+
+.fact-card-title {
+  font-size: 1.25rem;
+  font-weight: 600;
+  margin-bottom: 0.75rem;
+}
+
+.fact-card-text {
+  color: #6c757d;
+}
