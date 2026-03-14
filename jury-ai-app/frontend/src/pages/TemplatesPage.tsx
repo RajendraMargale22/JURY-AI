@@ -206,30 +206,44 @@ const TemplatesPage: React.FC = () => {
   });
 
   return (
-    <div className="min-vh-100 bg-light">
+    <div className="templates-page-container">
       {/* Header */}
-      <nav className="navbar navbar-dark bg-dark">
+      <nav className="navbar navbar-dark" style={{ 
+        background: 'rgba(15, 23, 42, 0.95)',
+        backdropFilter: 'blur(10px)',
+        borderBottom: '1px solid rgba(93, 208, 255, 0.2)'
+      }}>
         <div className="container-fluid">
-          <Link className="navbar-brand" to="/">
+          <Link className="navbar-brand" to="/" style={{ 
+            color: '#5dd0ff',
+            fontWeight: 600
+          }}>
             <i className="fas fa-balance-scale me-2"></i>
             Jury AI - Legal Templates
           </Link>
           <div className="d-flex align-items-center">
             {user ? (
               <>
-                <span className="text-light me-3">Welcome, {user.name}</span>
+                <span className="text-light me-3">Welcome, <span style={{color: '#5dd0ff'}}>{user.name}</span></span>
               </>
             ) : (
               <>
-                <Link to="/login" className="btn btn-outline-light me-2">Login</Link>
-                <Link to="/register" className="btn btn-primary">Register</Link>
+                <Link to="/login" className="btn btn-outline-light me-2" style={{
+                  borderColor: 'rgba(93, 208, 255, 0.5)',
+                  color: '#5dd0ff'
+                }}>Login</Link>
+                <Link to="/register" className="btn" style={{
+                  background: 'linear-gradient(135deg, #5dd0ff, #7c5dff)',
+                  color: 'white',
+                  border: 'none'
+                }}>Register</Link>
               </>
             )}
           </div>
         </div>
       </nav>
 
-      <div className="container-fluid py-4 templates-page-container">
+      <div className="container-fluid py-4">
         <div className="row">
           {/* Sidebar */}
           <div className="col-lg-3 mb-4 templates-sidebar">
@@ -241,13 +255,16 @@ const TemplatesPage: React.FC = () => {
                 </h5>
               </div>
               <div className="card-body">
-                <input
-                  type="text"
-                  className="form-control"
-                  placeholder="Search templates..."
-                  value={searchTerm}
-                  onChange={(e) => setSearchTerm(e.target.value)}
-                />
+                <div className="search-input-wrapper">
+                  <i className="fas fa-search"></i>
+                  <input
+                    type="text"
+                    className="form-control"
+                    placeholder="Search templates..."
+                    value={searchTerm}
+                    onChange={(e) => setSearchTerm(e.target.value)}
+                  />
+                </div>
               </div>
             </div>
 
@@ -258,20 +275,19 @@ const TemplatesPage: React.FC = () => {
                   Categories
                 </h5>
               </div>
-              <div className="card-body p-0">
-                <div className="list-group list-group-flush">
-                  {categories.map((category) => (
-                    <button
-                      key={category}
-                      className={`list-group-item list-group-item-action ${
-                        selectedCategory === category ? 'active' : ''
-                      }`}
-                      onClick={() => setSelectedCategory(category)}
-                    >
-                      {category === 'all' ? 'All Categories' : category}
-                    </button>
-                  ))}
-                </div>
+              <div className="card-body p-2">
+                {categories.map((category) => (
+                  <button
+                    key={category}
+                    className={`category-btn ${
+                      selectedCategory === category ? 'active' : ''
+                    }`}
+                    onClick={() => setSelectedCategory(category)}
+                  >
+                    <i className="fas fa-folder me-2"></i>
+                    {category === 'all' ? 'All Categories' : category}
+                  </button>
+                ))}
               </div>
             </div>
 
@@ -320,22 +336,22 @@ const TemplatesPage: React.FC = () => {
           {/* Main Content */}
           <div className="col-lg-9 templates-grid-container">
             <div className="d-flex justify-content-between align-items-center mb-4 templates-page-header">
-              <h2>
+              <h1 className="templates-page-title">
                 <i className="fas fa-file-alt me-2"></i>
                 Legal Document Templates
-              </h2>
-              <div className="text-muted">
+              </h1>
+              <span className="templates-count-badge">
                 {filteredTemplates.length} templates found
-              </div>
+              </span>
             </div>
 
             {/* Templates Grid */}
             {isLoadingTemplates ? (
               <div className="text-center py-5">
-                <div className="spinner-border text-primary" role="status">
+                <div className="spinner-border" style={{color: '#5dd0ff'}} role="status">
                   <span className="visually-hidden">Loading...</span>
                 </div>
-                <p className="mt-3 text-muted">Loading templates...</p>
+                <p className="mt-3" style={{color: 'rgba(255, 255, 255, 0.6)'}}>Loading templates...</p>
               </div>
             ) : (
               <div className="row g-4">

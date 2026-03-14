@@ -182,11 +182,73 @@ const AdminTemplates: React.FC = () => {
 
   return (
     <div>
+      {/* Stats Cards */}
+      <div className="row mb-4">
+        <div className="col-md-3">
+          <div className="card" style={{
+            background: 'linear-gradient(135deg, rgba(93, 208, 255, 0.15), rgba(93, 208, 255, 0.05))',
+            border: '1px solid rgba(93, 208, 255, 0.3)',
+            backdropFilter: 'blur(10px)'
+          }}>
+            <div className="card-body text-center">
+              <i className="fas fa-file-alt fa-2x mb-2" style={{color: '#5dd0ff'}}></i>
+              <h3 style={{color: '#5dd0ff', marginBottom: '0.25rem'}}>{templates.length}</h3>
+              <p className="mb-0" style={{color: 'rgba(255, 255, 255, 0.6)', fontSize: '0.875rem'}}>Total Templates</p>
+            </div>
+          </div>
+        </div>
+        <div className="col-md-3">
+          <div className="card" style={{
+            background: 'linear-gradient(135deg, rgba(34, 197, 94, 0.15), rgba(34, 197, 94, 0.05))',
+            border: '1px solid rgba(34, 197, 94, 0.3)',
+            backdropFilter: 'blur(10px)'
+          }}>
+            <div className="card-body text-center">
+              <i className="fas fa-check fa-2x mb-2" style={{color: '#22c55e'}}></i>
+              <h3 style={{color: '#22c55e', marginBottom: '0.25rem'}}>{templates.filter(t => t.isActive).length}</h3>
+              <p className="mb-0" style={{color: 'rgba(255, 255, 255, 0.6)', fontSize: '0.875rem'}}>Active</p>
+            </div>
+          </div>
+        </div>
+        <div className="col-md-3">
+          <div className="card" style={{
+            background: 'linear-gradient(135deg, rgba(124, 93, 255, 0.15), rgba(124, 93, 255, 0.05))',
+            border: '1px solid rgba(124, 93, 255, 0.3)',
+            backdropFilter: 'blur(10px)'
+          }}>
+            <div className="card-body text-center">
+              <i className="fas fa-download fa-2x mb-2" style={{color: '#7c5dff'}}></i>
+              <h3 style={{color: '#7c5dff', marginBottom: '0.25rem'}}>{templates.reduce((sum, t) => sum + t.downloads, 0)}</h3>
+              <p className="mb-0" style={{color: 'rgba(255, 255, 255, 0.6)', fontSize: '0.875rem'}}>Total Downloads</p>
+            </div>
+          </div>
+        </div>
+        <div className="col-md-3">
+          <div className="card" style={{
+            background: 'linear-gradient(135deg, rgba(251, 191, 36, 0.15), rgba(251, 191, 36, 0.05))',
+            border: '1px solid rgba(251, 191, 36, 0.3)',
+            backdropFilter: 'blur(10px)'
+          }}>
+            <div className="card-body text-center">
+              <i className="fas fa-folder fa-2x mb-2" style={{color: '#fbbf24'}}></i>
+              <h3 style={{color: '#fbbf24', marginBottom: '0.25rem'}}>{new Set(templates.map(t => t.category)).size}</h3>
+              <p className="mb-0" style={{color: 'rgba(255, 255, 255, 0.6)', fontSize: '0.875rem'}}>Categories</p>
+            </div>
+          </div>
+        </div>
+      </div>
+
       <div className="d-flex justify-content-between align-items-center mb-4">
-        <h2>Template Management</h2>
         <button
-          className="btn btn-primary"
+          className="btn"
           onClick={() => setShowCreateModal(true)}
+          style={{
+            background: 'linear-gradient(135deg, #5dd0ff, #7c5dff)',
+            border: 'none',
+            color: 'white',
+            padding: '0.75rem 1.5rem',
+            fontWeight: 600
+          }}
         >
           <i className="fas fa-plus me-2"></i>
           Create Template
@@ -194,7 +256,11 @@ const AdminTemplates: React.FC = () => {
       </div>
 
       {/* Filters */}
-      <div className="card mb-4">
+      <div className="card mb-4" style={{
+        background: 'rgba(255, 255, 255, 0.02)',
+        border: '1px solid rgba(255, 255, 255, 0.06)',
+        backdropFilter: 'blur(10px)'
+      }}>
         <div className="card-body">
           <div className="row">
             <div className="col-md-4">
@@ -248,7 +314,11 @@ const AdminTemplates: React.FC = () => {
       </div>
 
       {/* Templates Table */}
-      <div className="card">
+      <div className="card" style={{
+        background: 'rgba(255, 255, 255, 0.02)',
+        border: '1px solid rgba(255, 255, 255, 0.06)',
+        backdropFilter: 'blur(10px)'
+      }}>
         <div className="card-body">
           {filteredTemplates.length > 0 ? (
             <>
@@ -394,23 +464,23 @@ const AdminTemplates: React.FC = () => {
               <div className="modal-body">
                 <div className="mb-3">
                   <h6>Title</h6>
-                  <p>{selectedTemplate.title}</p>
+                  <p>{selectedTemplate!.title}</p>
                 </div>
 
                 <div className="mb-3">
                   <h6>Description</h6>
-                  <p>{selectedTemplate.description}</p>
+                  <p>{selectedTemplate!.description}</p>
                 </div>
 
                 <div className="row mb-3">
                   <div className="col-md-6">
                     <h6>Category</h6>
-                    <p>{selectedTemplate.category}</p>
+                    <p>{selectedTemplate!.category}</p>
                   </div>
                   <div className="col-md-6">
                     <h6>Status</h6>
-                    <span className={`badge ${selectedTemplate.isActive ? 'bg-success' : 'bg-secondary'}`}>
-                      {selectedTemplate.isActive ? 'Active' : 'Inactive'}
+                    <span className={`badge ${selectedTemplate!.isActive ? 'bg-success' : 'bg-secondary'}`}>
+                      {selectedTemplate!.isActive ? 'Active' : 'Inactive'}
                     </span>
                   </div>
                 </div>
@@ -418,11 +488,11 @@ const AdminTemplates: React.FC = () => {
                 <div className="row mb-3">
                   <div className="col-md-6">
                     <h6>Downloads</h6>
-                    <p>{selectedTemplate.downloads}</p>
+                    <p>{selectedTemplate!.downloads}</p>
                   </div>
                   <div className="col-md-6">
                     <h6>Created By</h6>
-                    <p>{selectedTemplate.createdBy.username}</p>
+                    <p>{selectedTemplate!.createdBy.username}</p>
                   </div>
                 </div>
 
@@ -430,14 +500,14 @@ const AdminTemplates: React.FC = () => {
                   <h6>Template Content</h6>
                   <div className="bg-light p-3 rounded" style={{ maxHeight: '200px', overflowY: 'auto' }}>
                     <pre style={{ whiteSpace: 'pre-wrap', fontSize: '0.9em' }}>
-                      {selectedTemplate.content}
+                      {selectedTemplate!.content}
                     </pre>
                   </div>
                 </div>
 
-                {selectedTemplate.fields.length > 0 && (
+                {selectedTemplate!.fields.length > 0 && (
                   <div className="mb-3">
-                    <h6>Template Fields ({selectedTemplate.fields.length})</h6>
+                    <h6>Template Fields ({selectedTemplate!.fields.length})</h6>
                     <div className="table-responsive">
                       <table className="table table-sm">
                         <thead>
@@ -449,7 +519,7 @@ const AdminTemplates: React.FC = () => {
                           </tr>
                         </thead>
                         <tbody>
-                          {selectedTemplate.fields.map((field, index) => (
+                          {selectedTemplate!.fields.map((field, index) => (
                             <tr key={index}>
                               <td><code>{field.name}</code></td>
                               <td>{field.label}</td>
@@ -476,11 +546,11 @@ const AdminTemplates: React.FC = () => {
                 <div className="row">
                   <div className="col-md-6">
                     <h6>Created</h6>
-                    <p>{new Date(selectedTemplate.createdAt).toLocaleString()}</p>
+                    <p>{new Date(selectedTemplate!.createdAt).toLocaleString()}</p>
                   </div>
                   <div className="col-md-6">
                     <h6>Last Updated</h6>
-                    <p>{new Date(selectedTemplate.updatedAt).toLocaleString()}</p>
+                    <p>{new Date(selectedTemplate!.updatedAt).toLocaleString()}</p>
                   </div>
                 </div>
               </div>
@@ -494,16 +564,16 @@ const AdminTemplates: React.FC = () => {
                 </button>
                 <button
                   type="button"
-                  className={`btn ${selectedTemplate.isActive ? 'btn-warning' : 'btn-success'}`}
-                  onClick={() => handleStatusToggle(selectedTemplate._id, selectedTemplate.isActive)}
+                  className={`btn ${selectedTemplate!.isActive ? 'btn-warning' : 'btn-success'}`}
+                  onClick={() => handleStatusToggle(selectedTemplate!._id, selectedTemplate!.isActive)}
                 >
-                  <i className={`fas ${selectedTemplate.isActive ? 'fa-pause' : 'fa-play'} me-2`}></i>
-                  {selectedTemplate.isActive ? 'Deactivate' : 'Activate'}
+                  <i className={`fas ${selectedTemplate!.isActive ? 'fa-pause' : 'fa-play'} me-2`}></i>
+                  {selectedTemplate!.isActive ? 'Deactivate' : 'Activate'}
                 </button>
                 <button
                   type="button"
                   className="btn btn-danger"
-                  onClick={() => handleDeleteTemplate(selectedTemplate._id)}
+                  onClick={() => handleDeleteTemplate(selectedTemplate!._id)}
                 >
                   <i className="fas fa-trash me-2"></i>
                   Delete
@@ -620,5 +690,4 @@ const AdminTemplates: React.FC = () => {
     </div>
   );
 };
-
 export default AdminTemplates;

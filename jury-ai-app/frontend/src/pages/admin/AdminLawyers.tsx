@@ -115,21 +115,85 @@ const AdminLawyers: React.FC = () => {
 
   return (
     <div>
-      <div className="d-flex justify-content-between align-items-center mb-4">
-        <h2>Lawyer Verification</h2>
-        <div className="d-flex align-items-center">
-          <span className="badge bg-warning me-2">
-            {(lawyers || []).filter(l => l.verificationStatus === 'pending').length} Pending
-          </span>
-          <button className="btn btn-outline-primary" onClick={fetchLawyers}>
-            <i className="fas fa-sync-alt me-2"></i>
-            Refresh
-          </button>
+      {/* Stats Cards */}
+      <div className="row mb-4">
+        <div className="col-md-3">
+          <div className="card" style={{
+            background: 'linear-gradient(135deg, rgba(93, 208, 255, 0.15), rgba(93, 208, 255, 0.05))',
+            border: '1px solid rgba(93, 208, 255, 0.3)',
+            backdropFilter: 'blur(10px)'
+          }}>
+            <div className="card-body text-center">
+              <i className="fas fa-gavel fa-2x mb-2" style={{color: '#5dd0ff'}}></i>
+              <h3 style={{color: '#5dd0ff', marginBottom: '0.25rem'}}>{(lawyers || []).length}</h3>
+              <p className="mb-0" style={{color: 'rgba(255, 255, 255, 0.6)', fontSize: '0.875rem'}}>Total Lawyers</p>
+            </div>
+          </div>
+        </div>
+        <div className="col-md-3">
+          <div className="card" style={{
+            background: 'linear-gradient(135deg, rgba(251, 191, 36, 0.15), rgba(251, 191, 36, 0.05))',
+            border: '1px solid rgba(251, 191, 36, 0.3)',
+            backdropFilter: 'blur(10px)'
+          }}>
+            <div className="card-body text-center">
+              <i className="fas fa-clock fa-2x mb-2" style={{color: '#fbbf24'}}></i>
+              <h3 style={{color: '#fbbf24', marginBottom: '0.25rem'}}>{(lawyers || []).filter(l => l.verificationStatus === 'pending').length}</h3>
+              <p className="mb-0" style={{color: 'rgba(255, 255, 255, 0.6)', fontSize: '0.875rem'}}>Pending</p>
+            </div>
+          </div>
+        </div>
+        <div className="col-md-3">
+          <div className="card" style={{
+            background: 'linear-gradient(135deg, rgba(34, 197, 94, 0.15), rgba(34, 197, 94, 0.05))',
+            border: '1px solid rgba(34, 197, 94, 0.3)',
+            backdropFilter: 'blur(10px)'
+          }}>
+            <div className="card-body text-center">
+              <i className="fas fa-check-circle fa-2x mb-2" style={{color: '#22c55e'}}></i>
+              <h3 style={{color: '#22c55e', marginBottom: '0.25rem'}}>{(lawyers || []).filter(l => l.verificationStatus === 'approved').length}</h3>
+              <p className="mb-0" style={{color: 'rgba(255, 255, 255, 0.6)', fontSize: '0.875rem'}}>Approved</p>
+            </div>
+          </div>
+        </div>
+        <div className="col-md-3">
+          <div className="card" style={{
+            background: 'linear-gradient(135deg, rgba(239, 68, 68, 0.15), rgba(239, 68, 68, 0.05))',
+            border: '1px solid rgba(239, 68, 68, 0.3)',
+            backdropFilter: 'blur(10px)'
+          }}>
+            <div className="card-body text-center">
+              <i className="fas fa-times-circle fa-2x mb-2" style={{color: '#ef4444'}}></i>
+              <h3 style={{color: '#ef4444', marginBottom: '0.25rem'}}>{(lawyers || []).filter(l => l.verificationStatus === 'rejected').length}</h3>
+              <p className="mb-0" style={{color: 'rgba(255, 255, 255, 0.6)', fontSize: '0.875rem'}}>Rejected</p>
+            </div>
+          </div>
         </div>
       </div>
 
+      <div className="d-flex justify-content-between align-items-center mb-4">
+        <button 
+          className="btn" 
+          onClick={fetchLawyers}
+          style={{
+            background: 'linear-gradient(135deg, #5dd0ff, #7c5dff)',
+            border: 'none',
+            color: 'white',
+            padding: '0.75rem 1.5rem',
+            fontWeight: 600
+          }}
+        >
+          <i className="fas fa-sync-alt me-2"></i>
+          Refresh
+        </button>
+      </div>
+
       {/* Filters */}
-      <div className="card mb-4">
+      <div className="card mb-4" style={{
+        background: 'rgba(255, 255, 255, 0.02)',
+        border: '1px solid rgba(255, 255, 255, 0.06)',
+        backdropFilter: 'blur(10px)'
+      }}>
         <div className="card-body">
           <div className="row">
             <div className="col-md-6">
@@ -166,7 +230,11 @@ const AdminLawyers: React.FC = () => {
       </div>
 
       {/* Lawyers Table */}
-      <div className="card">
+      <div className="card" style={{
+        background: 'rgba(255, 255, 255, 0.02)',
+        border: '1px solid rgba(255, 255, 255, 0.06)',
+        backdropFilter: 'blur(10px)'
+      }}>
         <div className="card-body">
           {(lawyers || []).length > 0 ? (
             <>

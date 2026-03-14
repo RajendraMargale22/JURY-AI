@@ -432,10 +432,10 @@ export const getTemplates = async (req: AuthRequest, res: Response) => {
 // Create template
 export const createTemplate = async (req: AuthRequest, res: Response) => {
   try {
-    const { name, description, category, content, fields } = req.body;
+    const { title, description, category, content, fields = [] } = req.body;
 
     const template = new Template({
-      name,
+      title,
       description,
       category,
       content,
@@ -489,6 +489,39 @@ export const updateTemplate = async (req: AuthRequest, res: Response) => {
     res.status(500).json({
       success: false,
       message: 'Failed to update template'
+    });
+  }
+};
+
+// Update template status (activate/deactivate)
+export const updateTemplateStatus = async (req: AuthRequest, res: Response) => {
+  try {
+    const { id } = req.params;
+    const { isActive } = req.body;
+
+    const template = await Template.findByIdAndUpdate(
+      id,
+      { isActive, updatedAt: new Date() },
+      { new: true, runValidators: true }
+    ).populate('createdBy', 'name');
+
+    if (!template) {
+      return res.status(404).json({
+        success: false,
+        message: 'Template not found'
+      });
+    }
+
+    res.json({
+      success: true,
+      message: 'Template status updated successfully',
+      data: template
+    });
+  } catch (error) {
+    console.error('Update template status error:', error);
+    res.status(500).json({
+      success: false,
+      message: 'Failed to update template status'
     });
   }
 };

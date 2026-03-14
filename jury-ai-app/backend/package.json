@@ -10,6 +10,7 @@
     "build": "tsc",
     "seed:admin": "ts-node src/scripts/createAdmin.ts",
     "seed:templates": "ts-node src/scripts/seedTemplateCategories.ts",
+    "make:admin": "ts-node src/scripts/makeUserAdmin.ts",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "keywords": [],

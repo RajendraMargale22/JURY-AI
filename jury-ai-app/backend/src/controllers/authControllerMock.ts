@@ -14,10 +14,10 @@ export const getProfile = async (req: Request, res: Response) => {
     res.json({
       success: true,
       user: {
-        id: 'demo-user-id',
-        name: 'Demo User',
-        email: 'demo@example.com',
-        role: 'user',
+        id: 'demo-admin-id',
+        name: 'Aditya Jare',
+        email: 'aditya@example.com',
+        role: 'admin',
         isEmailVerified: true,
         avatar: undefined
       }
@@ -39,10 +39,10 @@ export const updateProfile = async (req: Request, res: Response) => {
       success: true,
       message: 'Profile updated successfully',
       user: {
-        id: 'demo-user-id',
-        name: name || 'Demo User',
-        email: 'demo@example.com',
-        role: 'user',
+        id: 'demo-admin-id',
+        name: name || 'Aditya Jare',
+        email: 'aditya@example.com',
+        role: 'admin',
         isEmailVerified: true,
         avatar: undefined,
         phone,

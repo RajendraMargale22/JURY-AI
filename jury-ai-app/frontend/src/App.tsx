@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState, useCallback } from 'react';
 import { BrowserRouter as Router, Routes, Route, Navigate } from 'react-router-dom';
 import { ToastContainer } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
@@ -7,62 +7,84 @@ import '@fortawesome/fontawesome-free/css/all.min.css';
 
 // Components
 import HomePage from './pages/HomePage';
-import LoginPage from './pages/LoginPage';
-import RegisterPage from './pages/RegisterPage';
 import AdminDashboard from './pages/admin/AdminDashboard';
 import ChatPage from './pages/ChatPage';
 import TemplatesPage from './pages/TemplatesPage';
 import { AuthProvider } from './contexts/AuthContext';
 import ProtectedRoute from './components/ProtectedRoute';
+import AuthModal from './components/AuthModal';
 import Footer from './components/Footer';
 
 import './App.css';
 
 function App() {
+  const [authModal, setAuthModal] = useState<{ open: boolean; mode: 'login' | 'register' }>({
+    open: false,
+    mode: 'login',
+  });
+
+  const openAuthModal = useCallback((mode: 'login' | 'register' = 'login') => {
+    setAuthModal({ open: true, mode });
+  }, []);
+
+  const closeAuthModal = useCallback(() => {
+    setAuthModal((prev) => ({ ...prev, open: false }));
+  }, []);
+
   return (
     <AuthProvider>
       <Router>
         <div className="App">
           <Routes>
-            <Route path="/" element={<HomePage />} />
-            <Route path="/login" element={<LoginPage />} />
-            <Route path="/register" element={<RegisterPage />} />
-            <Route 
-              path="/chat" 
+            <Route path="/" element={<HomePage openAuthModal={openAuthModal} />} />
+            {/* Legacy routes — show homepage and auto-open auth modal */}
+            <Route path="/login" element={<HomePage openAuthModal={openAuthModal} autoOpenAuth="login" />} />
+            <Route path="/register" element={<HomePage openAuthModal={openAuthModal} autoOpenAuth="register" />} />
+            <Route
+              path="/chat"
               element={
-                <ProtectedRoute>
+                <ProtectedRoute openAuthModal={openAuthModal}>
                   <ChatPage />
                 </ProtectedRoute>
-              } 
+              }
             />
-            <Route 
-              path="/templates" 
+            <Route
+              path="/templates"
               element={
-                <ProtectedRoute>
+                <ProtectedRoute openAuthModal={openAuthModal}>
                   <TemplatesPage />
                 </ProtectedRoute>
-              } 
+              }
             />
-            <Route 
-              path="/admin/*" 
+            <Route
+              path="/admin/*"
               element={
-                <ProtectedRoute requiredRole="admin">
+                <ProtectedRoute requiredRole="admin" openAuthModal={openAuthModal}>
                   <AdminDashboard />
                 </ProtectedRoute>
-              } 
+              }
             />
             <Route path="*" element={<Navigate to="/" replace />} />
           </Routes>
+
+          {/* Global Auth Modal */}
+          <AuthModal
+            isOpen={authModal.open}
+            onClose={closeAuthModal}
+            initialMode={authModal.mode}
+          />
+
           <ToastContainer
             position="top-right"
-            autoClose={5000}
+            autoClose={4000}
             hideProgressBar={false}
-            newestOnTop={false}
+            newestOnTop
             closeOnClick
             rtl={false}
             pauseOnFocusLoss
             draggable
             pauseOnHover
+            theme="dark"
           />
           <Footer />
         </div>

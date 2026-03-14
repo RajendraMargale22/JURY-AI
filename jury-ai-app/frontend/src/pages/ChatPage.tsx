@@ -275,7 +275,7 @@ const ChatPage: React.FC = () => {
   return (
     <div className="vh-100 d-flex flex-column">
       {/* Header */}
-      <nav className="navbar navbar-dark bg-dark">
+      <nav className="navbar" style={{ background: 'rgba(15,23,42,0.95)', borderBottom: '1px solid rgba(255,255,255,0.06)', backdropFilter: 'blur(12px)' }}>
         <div className="container-fluid">
           <div className="d-flex align-items-center">
             <button
@@ -299,23 +299,23 @@ const ChatPage: React.FC = () => {
 
       <div className="flex-grow-1 d-flex overflow-hidden">
         {/* Sidebar */}
-        <div className={`bg-light border-end ${sidebarOpen ? 'd-block' : 'd-none d-lg-block'}`} style={{ width: '300px' }}>
-          <div className="p-3 border-bottom">
+        <div className={`${sidebarOpen ? 'd-block' : 'd-none d-lg-block'}`} style={{ width: '300px', background: 'rgba(255,255,255,0.02)', borderRight: '1px solid rgba(255,255,255,0.06)' }}>
+          <div className="p-3" style={{ borderBottom: '1px solid rgba(255,255,255,0.06)' }}>
             <div className="d-flex justify-content-between align-items-center">
-              <h5 className="mb-0">
-                <i className="fas fa-history me-2"></i>
+              <h5 className="mb-0" style={{ color: '#e2e8f0', fontSize: 15 }}>
+                <i className="fas fa-history me-2" style={{ color: '#5dd0ff' }}></i>
                 Chat History
               </h5>
-              <button className="btn btn-sm btn-primary" onClick={newChat}>
+              <button className="btn btn-sm" onClick={newChat} style={{ background: 'linear-gradient(135deg, #5dd0ff, #7c5dff)', color: '#fff', border: 'none', borderRadius: 8, fontSize: 12 }}>
                 <i className="fas fa-plus"></i> New
               </button>
             </div>
           </div>
           
           {/* Database Upload Section */}
-          <div className="p-3 border-bottom bg-white">
-            <h6 className="text-muted mb-2">
-              <i className="fas fa-database me-2"></i>
+          <div className="p-3" style={{ borderBottom: '1px solid rgba(255,255,255,0.06)', background: 'rgba(255,255,255,0.02)' }}>
+            <h6 className="mb-2" style={{ color: 'rgba(255,255,255,0.5)', fontSize: 12, textTransform: 'uppercase', letterSpacing: '0.06em' }}>
+              <i className="fas fa-database me-2" style={{ color: '#7c5dff' }}></i>
               Knowledge Base
             </h6>
             <input
@@ -327,9 +327,10 @@ const ChatPage: React.FC = () => {
               style={{ display: 'none' }}
             />
             <button
-              className="btn btn-sm btn-outline-success w-100"
+              className="btn btn-sm w-100"
               onClick={() => dbFileInputRef.current?.click()}
               disabled={uploadingDB}
+              style={{ border: '1px solid rgba(124,93,255,0.3)', color: '#7c5dff', borderRadius: 8, fontSize: 13, background: 'rgba(124,93,255,0.06)' }}
             >
               {uploadingDB ? (
                 <>
@@ -343,37 +344,42 @@ const ChatPage: React.FC = () => {
                 </>
               )}
             </button>
-            <small className="text-muted d-block mt-2">
+            <small className="d-block mt-2" style={{ color: 'rgba(255,255,255,0.3)', fontSize: 11 }}>
               Upload legal documents to expand the AI's knowledge base
             </small>
           </div>
           
           <div className="p-3">
-            <h6 className="text-muted">Recent Chats</h6>
+            <h6 style={{ color: 'rgba(255,255,255,0.4)', fontSize: 11, textTransform: 'uppercase', letterSpacing: '0.06em', marginBottom: 12 }}>Recent Chats</h6>
             {chatHistory.map((chat) => (
               <div
                 key={chat.id}
-                className={`p-2 mb-2 rounded cursor-pointer border ${
-                  currentChat?.id === chat.id ? 'border-primary bg-primary bg-opacity-10' : 'border-light'
-                }`}
+                className="p-2 mb-2 rounded"
                 onClick={() => loadChat(chat)}
-                style={{ cursor: 'pointer' }}
+                style={{
+                  cursor: 'pointer',
+                  border: currentChat?.id === chat.id ? '1px solid rgba(93,208,255,0.3)' : '1px solid rgba(255,255,255,0.06)',
+                  background: currentChat?.id === chat.id ? 'rgba(93,208,255,0.08)' : 'transparent',
+                  borderRadius: 10,
+                  transition: 'all 0.15s',
+                }}
               >
                 <div className="d-flex justify-content-between align-items-start">
                   <div className="flex-grow-1">
-                    <small className="fw-semibold d-block text-truncate">
+                    <small className="fw-semibold d-block text-truncate" style={{ color: '#e2e8f0', fontSize: 13 }}>
                       {chat.title}
                     </small>
-                    <small className="text-muted">
+                    <small style={{ color: 'rgba(255,255,255,0.35)', fontSize: 11 }}>
                       {chat.messages.length} messages
                     </small>
                   </div>
                   <button
-                    className="btn btn-sm btn-outline-danger ms-2"
+                    className="btn btn-sm ms-2"
                     onClick={(e) => {
                       e.stopPropagation();
                       deleteChat(chat.id);
                     }}
+                    style={{ color: 'rgba(248,113,113,0.6)', border: 'none', background: 'transparent', fontSize: 12, padding: '2px 6px' }}
                   >
                     <i className="fas fa-trash"></i>
                   </button>
@@ -384,14 +390,14 @@ const ChatPage: React.FC = () => {
         </div>
 
         {/* Main Chat Area */}
-        <div className="flex-grow-1 d-flex flex-column">
+        <div className="flex-grow-1 d-flex flex-column" style={{ background: 'linear-gradient(160deg, rgba(255,255,255,0.02), rgba(255,255,255,0.005))' }}>
           {/* Chat Messages */}
           <div className="flex-grow-1 overflow-auto p-3">
             {currentChat ? (
               <div>
                 <div className="text-center mb-4">
-                  <h5>{currentChat.title}</h5>
-                  <small className="text-muted">
+                  <h5 style={{ color: '#e2e8f0' }}>{currentChat.title}</h5>
+                  <small style={{ color: 'rgba(255,255,255,0.35)' }}>
                     Started {currentChat.createdAt.toLocaleString()}
                   </small>
                 </div>
@@ -402,19 +408,29 @@ const ChatPage: React.FC = () => {
                     className={`mb-3 d-flex ${msg.sender === 'user' ? 'justify-content-end' : 'justify-content-start'}`}
                   >
                     <div
-                      className={`p-3 rounded-3 max-w-75 ${
-                        msg.sender === 'user'
-                          ? 'bg-primary text-white'
-                          : 'bg-light border'
-                      }`}
-                      style={{ maxWidth: '75%' }}
+                      className="p-3 rounded-3"
+                      style={{
+                        maxWidth: '75%',
+                        background: msg.sender === 'user'
+                          ? 'linear-gradient(135deg, #5dd0ff, #7c5dff)'
+                          : 'rgba(255,255,255,0.04)',
+                        color: msg.sender === 'user' ? '#fff' : '#e2e8f0',
+                        border: msg.sender === 'user' ? 'none' : '1px solid rgba(255,255,255,0.08)',
+                        boxShadow: msg.sender === 'user'
+                          ? '0 8px 24px rgba(93,208,255,0.2)'
+                          : '0 4px 16px rgba(0,0,0,0.2)',
+                      }}
                     >
                       <div className="d-flex align-items-center mb-2">
                         <div
-                          className={`rounded-circle d-flex align-items-center justify-content-center me-2 ${
-                            msg.sender === 'user' ? 'bg-white text-primary' : 'bg-primary text-white'
-                          }`}
-                          style={{ width: '24px', height: '24px', fontSize: '12px' }}
+                          className="rounded-circle d-flex align-items-center justify-content-center me-2"
+                          style={{
+                            width: '24px',
+                            height: '24px',
+                            fontSize: '12px',
+                            background: msg.sender === 'user' ? 'rgba(255,255,255,0.2)' : 'linear-gradient(135deg, #5dd0ff, #7c5dff)',
+                            color: '#fff',
+                          }}
                         >
                           {msg.sender === 'user' ? (
                             <i className="fas fa-user"></i>
@@ -422,7 +438,7 @@ const ChatPage: React.FC = () => {
                             <i className="fas fa-robot"></i>
                           )}
                         </div>
-                        <small className={msg.sender === 'user' ? 'text-white-50' : 'text-muted'}>
+                        <small style={{ color: msg.sender === 'user' ? 'rgba(255,255,255,0.7)' : 'rgba(255,255,255,0.4)' }}>
                           {msg.sender === 'user' ? 'You' : 'Jury AI'}
                         </small>
                       </div>
@@ -438,7 +454,7 @@ const ChatPage: React.FC = () => {
                           msg.message
                         )}
                       </div>
-                      <small className={`d-block mt-2 ${msg.sender === 'user' ? 'text-white-50' : 'text-muted'}`}>
+                      <small className="d-block mt-2" style={{ color: msg.sender === 'user' ? 'rgba(255,255,255,0.55)' : 'rgba(255,255,255,0.3)' }}>
                         {msg.timestamp.toLocaleTimeString()}
                       </small>
                     </div>
@@ -447,14 +463,14 @@ const ChatPage: React.FC = () => {
                 
                 {isTyping && (
                   <div className="mb-3 d-flex justify-content-start">
-                    <div className="bg-light border p-3 rounded-3">
+                    <div className="p-3 rounded-3" style={{ background: 'rgba(255,255,255,0.04)', border: '1px solid rgba(255,255,255,0.08)' }}>
                       <div className="d-flex align-items-center">
-                        <div className="bg-primary text-white rounded-circle d-flex align-items-center justify-content-center me-2"
-                             style={{ width: '24px', height: '24px', fontSize: '12px' }}>
+                        <div className="rounded-circle d-flex align-items-center justify-content-center me-2"
+                             style={{ width: '24px', height: '24px', fontSize: '12px', background: 'linear-gradient(135deg, #5dd0ff, #7c5dff)', color: '#fff' }}>
                           <i className="fas fa-robot"></i>
                         </div>
-                        <span className="text-muted">Jury AI is typing...</span>
-                        <div className="spinner-border spinner-border-sm ms-2" role="status"></div>
+                        <span style={{ color: 'rgba(255,255,255,0.5)' }}>Jury AI is typing...</span>
+                        <div className="spinner-border spinner-border-sm ms-2" role="status" style={{ color: '#5dd0ff', width: 16, height: 16 }}></div>
                       </div>
                     </div>
                   </div>
@@ -463,9 +479,11 @@ const ChatPage: React.FC = () => {
             ) : (
               <div className="text-center h-100 d-flex align-items-center justify-content-center">
                 <div>
-                  <i className="fas fa-comments text-muted mb-3" style={{ fontSize: '4rem' }}></i>
-                  <h4 className="text-muted">Start a Legal Consultation</h4>
-                  <p className="text-muted">Ask me anything about legal matters and I'll help you understand the basics.</p>
+                  <div style={{ width: 80, height: 80, borderRadius: 20, background: 'rgba(93,208,255,0.08)', display: 'inline-flex', alignItems: 'center', justifyContent: 'center', marginBottom: 20 }}>
+                    <i className="fas fa-comments" style={{ fontSize: '2rem', color: '#5dd0ff' }}></i>
+                  </div>
+                  <h4 style={{ color: '#e2e8f0', fontWeight: 700 }}>Start a Legal Consultation</h4>
+                  <p style={{ color: 'rgba(255,255,255,0.4)', maxWidth: 400, margin: '0 auto' }}>Ask me anything about legal matters and I'll help you understand the basics.</p>
                 </div>
               </div>
             )}
@@ -473,7 +491,7 @@ const ChatPage: React.FC = () => {
           </div>
 
           {/* Message Input */}
-          <div className="border-top p-3">
+          <div className="p-3" style={{ borderTop: '1px solid rgba(255,255,255,0.06)', background: 'rgba(255,255,255,0.02)' }}>
             {/* File attachment preview */}
             {attachedFile && (
               <div className="alert alert-info alert-dismissible fade show mb-2 d-flex align-items-center" role="alert">
@@ -503,11 +521,12 @@ const ChatPage: React.FC = () => {
                   style={{ display: 'none' }}
                 />
                 <button
-                  className="btn btn-outline-secondary"
+                  className="btn"
                   type="button"
                   onClick={() => fileInputRef.current?.click()}
                   disabled={isTyping}
                   title="Attach file"
+                  style={{ border: '1px solid rgba(255,255,255,0.1)', color: 'rgba(255,255,255,0.5)', borderRadius: '12px 0 0 12px', background: 'rgba(255,255,255,0.04)' }}
                 >
                   <i className="fas fa-paperclip"></i>
                 </button>
@@ -518,17 +537,19 @@ const ChatPage: React.FC = () => {
                   value={message}
                   onChange={(e) => setMessage(e.target.value)}
                   disabled={isTyping}
+                  style={{ background: 'rgba(255,255,255,0.04)', border: '1px solid rgba(255,255,255,0.1)', color: '#e2e8f0', borderLeft: 'none', borderRight: 'none' }}
                 />
                 <button
-                  className="btn btn-primary"
+                  className="btn"
                   type="submit"
                   disabled={(!message.trim() && !attachedFile) || isTyping}
+                  style={{ background: 'linear-gradient(135deg, #5dd0ff, #7c5dff)', color: '#fff', border: 'none', borderRadius: '0 12px 12px 0', fontWeight: 600 }}
                 >
                   <i className="fas fa-paper-plane"></i>
                 </button>
               </div>
             </form>
-            <small className="text-muted d-block mt-2">
+            <small className="d-block mt-2" style={{ color: 'rgba(255,255,255,0.3)', fontSize: 12 }}>
               <i className="fas fa-info-circle me-1"></i>
               This AI provides general legal information, not specific legal advice. Consult a lawyer for your specific situation.
             </small>

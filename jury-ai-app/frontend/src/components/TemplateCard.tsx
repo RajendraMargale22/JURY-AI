@@ -39,7 +39,7 @@ const TemplateCard: React.FC<TemplateCardProps> = ({
           <svg className="grid-pattern" xmlns="http://www.w3.org/2000/svg">
             <defs>
               <pattern id="grid" width="20" height="20" patternUnits="userSpaceOnUse">
-                <path d="M 20 0 L 0 0 0 20" fill="none" stroke="rgba(59, 130, 246, 0.1)" strokeWidth="1"/>
+                <path d="M 20 0 L 0 0 0 20" fill="none" stroke="rgba(93, 208, 255, 0.15)" strokeWidth="1"/>
               </pattern>
             </defs>
             <rect width="100%" height="100%" fill="url(#grid)" />

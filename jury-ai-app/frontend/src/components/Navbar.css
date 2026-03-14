@@ -1,5 +1,7 @@
 .navbar-header {
-  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+  background: rgba(15, 23, 42, 0.85);
+  backdrop-filter: blur(12px);
+  border-bottom: 1px solid rgba(255, 255, 255, 0.06);
 }
 
 .user-dropdown {
@@ -10,9 +12,10 @@
   position: absolute;
   right: 0;
   top: calc(100% + 8px);
-  background: white;
-  border-radius: 8px;
-  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.15);
+  background: #1a1f36;
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  border-radius: 12px;
+  box-shadow: 0 16px 48px rgba(0, 0, 0, 0.4);
   min-width: 240px;
   z-index: 1000;
   animation: dropdownFadeIn 0.2s ease-out;
@@ -31,17 +34,17 @@
 
 .dropdown-header {
   padding: 16px;
-  border-bottom: 1px solid #e0e0e0;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.08);
 }
 
 .user-info strong {
-  color: #333;
+  color: #fff;
   font-size: 15px;
 }
 
 .user-info small {
   font-size: 12px;
-  color: #666;
+  color: rgba(255, 255, 255, 0.4);
 }
 
 .dropdown-item {
@@ -50,31 +53,32 @@
   padding: 10px 16px;
   clear: both;
   font-weight: 400;
-  color: #333;
+  color: #e2e8f0;
   text-align: inherit;
   text-decoration: none;
   white-space: nowrap;
   background-color: transparent;
   border: 0;
   cursor: pointer;
-  transition: background-color 0.2s;
+  transition: background-color 0.15s;
+  font-size: 14px;
 }
 
 .dropdown-item:hover {
-  background-color: #f8f9fa;
-  color: #333;
+  background-color: rgba(255, 255, 255, 0.06);
+  color: #fff;
 }
 
 .dropdown-item.text-danger:hover {
-  background-color: #fee;
-  color: #dc3545;
+  background-color: rgba(248, 113, 113, 0.08);
+  color: #f87171;
 }
 
 .dropdown-divider {
   height: 0;
-  margin: 8px 0;
+  margin: 6px 0;
   overflow: hidden;
-  border-top: 1px solid #e0e0e0;
+  border-top: 1px solid rgba(255, 255, 255, 0.08);
 }
 
 /* Responsive adjustments */

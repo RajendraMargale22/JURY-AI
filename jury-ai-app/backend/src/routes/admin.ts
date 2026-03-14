@@ -13,6 +13,7 @@ import {
   getTemplates,
   createTemplate,
   updateTemplate,
+  updateTemplateStatus,
   deleteTemplate,
   getAnalytics,
   getSystemSettings,
@@ -84,7 +85,7 @@ router.get('/templates', adminAuth, getTemplates);
 
 router.post('/templates', [
   adminAuth,
-  body('name').trim().isLength({ min: 2, max: 100 }).withMessage('Template name must be between 2 and 100 characters'),
+  body('title').trim().isLength({ min: 2, max: 100 }).withMessage('Template title must be between 2 and 100 characters'),
   body('description').optional().isString().withMessage('Description must be a string'),
   body('category').isString().withMessage('Category is required'),
   body('content').isString().withMessage('Content is required'),
@@ -93,12 +94,17 @@ router.post('/templates', [
 
 router.put('/templates/:id', [
   adminAuth,
-  body('name').optional().trim().isLength({ min: 2, max: 100 }).withMessage('Template name must be between 2 and 100 characters'),
+  body('title').optional().trim().isLength({ min: 2, max: 100 }).withMessage('Template title must be between 2 and 100 characters'),
   body('description').optional().isString().withMessage('Description must be a string'),
   body('category').optional().isString().withMessage('Category must be a string'),
   body('content').optional().isString().withMessage('Content must be a string'),
   body('fields').optional().isArray().withMessage('Fields must be an array')
 ], validateRequest, updateTemplate);
+
+router.put('/templates/:id/status', [
+  adminAuth,
+  body('isActive').isBoolean().withMessage('isActive must be a boolean')
+], validateRequest, updateTemplateStatus);
 
 router.delete('/templates/:id', adminAuth, deleteTemplate);
 

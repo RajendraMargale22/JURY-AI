@@ -120,16 +120,84 @@ const AdminUsers: React.FC = () => {
 
   return (
     <div>
+      {/* Header with Stats Cards */}
+      <div className="row mb-4">
+        <div className="col-md-3">
+          <div className="card" style={{
+            background: 'linear-gradient(135deg, rgba(93, 208, 255, 0.15), rgba(93, 208, 255, 0.05))',
+            border: '1px solid rgba(93, 208, 255, 0.3)',
+            backdropFilter: 'blur(10px)'
+          }}>
+            <div className="card-body text-center">
+              <i className="fas fa-users fa-2x mb-2" style={{color: '#5dd0ff'}}></i>
+              <h3 style={{color: '#5dd0ff', marginBottom: '0.25rem'}}>{users.length}</h3>
+              <p className="mb-0" style={{color: 'rgba(255, 255, 255, 0.6)', fontSize: '0.875rem'}}>Total Users</p>
+            </div>
+          </div>
+        </div>
+        <div className="col-md-3">
+          <div className="card" style={{
+            background: 'linear-gradient(135deg, rgba(124, 93, 255, 0.15), rgba(124, 93, 255, 0.05))',
+            border: '1px solid rgba(124, 93, 255, 0.3)',
+            backdropFilter: 'blur(10px)'
+          }}>
+            <div className="card-body text-center">
+              <i className="fas fa-user-check fa-2x mb-2\" style={{color: '#7c5dff'}}></i>
+              <h3 style={{color: '#7c5dff', marginBottom: '0.25rem'}}>{users.filter(u => u.status === 'active').length}</h3>
+              <p className="mb-0" style={{color: 'rgba(255, 255, 255, 0.6)', fontSize: '0.875rem'}}>Active Users</p>
+            </div>
+          </div>
+        </div>
+        <div className="col-md-3">
+          <div className="card" style={{
+            background: 'linear-gradient(135deg, rgba(34, 197, 94, 0.15), rgba(34, 197, 94, 0.05))',
+            border: '1px solid rgba(34, 197, 94, 0.3)',
+            backdropFilter: 'blur(10px)'
+          }}>
+            <div className="card-body text-center">
+              <i className="fas fa-shield-alt fa-2x mb-2\" style={{color: '#22c55e'}}></i>
+              <h3 style={{color: '#22c55e', marginBottom: '0.25rem'}}>{users.filter(u => u.isVerified).length}</h3>
+              <p className="mb-0" style={{color: 'rgba(255, 255, 255, 0.6)', fontSize: '0.875rem'}}>Verified</p>
+            </div>
+          </div>
+        </div>
+        <div className="col-md-3">
+          <div className="card" style={{
+            background: 'linear-gradient(135deg, rgba(239, 68, 68, 0.15), rgba(239, 68, 68, 0.05))',
+            border: '1px solid rgba(239, 68, 68, 0.3)',
+            backdropFilter: 'blur(10px)'
+          }}>
+            <div className="card-body text-center">
+              <i className="fas fa-ban fa-2x mb-2\" style={{color: '#ef4444'}}></i>
+              <h3 style={{color: '#ef4444', marginBottom: '0.25rem'}}>{users.filter(u => u.status === 'suspended').length}</h3>
+              <p className="mb-0" style={{color: 'rgba(255, 255, 255, 0.6)', fontSize: '0.875rem'}}>Suspended</p>
+            </div>
+          </div>
+        </div>
+      </div>
+
       <div className="d-flex justify-content-between align-items-center mb-4">
-        <h2>User Management</h2>
-        <button className="btn btn-primary">
+        <button 
+          className="btn" 
+          style={{
+            background: 'linear-gradient(135deg, #5dd0ff, #7c5dff)',
+            border: 'none',
+            color: 'white',
+            padding: '0.75rem 1.5rem',
+            fontWeight: 600
+          }}
+        >
           <i className="fas fa-plus me-2"></i>
           Add User
         </button>
       </div>
 
       {/* Filters */}
-      <div className="card mb-4">
+      <div className="card mb-4" style={{
+        background: 'rgba(255, 255, 255, 0.02)',
+        border: '1px solid rgba(255, 255, 255, 0.06)',
+        backdropFilter: 'blur(10px)'
+      }}>
         <div className="card-body">
           <div className="row">
             <div className="col-md-4">
@@ -182,7 +250,11 @@ const AdminUsers: React.FC = () => {
       </div>
 
       {/* Users Table */}
-      <div className="card">
+      <div className="card" style={{
+        background: 'rgba(255, 255, 255, 0.02)',
+        border: '1px solid rgba(255, 255, 255, 0.06)',
+        backdropFilter: 'blur(10px)'
+      }}>
         <div className="card-body">
           {users.length > 0 ? (
             <>

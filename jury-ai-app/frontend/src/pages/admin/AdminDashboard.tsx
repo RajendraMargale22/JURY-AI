@@ -6,6 +6,7 @@ import AdminUsers from './AdminUsers';
 import AdminLawyers from './AdminLawyers';
 import AdminTemplates from './AdminTemplates';
 import AdminSettings from './AdminSettings';
+import './AdminStyles.css';
 
 const AdminDashboard: React.FC = () => {
   const { user } = useAuth();
@@ -36,10 +37,14 @@ const AdminDashboard: React.FC = () => {
   };
 
   return (
-    <div className="d-flex vh-100 bg-light">
+    <div className="d-flex vh-100" style={{ background: 'linear-gradient(135deg, #0b1220 0%, #0f172a 100%)' }}>
       {/* Sidebar */}
-      <nav className={`bg-dark text-white ${sidebarCollapsed ? 'collapsed-sidebar' : 'sidebar'}`}>
-        <div className="sidebar-header p-3 border-bottom border-secondary">
+      <nav className={`text-white ${sidebarCollapsed ? 'collapsed-sidebar' : 'sidebar'}`} style={{ 
+        background: 'rgba(255, 255, 255, 0.02)',
+        borderRight: '1px solid rgba(255, 255, 255, 0.06)',
+        backdropFilter: 'blur(10px)'
+      }}>
+        <div className="sidebar-header p-3" style={{ borderBottom: '1px solid rgba(255, 255, 255, 0.06)' }}>
           <Link to="/admin" className="text-decoration-none text-white">
             <div className="d-flex align-items-center">
               <i className="fas fa-balance-scale fs-3 me-2"></i>
@@ -57,10 +62,17 @@ const AdminDashboard: React.FC = () => {
               <li key={item.path} className="nav-item">
                 <Link
                   to={item.path}
-                  className={`nav-link text-white d-flex align-items-center px-3 py-2 ${
-                    isActiveRoute(item.path, item.exact) ? 'bg-primary' : ''
-                  }`}
-                  style={{ transition: 'all 0.3s' }}
+                  className={`nav-link text-white d-flex align-items-center px-3 py-2`}
+                  style={{ 
+                    transition: 'all 0.3s',
+                    background: isActiveRoute(item.path, item.exact) 
+                      ? 'linear-gradient(135deg, rgba(93, 208, 255, 0.2), rgba(124, 93, 255, 0.2))' 
+                      : 'transparent',
+                    borderLeft: isActiveRoute(item.path, item.exact) 
+                      ? '3px solid #5dd0ff' 
+                      : '3px solid transparent',
+                    borderRadius: '0 8px 8px 0'
+                  }}
                 >
                   <i className={`${item.icon} me-3`}></i>
                   <span className={sidebarCollapsed ? 'd-none' : ''}>{item.label}</span>
@@ -70,11 +82,12 @@ const AdminDashboard: React.FC = () => {
           </ul>
         </div>
 
-        <div className="sidebar-footer border-top border-secondary p-3">
+        <div className="sidebar-footer p-3" style={{ borderTop: '1px solid rgba(255, 255, 255, 0.06)' }}>
           <Link
             to="/"
             className="nav-link text-white d-flex align-items-center px-0 py-2"
             title="Back to Main Site"
+            style={{ opacity: 0.8 }}
           >
             <i className="fas fa-arrow-left me-3"></i>
             <span className={sidebarCollapsed ? 'd-none' : ''}>Back to Site</span>
@@ -85,30 +98,49 @@ const AdminDashboard: React.FC = () => {
       {/* Main Content */}
       <main className="flex-grow-1 d-flex flex-column overflow-hidden">
         {/* Header */}
-        <header className="bg-white border-bottom px-4 py-3">
+        <header className="px-4 py-3" style={{ 
+          background: 'rgba(255, 255, 255, 0.02)',
+          borderBottom: '1px solid rgba(255, 255, 255, 0.06)',
+          backdropFilter: 'blur(10px)'
+        }}>
           <div className="d-flex justify-content-between align-items-center">
             <div className="d-flex align-items-center">
               <button
-                className="btn btn-outline-secondary me-3"
+                className="btn me-3"
+                style={{
+                  background: 'rgba(93, 208, 255, 0.1)',
+                  border: '1px solid rgba(93, 208, 255, 0.3)',
+                  color: '#5dd0ff'
+                }}
                 onClick={() => setSidebarCollapsed(!sidebarCollapsed)}
                 title="Toggle Sidebar"
               >
                 <i className="fas fa-bars"></i>
               </button>
-              <h2 className="mb-0 text-dark">{getPageTitle()}</h2>
+              <h2 className="mb-0" style={{ color: 'rgba(255, 255, 255, 0.95)' }}>{getPageTitle()}</h2>
             </div>
             
             <div className="d-flex align-items-center">
-              <div className="me-3">
-                <span className="badge bg-danger">5</span>
-                <i className="fas fa-bell ms-1 text-muted"></i>
+              <div className="me-3" style={{ position: 'relative' }}>
+                <span className="badge" style={{
+                  position: 'absolute',
+                  top: '-5px',
+                  right: '-5px',
+                  background: 'linear-gradient(135deg, #ff6b6b, #ee5a6f)',
+                  fontSize: '0.7rem'
+                }}>5</span>
+                <i className="fas fa-bell ms-1" style={{ color: 'rgba(255, 255, 255, 0.7)', fontSize: '1.2rem' }}></i>
               </div>
               <div className="d-flex align-items-center">
-                <div className="bg-primary text-white rounded-circle d-flex align-items-center justify-content-center me-2"
-                     style={{ width: '32px', height: '32px' }}>
+                <div className="text-white rounded-circle d-flex align-items-center justify-content-center me-2"
+                     style={{ 
+                       width: '36px', 
+                       height: '36px',
+                       background: 'linear-gradient(135deg, #5dd0ff, #7c5dff)'
+                     }}>
                   <i className="fas fa-user"></i>
                 </div>
-                <span className="text-dark">{user?.name}</span>
+                <span style={{ color: 'rgba(255, 255, 255, 0.9)' }}>{user?.name}</span>
               </div>
             </div>
           </div>
@@ -136,7 +168,7 @@ const AdminDashboard: React.FC = () => {
           transition: all 0.3s;
         }
         .nav-link:hover {
-          background-color: rgba(255, 255, 255, 0.1) !important;
+          background: rgba(93, 208, 255, 0.15) !important;
         }
       `}</style>
     </div>
