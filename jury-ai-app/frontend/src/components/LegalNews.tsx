@@ -15,6 +15,7 @@ interface NewsArticle {
 const LegalNews: React.FC = () => {
   const [news, setNews] = useState<NewsArticle[]>([]);
   const [loading, setLoading] = useState(true);
+  const newsApiKey = process.env.REACT_APP_NEWS_API_KEY;
 
   useEffect(() => {
     fetchLegalNews();
@@ -22,11 +23,14 @@ const LegalNews: React.FC = () => {
 
   const fetchLegalNews = async () => {
     try {
+      if (!newsApiKey) {
+        throw new Error('REACT_APP_NEWS_API_KEY is not configured');
+      }
+
       // Using NewsAPI.org - Free tier allows 100 requests per day
       // You can get a free API key from https://newsapi.org/
-      const apiKey = 'AIzaSyDh0TWKg0e88ATvammg2xFyEMrabiHCmNw'
       const response = await fetch(
-        `https://newsapi.org/v2/everything?q=(law OR legal OR court OR justice OR attorney)&sortBy=publishedAt&language=en&pageSize=6&apiKey=${apiKey}`
+        `https://newsapi.org/v2/everything?q=(law OR legal OR court OR justice OR attorney)&sortBy=publishedAt&language=en&pageSize=6&apiKey=${newsApiKey}`
       );
       
       if (response.ok) {
