@@ -229,12 +229,11 @@ export const getLawyers = async (req: AuthRequest, res: Response) => {
     
     if (status && status !== 'all') {
       if (status === 'pending') {
-        query.isEmailVerified = false;
+        query.lawyerVerificationStatus = 'pending';
       } else if (status === 'verified') {
-        query.isEmailVerified = true;
-        query.isActive = true;
+        query.lawyerVerificationStatus = 'verified';
       } else if (status === 'rejected') {
-        query.isActive = false;
+        query.lawyerVerificationStatus = 'rejected';
       }
     }
 
@@ -257,16 +256,20 @@ export const getLawyers = async (req: AuthRequest, res: Response) => {
     // Map lawyers to match frontend expectations
     const mappedLawyers = lawyers.map(lawyer => ({
       _id: lawyer._id,
-      name: lawyer.name,
+      username: lawyer.name,
       email: lawyer.email,
-      phone: lawyer.phone || '',
-      specialization: lawyer.specialization || 'General Practice',
+      phone: lawyer.profile?.phone || '',
+      specializations: lawyer.specialization || [],
       experience: lawyer.experience || 0,
-      barNumber: lawyer.barNumber || '',
-      status: lawyer.isEmailVerified ? 'verified' : 'pending',
+      licenseNumber: lawyer.barNumber || '',
+      barAssociation: lawyer.city || '',
+      verificationStatus: lawyer.lawyerVerificationStatus || (lawyer.isEmailVerified ? 'verified' : 'pending'),
+      isVerified: (lawyer.lawyerVerificationStatus || (lawyer.isEmailVerified ? 'verified' : 'pending')) === 'verified',
       isActive: lawyer.isActive,
       createdAt: lawyer.createdAt,
-      verifiedAt: lawyer.verifiedAt
+      verifiedAt: lawyer.verifiedAt,
+      verifiedBy: lawyer.verifiedBy,
+      documents: []
     }));
 
     res.json({
@@ -288,7 +291,16 @@ export const getLawyers = async (req: AuthRequest, res: Response) => {
 export const verifyLawyer = async (req: AuthRequest, res: Response) => {
   try {
     const { id } = req.params;
-    const { status, notes } = req.body;
+    const { status, action, notes, reason } = req.body;
+
+    const requestedStatus = status || (action === 'approve' ? 'verified' : action === 'reject' ? 'rejected' : undefined);
+
+    if (!requestedStatus || !['verified', 'rejected', 'suspended'].includes(requestedStatus)) {
+      return res.status(400).json({
+        success: false,
+        message: 'Status must be verified, rejected, or suspended'
+      });
+    }
 
     const lawyer = await User.findById(id);
     if (!lawyer || lawyer.role !== 'lawyer') {
@@ -298,15 +310,21 @@ export const verifyLawyer = async (req: AuthRequest, res: Response) => {
       });
     }
 
-    if (status === 'verified') {
+    if (requestedStatus === 'verified') {
       lawyer.isEmailVerified = true;
+      lawyer.isVerified = true;
       lawyer.isActive = true;
-    } else if (status === 'rejected') {
+    } else if (requestedStatus === 'rejected') {
+      lawyer.isActive = false;
+      lawyer.isEmailVerified = false;
+    } else if (requestedStatus === 'suspended') {
       lawyer.isActive = false;
     }
 
+    lawyer.lawyerVerificationStatus = requestedStatus;
+
     // Add verification notes
-    lawyer.verificationNotes = notes;
+    lawyer.verificationNotes = notes || reason;
     lawyer.verifiedAt = new Date();
     lawyer.verifiedBy = req.user.id;
 
@@ -314,7 +332,7 @@ export const verifyLawyer = async (req: AuthRequest, res: Response) => {
 
     res.json({
       success: true,
-      message: `Lawyer ${status} successfully`,
+      message: `Lawyer ${requestedStatus} successfully`,
       data: lawyer
     });
   } catch (error) {

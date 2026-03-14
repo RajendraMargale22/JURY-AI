@@ -24,7 +24,7 @@ const LegalNews: React.FC = () => {
     try {
       // Using NewsAPI.org - Free tier allows 100 requests per day
       // You can get a free API key from https://newsapi.org/
-      const apiKey = '86f0029bea62416c9e26a2c8be5ab92f'; // Demo key, replace with your own
+      const apiKey = 'AIzaSyDh0TWKg0e88ATvammg2xFyEMrabiHCmNw'
       const response = await fetch(
         `https://newsapi.org/v2/everything?q=(law OR legal OR court OR justice OR attorney)&sortBy=publishedAt&language=en&pageSize=6&apiKey=${apiKey}`
       );

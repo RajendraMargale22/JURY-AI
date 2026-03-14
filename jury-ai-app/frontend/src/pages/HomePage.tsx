@@ -567,8 +567,8 @@ const HomePage: React.FC<HomePageProps> = ({ openAuthModal, autoOpenAuth }) => {
                 gradient: 'linear-gradient(135deg, rgba(255,159,124,0.15), rgba(255,159,124,0.05))',
                 borderColor: 'rgba(255,159,124,0.2)',
                 iconColor: '#ff9f7c',
-                disabled: true,
-                btnLabel: 'Coming Soon',
+                link: '/lawyers',
+                btnLabel: 'Explore',
               },
               {
                 icon: 'fas fa-clipboard-list',

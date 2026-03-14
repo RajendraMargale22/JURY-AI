@@ -2,7 +2,9 @@ import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { toast } from 'react-toastify';
 import axios from 'axios';
+import { signInWithPopup } from 'firebase/auth';
 import { useAuth } from '../contexts/AuthContext';
+import { firebaseAuth, firebaseEnabled, googleProvider } from '../config/firebase';
 import './AuthModal.css';
 
 interface AuthModalProps {
@@ -27,6 +29,25 @@ const AuthModal: React.FC<AuthModalProps> = ({ isOpen, onClose, initialMode = 'l
     role: 'user',
     agreeToTerms: false,
   });
+
+  const getGoogleErrorMessage = (error: any): string => {
+    const code = error?.code || '';
+
+    if (code.includes('auth/popup-closed-by-user')) {
+      return 'Google sign-in was cancelled.';
+    }
+    if (code.includes('auth/popup-blocked')) {
+      return 'Popup was blocked by the browser. Please allow popups and try again.';
+    }
+    if (code.includes('auth/unauthorized-domain')) {
+      return 'This domain is not authorized in Firebase. Add localhost in Firebase Authentication > Settings > Authorized domains.';
+    }
+    if (code.includes('auth/network-request-failed')) {
+      return 'Network issue during Google sign-in. Please check your connection and try again.';
+    }
+
+    return error?.response?.data?.message || error?.message || 'Google authentication failed';
+  };
 
   useEffect(() => {
     setMode(initialMode);
@@ -156,6 +177,45 @@ const AuthModal: React.FC<AuthModalProps> = ({ isOpen, onClose, initialMode = 'l
     }
   };
 
+  const handleGoogleAuth = async () => {
+    if (!firebaseEnabled || !firebaseAuth) {
+      toast.error('Google auth is not configured yet. Add Firebase env variables.');
+      return;
+    }
+
+    setIsLoading(true);
+    try {
+      const result = await signInWithPopup(firebaseAuth, googleProvider);
+      const idToken = await result.user.getIdToken();
+
+      const response = await axios.post('/auth/google', {
+        idToken,
+        role: mode === 'register' ? registerData.role : undefined
+      });
+
+      const data = response.data as any;
+      if (data.success) {
+        localStorage.setItem('token', data.token);
+        updateUser(data.user);
+
+        if (data.user.role === 'admin') {
+          toast.success('Welcome, Admin! Redirecting...');
+          handleClose();
+          setTimeout(() => navigate('/admin', { replace: true }), 300);
+        } else {
+          toast.success('Google authentication successful');
+          handleClose();
+        }
+      }
+    } catch (error: any) {
+      console.error('Google auth error:', error);
+      const message = getGoogleErrorMessage(error);
+      toast.error(message);
+    } finally {
+      setIsLoading(false);
+    }
+  };
+
   if (!isOpen && !isClosing) return null;
 
   return (
@@ -280,7 +340,7 @@ const AuthModal: React.FC<AuthModalProps> = ({ isOpen, onClose, initialMode = 'l
               </div>
 
               <div className="auth-social-row">
-                <button type="button" className="auth-social-btn">
+                <button type="button" className="auth-social-btn" onClick={handleGoogleAuth} disabled={isLoading} title="Continue with Google">
                   <i className="fab fa-google"></i>
                 </button>
                 <button type="button" className="auth-social-btn">
@@ -407,6 +467,16 @@ const AuthModal: React.FC<AuthModalProps> = ({ isOpen, onClose, initialMode = 'l
                   </>
                 )}
               </button>
+
+              <div className="auth-or-divider">
+                <span>or continue with</span>
+              </div>
+
+              <div className="auth-social-row">
+                <button type="button" className="auth-social-btn" onClick={handleGoogleAuth} disabled={isLoading} title="Continue with Google">
+                  <i className="fab fa-google"></i>
+                </button>
+              </div>
 
               <p className="auth-switch-text">
                 Already have an account?{' '}

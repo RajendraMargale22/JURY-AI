@@ -33,6 +33,10 @@ const userSchema = new Schema<IUser>({
     type: Boolean,
     default: false
   },
+  isEmailVerified: {
+    type: Boolean,
+    default: false
+  },
   verificationToken: String,
   resetPasswordToken: String,
   resetPasswordExpire: Date,
@@ -45,6 +49,43 @@ const userSchema = new Schema<IUser>({
     phone: String,
     address: String,
     bio: String
+  },
+  specialization: [{
+    type: String,
+    trim: true
+  }],
+  experience: {
+    type: Number,
+    min: 0,
+    default: 0
+  },
+  barNumber: {
+    type: String,
+    trim: true
+  },
+  city: {
+    type: String,
+    trim: true
+  },
+  consultationFee: {
+    type: Number,
+    min: 0,
+    default: 0
+  },
+  languages: [{
+    type: String,
+    trim: true
+  }],
+  lawyerVerificationStatus: {
+    type: String,
+    enum: ['pending', 'verified', 'rejected', 'suspended'],
+    default: undefined
+  },
+  verificationNotes: String,
+  verifiedAt: Date,
+  verifiedBy: {
+    type: Schema.Types.ObjectId,
+    ref: 'User'
   }
 }, {
   timestamps: true

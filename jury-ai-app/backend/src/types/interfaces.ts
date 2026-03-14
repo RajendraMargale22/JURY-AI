@@ -30,6 +30,10 @@ export interface IUser extends Document {
   specialization?: string[];
   experience?: number;
   barNumber?: string;
+  city?: string;
+  consultationFee?: number;
+  languages?: string[];
+  lawyerVerificationStatus?: 'pending' | 'verified' | 'rejected' | 'suspended';
   verificationNotes?: string;
   verifiedAt?: Date;
   verifiedBy?: Types.ObjectId;

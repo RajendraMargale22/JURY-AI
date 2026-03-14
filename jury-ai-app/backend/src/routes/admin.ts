@@ -60,7 +60,8 @@ router.get('/lawyers', [
 
 router.put('/lawyers/:id/verify', [
   adminAuth,
-  body('status').isIn(['verified', 'rejected']).withMessage('Status must be verified or rejected'),
+  body('status').optional().isIn(['verified', 'rejected', 'suspended']).withMessage('Status must be verified, rejected, or suspended'),
+  body('action').optional().isIn(['approve', 'reject']).withMessage('Action must be approve or reject'),
   body('notes').optional().isString().withMessage('Notes must be a string')
 ], validateRequest, verifyLawyer);
 

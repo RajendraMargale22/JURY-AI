@@ -10,6 +10,7 @@ import HomePage from './pages/HomePage';
 import AdminDashboard from './pages/admin/AdminDashboard';
 import ChatPage from './pages/ChatPage';
 import TemplatesPage from './pages/TemplatesPage';
+import LawyerNetworkPage from './pages/LawyerNetworkPage';
 import { AuthProvider } from './contexts/AuthContext';
 import ProtectedRoute from './components/ProtectedRoute';
 import AuthModal from './components/AuthModal';
@@ -56,6 +57,7 @@ function App() {
                 </ProtectedRoute>
               }
             />
+            <Route path="/lawyers" element={<LawyerNetworkPage />} />
             <Route
               path="/admin/*"
               element={

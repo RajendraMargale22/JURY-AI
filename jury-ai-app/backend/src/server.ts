@@ -14,7 +14,7 @@ import adminRoutes from './routes/admin';
 import chatRoutes from './routes/chat';
 import templateRoutes from './routes/templates';
 // import userRoutes from './routes/users';
-// import lawyerRoutes from './routes/lawyers';
+import lawyerRoutes from './routes/lawyers';
 // import documentRoutes from './routes/documents';
 // import analyticsRoutes from './routes/analytics';
 import { errorHandler } from './middleware/errorHandler';
@@ -75,8 +75,8 @@ app.use('/api/auth', authRoutes);
 app.use('/api/admin', adminRoutes);
 app.use('/api/chat', chatRoutes);
 app.use('/api/templates', templateRoutes);
+app.use('/api/lawyers', lawyerRoutes);
 // app.use('/api/users', userRoutes);
-// app.use('/api/lawyers', lawyerRoutes);
 // app.use('/api/documents', documentRoutes);
 // app.use('/api/analytics', analyticsRoutes);
 
