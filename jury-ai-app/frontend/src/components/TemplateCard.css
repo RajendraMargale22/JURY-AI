@@ -247,40 +247,6 @@
   color: #5dd0ff;
 }
 
-/* Footer */
-.template-card-footer {
-  background: rgba(93, 208, 255, 0.05);
-  padding: 12px 16px;
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  gap: 10px;
-  border-top: 1px solid rgba(93, 208, 255, 0.15);
-  margin-top: auto;
-}
-
-.footer-text {
-  font-size: 13px;
-  font-weight: 600;
-  color: rgba(255, 255, 255, 0.9);
-  white-space: nowrap;
-  overflow: hidden;
-  text-overflow: ellipsis;
-  max-width: 50%;
-  flex: 1;
-  min-width: 0;
-}
-
-.footer-category {
-  font-size: 11px;
-  font-weight: 500;
-  color: #5dd0ff;
-  background: rgba(93, 208, 255, 0.15);
-  padding: 4px 12px;
-  border-radius: 12px;
-  white-space: nowrap;
-  flex-shrink: 0;
-}
 
 /* Responsive Design */
 @media (max-width: 768px) {
@@ -313,7 +279,4 @@
     font-size: 24px;
   }
   
-  .footer-text {
-    font-size: 12px;
-  }
 }

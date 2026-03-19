@@ -14,10 +14,13 @@ interface Template {
     options?: string[];
   }[];
   isActive: boolean;
-  createdBy: {
-    _id: string;
-    username: string;
-  };
+  createdBy:
+    | {
+        _id?: string;
+        username?: string;
+        name?: string;
+      }
+    | string;
   downloads: number;
   createdAt: string;
   updatedAt: string;
@@ -153,6 +156,12 @@ const AdminTemplates: React.FC = () => {
 
   const truncateText = (text: string, maxLength: number) => {
     return text.length > maxLength ? text.substring(0, maxLength) + '...' : text;
+  };
+
+  const getCreatorName = (createdBy: Template['createdBy']) => {
+    if (!createdBy) return 'System';
+    if (typeof createdBy === 'string') return 'System';
+    return createdBy.username || createdBy.name || 'System';
   };
 
   // Client-side filtering
@@ -326,6 +335,7 @@ const AdminTemplates: React.FC = () => {
                 <table className="table table-hover">
                   <thead>
                     <tr>
+                      <th></th>
                       <th>Template</th>
                       <th>Category</th>
                       <th>Status</th>
@@ -370,7 +380,7 @@ const AdminTemplates: React.FC = () => {
                             {template.downloads}
                           </span>
                         </td>
-                        <td>{template.createdBy.username}</td>
+                        <td>{getCreatorName(template.createdBy)}</td>
                         <td>{new Date(template.createdAt).toLocaleDateString()}</td>
                         <td>
                           <div className="btn-group btn-group-sm">
@@ -492,7 +502,7 @@ const AdminTemplates: React.FC = () => {
                   </div>
                   <div className="col-md-6">
                     <h6>Created By</h6>
-                    <p>{selectedTemplate!.createdBy.username}</p>
+                    <p>{getCreatorName(selectedTemplate!.createdBy)}</p>
                   </div>
                 </div>
 

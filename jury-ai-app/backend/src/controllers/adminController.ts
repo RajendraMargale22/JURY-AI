@@ -3,7 +3,92 @@ import User from '../models/User';
 import Chat from '../models/Chat';
 import Document from '../models/Document';
 import Template from '../models/Template';
+import SystemSettings from '../models/SystemSettings';
 import { AuthRequest } from '../types/interfaces';
+
+type SettingsMap = Record<string, string | number | boolean | string[]>;
+
+const defaultSystemSettings: SettingsMap = {
+  // General
+  siteName: 'Jury AI',
+  siteDescription: 'AI-Powered Legal Assistant Platform',
+  siteUrl: 'http://localhost:3000',
+  supportEmail: 'support@juryai.com',
+  contactEmail: 'contact@juryai.com',
+
+  // System
+  maintenanceMode: false,
+  registrationEnabled: true,
+  emailVerificationRequired: true,
+  maxFileUploadSize: 10,
+  allowedFileTypes: ['pdf', 'doc', 'docx', 'txt'],
+  sessionTimeout: 24,
+  logLevel: 'info',
+  backupFrequency: 'daily',
+
+  // Features
+  chatEnabled: true,
+  chatRateLimit: 10,
+  templatesEnabled: true,
+  documentAnalysisEnabled: true,
+  lawyerVerificationEnabled: true,
+  autoVerifyLawyers: false,
+  analyticsEnabled: true,
+
+  // Security
+  passwordMinLength: 8,
+  passwordRequireUppercase: true,
+  passwordRequireNumbers: true,
+  passwordRequireSpecialChars: false,
+  twoFactorEnabled: false,
+  socialLoginEnabled: false,
+  maxLoginAttempts: 5,
+  lockoutDuration: 15
+};
+
+const settingsKeys = Object.keys(defaultSystemSettings);
+
+const normalizeSettingsPayload = (payload: Record<string, unknown>): SettingsMap => {
+  const normalized: SettingsMap = {};
+
+  for (const key of settingsKeys) {
+    if (!(key in payload)) {
+      continue;
+    }
+
+    const defaultValue = defaultSystemSettings[key];
+    const candidate = payload[key];
+
+    if (typeof defaultValue === 'boolean') {
+      if (typeof candidate === 'boolean') {
+        normalized[key] = candidate;
+      }
+      continue;
+    }
+
+    if (typeof defaultValue === 'number') {
+      if (typeof candidate === 'number' && Number.isFinite(candidate)) {
+        normalized[key] = candidate;
+      }
+      continue;
+    }
+
+    if (typeof defaultValue === 'string') {
+      if (typeof candidate === 'string') {
+        normalized[key] = candidate.trim();
+      }
+      continue;
+    }
+
+    if (Array.isArray(defaultValue)) {
+      if (Array.isArray(candidate)) {
+        normalized[key] = candidate.filter((item): item is string => typeof item === 'string');
+      }
+    }
+  }
+
+  return normalized;
+};
 
 // Get dashboard statistics
 export const getDashboardStats = async (req: AuthRequest, res: Response) => {
@@ -625,25 +710,11 @@ export const getAnalytics = async (req: AuthRequest, res: Response) => {
 // Get system settings
 export const getSystemSettings = async (req: AuthRequest, res: Response) => {
   try {
-    // System settings (in production, fetch from database)
+    const settingsDoc = await SystemSettings.findOne({ key: 'global' }).lean();
+    const savedSettings = (settingsDoc?.settings || {}) as Record<string, unknown>;
     const settings = {
-      siteName: 'Jury AI',
-      siteDescription: 'Legal Assistant Platform',
-      maintenanceMode: false,
-      registrationEnabled: true,
-      emailVerificationRequired: true,
-      maxFileUploadSize: 10,
-      allowedFileTypes: ['pdf', 'doc', 'docx', 'txt'],
-      chatRateLimit: 10,
-      autoVerifyLawyers: false,
-      moderationEnabled: true,
-      analyticsEnabled: true,
-      backupFrequency: 'daily',
-      logLevel: 'info',
-      sessionTimeout: 24,
-      passwordMinLength: 8,
-      twoFactorEnabled: false,
-      socialLoginEnabled: false
+      ...defaultSystemSettings,
+      ...normalizeSettingsPayload(savedSettings)
     };
 
     res.json(settings);
@@ -659,15 +730,36 @@ export const getSystemSettings = async (req: AuthRequest, res: Response) => {
 // Update system settings
 export const updateSystemSettings = async (req: AuthRequest, res: Response) => {
   try {
-    const updates = req.body;
-    
-    // In a real application, you would save these to a settings collection
-    // For now, we'll just return the updated settings
+    const incoming = (req.body || {}) as Record<string, unknown>;
+    const updates = normalizeSettingsPayload(incoming);
+
+    const existingDoc = await SystemSettings.findOne({ key: 'global' }).lean();
+    const existingSettings = (existingDoc?.settings || {}) as Record<string, unknown>;
+
+    const mergedSettings = {
+      ...defaultSystemSettings,
+      ...normalizeSettingsPayload(existingSettings),
+      ...updates
+    };
+
+    await SystemSettings.findOneAndUpdate(
+      { key: 'global' },
+      {
+        key: 'global',
+        settings: mergedSettings,
+        updatedBy: req.user?.id
+      },
+      {
+        upsert: true,
+        new: true,
+        setDefaultsOnInsert: true
+      }
+    );
     
     res.json({
       success: true,
       message: 'System settings updated successfully',
-      data: updates
+      data: mergedSettings
     });
   } catch (error) {
     console.error('Update system settings error:', error);

@@ -122,12 +122,36 @@ router.get('/settings', adminAuth, getSystemSettings);
 router.put('/settings', [
   adminAuth,
   body('siteName').optional().isString().withMessage('Site name must be a string'),
-  body('adminEmail').optional().isEmail().withMessage('Please provide a valid admin email'),
-  body('maxUploadSize').optional().isInt({ min: 1, max: 100 }).withMessage('Max upload size must be between 1 and 100 MB'),
+  body('siteDescription').optional().isString().withMessage('Site description must be a string'),
+  body('siteUrl').optional().isString().withMessage('Site URL must be a string'),
+  body('supportEmail').optional().isEmail().withMessage('Please provide a valid support email'),
+  body('contactEmail').optional().isEmail().withMessage('Please provide a valid contact email'),
+
   body('maintenanceMode').optional().isBoolean().withMessage('Maintenance mode must be a boolean'),
-  body('sessionTimeout').optional().isInt({ min: 5, max: 480 }).withMessage('Session timeout must be between 5 and 480 minutes'),
-  body('twoFactorAuth').optional().isBoolean().withMessage('Two factor auth must be a boolean'),
-  body('ipWhitelist').optional().isBoolean().withMessage('IP whitelist must be a boolean')
+  body('registrationEnabled').optional().isBoolean().withMessage('Registration setting must be a boolean'),
+  body('emailVerificationRequired').optional().isBoolean().withMessage('Email verification setting must be a boolean'),
+  body('maxFileUploadSize').optional().isInt({ min: 1, max: 1024 }).withMessage('Max file upload size must be between 1 and 1024 MB'),
+  body('allowedFileTypes').optional().isArray().withMessage('Allowed file types must be an array'),
+  body('sessionTimeout').optional().isInt({ min: 1, max: 168 }).withMessage('Session timeout must be between 1 and 168 hours'),
+  body('logLevel').optional().isIn(['debug', 'info', 'warn', 'error']).withMessage('Invalid log level'),
+  body('backupFrequency').optional().isIn(['hourly', 'daily', 'weekly', 'monthly']).withMessage('Invalid backup frequency'),
+
+  body('chatEnabled').optional().isBoolean().withMessage('Chat setting must be a boolean'),
+  body('chatRateLimit').optional().isInt({ min: 1, max: 1000 }).withMessage('Chat rate limit must be between 1 and 1000'),
+  body('templatesEnabled').optional().isBoolean().withMessage('Templates setting must be a boolean'),
+  body('documentAnalysisEnabled').optional().isBoolean().withMessage('Document analysis setting must be a boolean'),
+  body('lawyerVerificationEnabled').optional().isBoolean().withMessage('Lawyer verification setting must be a boolean'),
+  body('autoVerifyLawyers').optional().isBoolean().withMessage('Auto verify lawyers setting must be a boolean'),
+  body('analyticsEnabled').optional().isBoolean().withMessage('Analytics setting must be a boolean'),
+
+  body('passwordMinLength').optional().isInt({ min: 6, max: 20 }).withMessage('Password minimum length must be between 6 and 20'),
+  body('passwordRequireUppercase').optional().isBoolean().withMessage('Password uppercase setting must be a boolean'),
+  body('passwordRequireNumbers').optional().isBoolean().withMessage('Password numbers setting must be a boolean'),
+  body('passwordRequireSpecialChars').optional().isBoolean().withMessage('Password special chars setting must be a boolean'),
+  body('twoFactorEnabled').optional().isBoolean().withMessage('Two-factor setting must be a boolean'),
+  body('socialLoginEnabled').optional().isBoolean().withMessage('Social login setting must be a boolean'),
+  body('maxLoginAttempts').optional().isInt({ min: 1, max: 20 }).withMessage('Max login attempts must be between 1 and 20'),
+  body('lockoutDuration').optional().isInt({ min: 1, max: 240 }).withMessage('Lockout duration must be between 1 and 240 minutes')
 ], validateRequest, updateSystemSettings);
 
 export default router;

@@ -242,6 +242,7 @@ const AdminLawyers: React.FC = () => {
                 <table className="table table-hover">
                   <thead>
                     <tr>
+                      <th></th>
                       <th>Lawyer</th>
                       <th>License</th>
                       <th>Experience</th>

@@ -262,6 +262,7 @@ const AdminUsers: React.FC = () => {
                 <table className="table table-hover">
                   <thead>
                     <tr>
+                      <th></th>
                       <th>User</th>
                       <th>Role</th>
                       <th>Status</th>
@@ -275,7 +276,7 @@ const AdminUsers: React.FC = () => {
                     {users.map((user) => (
                       <tr key={user._id}>
                         <td>
-                          <div>
+                          <div className="user-cell-content">
                             <strong>{user.username}</strong>
                             <br />
                             <small className="text-muted">{user.email}</small>

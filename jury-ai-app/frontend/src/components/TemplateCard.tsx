@@ -101,11 +101,6 @@ const TemplateCard: React.FC<TemplateCardProps> = ({
         </div>
       </div>
 
-      {/* Bottom Label */}
-      <div className="template-card-footer">
-        <span className="footer-text">{title}</span>
-        <span className="footer-category">{category}</span>
-      </div>
     </div>
   );
 };

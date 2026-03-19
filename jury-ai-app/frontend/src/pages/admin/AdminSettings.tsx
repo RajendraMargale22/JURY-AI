@@ -120,9 +120,13 @@ const AdminSettings: React.FC = () => {
       });
 
       if (response.ok) {
+        const data = await response.json();
+        const updatedSettings = (data?.data || data?.settings || data) as Partial<SystemSettings>;
+        setSettings(prev => ({ ...prev, ...updatedSettings }));
         toast.success('Settings saved successfully!');
       } else {
-        toast.error('Failed to save settings');
+        const errorData = await response.json().catch(() => ({}));
+        toast.error(errorData?.message || 'Failed to save settings');
       }
     } catch (error) {
       console.error('Error saving settings:', error);
@@ -133,7 +137,12 @@ const AdminSettings: React.FC = () => {
   };
 
   const handleChange = (field: keyof SystemSettings, value: any) => {
-    setSettings(prev => ({ ...prev, [field]: value }));
+    setSettings(prev => {
+      if (typeof value === 'number' && Number.isNaN(value)) {
+        return prev;
+      }
+      return { ...prev, [field]: value };
+    });
   };
 
   if (loading) {

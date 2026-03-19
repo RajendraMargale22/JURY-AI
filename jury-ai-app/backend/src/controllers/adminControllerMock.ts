@@ -2,6 +2,41 @@ import { Request, Response } from 'express';
 import { mockDB } from '../utils/mockDatabase';
 import { AuthRequest } from '../types/interfaces';
 
+type MockSettingsMap = Record<string, string | number | boolean | string[]>;
+
+const defaultMockSettings: MockSettingsMap = {
+  siteName: 'Jury AI',
+  siteDescription: 'AI-Powered Legal Assistant Platform',
+  siteUrl: 'http://localhost:3000',
+  supportEmail: 'support@juryai.com',
+  contactEmail: 'contact@juryai.com',
+  maintenanceMode: false,
+  registrationEnabled: true,
+  emailVerificationRequired: true,
+  maxFileUploadSize: 10,
+  allowedFileTypes: ['pdf', 'doc', 'docx', 'txt'],
+  sessionTimeout: 24,
+  logLevel: 'info',
+  backupFrequency: 'daily',
+  chatEnabled: true,
+  chatRateLimit: 10,
+  templatesEnabled: true,
+  documentAnalysisEnabled: true,
+  lawyerVerificationEnabled: true,
+  autoVerifyLawyers: false,
+  analyticsEnabled: true,
+  passwordMinLength: 8,
+  passwordRequireUppercase: true,
+  passwordRequireNumbers: true,
+  passwordRequireSpecialChars: false,
+  twoFactorEnabled: false,
+  socialLoginEnabled: false,
+  maxLoginAttempts: 5,
+  lockoutDuration: 15
+};
+
+let mockSettingsStore: MockSettingsMap = { ...defaultMockSettings };
+
 // Get dashboard statistics
 export const getDashboardStats = async (req: AuthRequest, res: Response) => {
   try {
@@ -265,28 +300,7 @@ export const createTemplate = async (req: AuthRequest, res: Response) => {
 // Get system settings
 export const getSettings = async (req: AuthRequest, res: Response) => {
   try {
-    // Mock settings
-    const settings = {
-      siteName: 'Jury AI',
-      siteDescription: 'Legal Assistant Platform',
-      maintenanceMode: false,
-      registrationEnabled: true,
-      emailVerificationRequired: true,
-      maxFileUploadSize: 10,
-      allowedFileTypes: ['pdf', 'doc', 'docx', 'txt'],
-      chatRateLimit: 10,
-      autoVerifyLawyers: false,
-      moderationEnabled: true,
-      analyticsEnabled: true,
-      backupFrequency: 'daily',
-      logLevel: 'info',
-      sessionTimeout: 24,
-      passwordMinLength: 8,
-      twoFactorEnabled: false,
-      socialLoginEnabled: false
-    };
-
-    res.json(settings);
+    res.json(mockSettingsStore);
   } catch (error) {
     console.error('Error fetching settings:', error);
     res.status(500).json({ message: 'Server error' });
@@ -296,10 +310,35 @@ export const getSettings = async (req: AuthRequest, res: Response) => {
 // Update system settings
 export const updateSettings = async (req: AuthRequest, res: Response) => {
   try {
-    const settings = req.body;
-    
-    // In a real implementation, you'd save the settings to the database
-    res.json({ message: 'Settings updated successfully', settings });
+    const incoming = (req.body || {}) as Record<string, unknown>;
+    const nextSettings: MockSettingsMap = { ...mockSettingsStore };
+
+    Object.keys(defaultMockSettings).forEach((key) => {
+      if (!(key in incoming)) {
+        return;
+      }
+
+      const defaultValue = defaultMockSettings[key];
+      const candidate = incoming[key];
+
+      if (typeof defaultValue === 'boolean' && typeof candidate === 'boolean') {
+        nextSettings[key] = candidate;
+      } else if (typeof defaultValue === 'number' && typeof candidate === 'number' && Number.isFinite(candidate)) {
+        nextSettings[key] = candidate;
+      } else if (typeof defaultValue === 'string' && typeof candidate === 'string') {
+        nextSettings[key] = candidate;
+      } else if (Array.isArray(defaultValue) && Array.isArray(candidate)) {
+        nextSettings[key] = candidate.filter((item): item is string => typeof item === 'string');
+      }
+    });
+
+    mockSettingsStore = nextSettings;
+
+    res.json({
+      success: true,
+      message: 'Settings updated successfully',
+      data: mockSettingsStore
+    });
   } catch (error) {
     console.error('Error updating settings:', error);
     res.status(500).json({ message: 'Server error' });

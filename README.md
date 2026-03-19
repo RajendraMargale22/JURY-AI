@@ -222,6 +222,7 @@ MONGODB_URI=mongodb://localhost:27017/jury-ai
 - [MongoDB Setup](./MONGODB_COMPLETE_SETUP.md)
 - [Quick Start](./HOW_TO_START.md)
 - [Performance Optimizations](./PERFORMANCE_OPTIMIZATIONS.md)
+- [Secret Rotation Runbook](./SECRET_ROTATION_RUNBOOK.md)
 
 ## 🔗 API Endpoints
 
@@ -262,6 +263,22 @@ MONGODB_URI=mongodb://localhost:27017/jury-ai
 - Input validation
 - File upload security
 - Role-based access control
+
+### Pre-commit secret scanning
+
+This repo includes:
+- `.pre-commit-config.yaml`
+- `.gitleaks.toml`
+
+Setup once:
+
+```bash
+pip install pre-commit
+pre-commit install
+pre-commit run --all-files
+```
+
+This blocks commits that contain detected secrets.
 
 ## 🎯 Key Features Implementation
 

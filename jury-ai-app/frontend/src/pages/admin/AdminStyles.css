@@ -128,6 +128,22 @@
   overflow: hidden;
 }
 
+/* Avoid Bootstrap table-hover per-cell accent overlay (box effect) */
+.table.table-hover > tbody > tr:hover > * {
+  --bs-table-accent-bg: transparent !important;
+  background-color: transparent !important;
+  box-shadow: none !important;
+}
+
+.table .user-cell-content {
+  display: flex;
+  flex-direction: column;
+  gap: 0.1rem;
+  background: transparent !important;
+  border: none !important;
+  box-shadow: none !important;
+}
+
 .table tbody tr:last-child td:first-child {
   border-bottom-left-radius: 12px;
 }
