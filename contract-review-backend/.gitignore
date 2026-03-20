@@ -1,0 +1,4 @@
+uploaded_contracts/*
+!uploaded_contracts/.gitkeep
+.pytest_cache/
+__pycache__/

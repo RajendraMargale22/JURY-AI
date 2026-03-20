@@ -1,0 +1,16 @@
+fastapi
+uvicorn[standard]
+python-multipart
+
+pydantic
+loguru
+prometheus-client
+
+pypdf
+python-docx
+
+# Optional ML classifier dependencies (install only if using transformer inference)
+# transformers==4.44.2
+# tokenizers==0.19.1
+# safetensors==0.4.5
+# torch==2.4.1

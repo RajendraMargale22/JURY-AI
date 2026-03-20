@@ -1,0 +1,30 @@
+groups:
+  - name: contract-review-backend-alerts
+    rules:
+      - alert: ContractReviewHighErrorRate
+        expr: |
+          sum(rate(contract_review_http_requests_total{path="/contract-review/analyze",status=~"5.."}[5m]))
+          /
+          sum(rate(contract_review_http_requests_total{path="/contract-review/analyze"}[5m])) > 0.05
+        for: 10m
+        labels:
+          severity: warning
+        annotations:
+          summary: "High 5xx error rate on contract analyze endpoint"
+
+      - alert: ContractReviewHighLatencyP95
+        expr: |
+          histogram_quantile(0.95, sum(rate(contract_review_http_request_duration_seconds_bucket{path="/contract-review/analyze"}[5m])) by (le)) > 2
+        for: 10m
+        labels:
+          severity: warning
+        annotations:
+          summary: "P95 latency above 2s on analyze endpoint"
+
+      - alert: ContractReviewNoTraffic
+        expr: sum(rate(contract_review_http_requests_total{path="/contract-review/analyze"}[15m])) == 0
+        for: 30m
+        labels:
+          severity: info
+        annotations:
+          summary: "No analyze traffic observed for 30m"
