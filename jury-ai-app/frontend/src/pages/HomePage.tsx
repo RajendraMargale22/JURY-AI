@@ -188,6 +188,17 @@ const HomePage: React.FC<HomePageProps> = ({ openAuthModal, autoOpenAuth }) => {
                             <i className="fas fa-file-alt me-2" style={{ color: '#7c5dff' }}></i>
                             Templates
                           </Link>
+                          <Link
+                            to="/contract-review"
+                            className="d-block px-3 py-2"
+                            onClick={() => setShowDropdown(false)}
+                            style={{ color: '#e2e8f0', fontSize: 14, transition: 'background 0.15s' }}
+                            onMouseEnter={(e) => (e.currentTarget.style.background = 'rgba(255,255,255,0.06)')}
+                            onMouseLeave={(e) => (e.currentTarget.style.background = 'transparent')}
+                          >
+                            <i className="fas fa-file-signature me-2" style={{ color: '#fbbf24' }}></i>
+                            Contract Review
+                          </Link>
                         </div>
                         <div style={{ borderTop: '1px solid rgba(255,255,255,0.08)', padding: '6px 0' }}>
                           <button
@@ -548,6 +559,7 @@ const HomePage: React.FC<HomePageProps> = ({ openAuthModal, autoOpenAuth }) => {
                 iconColor: '#5dd0ff',
                 link: isAuthenticated ? '/chat' : null,
                 btnLabel: isAuthenticated ? 'Try Now' : 'Login to Use',
+                disabled: false,
                 onClick: !isAuthenticated ? () => openAuthModal('login') : undefined,
               },
               {
@@ -557,8 +569,10 @@ const HomePage: React.FC<HomePageProps> = ({ openAuthModal, autoOpenAuth }) => {
                 gradient: 'linear-gradient(135deg, rgba(124,93,255,0.15), rgba(124,93,255,0.05))',
                 borderColor: 'rgba(124,93,255,0.2)',
                 iconColor: '#7c5dff',
-                disabled: true,
-                btnLabel: 'Coming Soon',
+                link: isAuthenticated ? '/contract-review' : null,
+                btnLabel: isAuthenticated ? 'Analyze Now' : 'Login to Use',
+                disabled: false,
+                onClick: !isAuthenticated ? () => openAuthModal('login') : undefined,
               },
               {
                 icon: 'fas fa-users',
@@ -569,6 +583,7 @@ const HomePage: React.FC<HomePageProps> = ({ openAuthModal, autoOpenAuth }) => {
                 iconColor: '#ff9f7c',
                 link: '/lawyers',
                 btnLabel: 'Explore',
+                disabled: false,
               },
               {
                 icon: 'fas fa-clipboard-list',
@@ -579,6 +594,7 @@ const HomePage: React.FC<HomePageProps> = ({ openAuthModal, autoOpenAuth }) => {
                 iconColor: '#2dd4bf',
                 link: isAuthenticated ? '/templates' : null,
                 btnLabel: isAuthenticated ? 'Browse' : 'Login to Use',
+                disabled: false,
                 onClick: !isAuthenticated ? () => openAuthModal('login') : undefined,
               },
             ].map((feature) => (

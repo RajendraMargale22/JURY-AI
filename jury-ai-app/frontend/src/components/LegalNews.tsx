@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useCallback } from 'react';
 import './LegalNews.css';
 
 interface NewsArticle {
@@ -12,19 +12,43 @@ interface NewsArticle {
   };
 }
 
+const FALLBACK_NEWS: NewsArticle[] = [
+  {
+    title: 'Criminal Procedure Code Amendment 2025',
+    description: 'New provisions introduced in CrPC for faster trial proceedings and digital evidence.',
+    url: '#',
+    urlToImage: 'https://placehold.co/400x200.png?text=Legal+News',
+    publishedAt: '2025-03-01',
+    source: { name: 'Legal Updates' }
+  },
+  {
+    title: "Green Tribunal's New Environmental Norms",
+    description: 'National Green Tribunal issues stricter guidelines for environmental clearances and compliance.',
+    url: '#',
+    urlToImage: 'https://placehold.co/400x200.png?text=Legal+News',
+    publishedAt: '2025-03-02',
+    source: { name: 'Legal Updates' }
+  },
+  {
+    title: 'Uniform Civil Code Discussion in Parliament',
+    description: 'Parliamentary committee begins discussions on implementing Uniform Civil Code across the nation.',
+    url: '#',
+    urlToImage: 'https://placehold.co/400x200.png?text=Legal+News',
+    publishedAt: '2025-03-03',
+    source: { name: 'Legal Updates' }
+  }
+];
+
 const LegalNews: React.FC = () => {
   const [news, setNews] = useState<NewsArticle[]>([]);
   const [loading, setLoading] = useState(true);
   const newsApiKey = process.env.REACT_APP_NEWS_API_KEY;
 
-  useEffect(() => {
-    fetchLegalNews();
-  }, []);
-
-  const fetchLegalNews = async () => {
+  const fetchLegalNews = useCallback(async () => {
     try {
       if (!newsApiKey) {
-        throw new Error('REACT_APP_NEWS_API_KEY is not configured');
+        setNews(FALLBACK_NEWS);
+        return;
       }
 
       // Using NewsAPI.org - Free tier allows 100 requests per day
@@ -37,37 +61,10 @@ const LegalNews: React.FC = () => {
         const data = await response.json();
         setNews(data.articles || []);
       } else {
-        // Fallback to static news if API fails
-        setNews([
-          {
-            title: 'Criminal Procedure Code Amendment 2025',
-            description: 'New provisions introduced in CrPC for faster trial proceedings and digital evidence.',
-            url: '#',
-            urlToImage: 'https://placehold.co/400x200.png?text=Legal+News',
-            publishedAt: '2025-03-01',
-            source: { name: 'Legal Updates' }
-          },
-          {
-            title: "Green Tribunal's New Environmental Norms",
-            description: 'National Green Tribunal issues stricter guidelines for environmental clearances and compliance.',
-            url: '#',
-            urlToImage: 'https://placehold.co/400x200.png?text=Legal+News',
-            publishedAt: '2025-03-02',
-            source: { name: 'Legal Updates' }
-          },
-          {
-            title: 'Uniform Civil Code Discussion in Parliament',
-            description: 'Parliamentary committee begins discussions on implementing Uniform Civil Code across the nation.',
-            url: '#',
-            urlToImage: 'https://placehold.co/400x200.png?text=Legal+News',
-            publishedAt: '2025-03-03',
-            source: { name: 'Legal Updates' }
-          }
-        ]);
+        setNews(FALLBACK_NEWS);
       }
     } catch (error) {
-      console.error('Error fetching news:', error);
-      // Set fallback news
+      console.warn('Legal news API unavailable, using fallback news list.', error);
       setNews([
         {
           title: 'Latest Legal Updates Available',
@@ -81,7 +78,11 @@ const LegalNews: React.FC = () => {
     } finally {
       setLoading(false);
     }
-  };
+  }, [newsApiKey]);
+
+  useEffect(() => {
+    fetchLegalNews();
+  }, [fetchLegalNews]);
 
   const formatDate = (dateString: string) => {
     const date = new Date(dateString);

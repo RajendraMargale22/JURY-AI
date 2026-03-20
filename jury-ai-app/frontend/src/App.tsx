@@ -9,6 +9,7 @@ import '@fortawesome/fontawesome-free/css/all.min.css';
 import HomePage from './pages/HomePage';
 import AdminDashboard from './pages/admin/AdminDashboard';
 import ChatPage from './pages/ChatPage';
+import ContractReviewPage from './pages/ContractReviewPage';
 import TemplatesPage from './pages/TemplatesPage';
 import LawyerNetworkPage from './pages/LawyerNetworkPage';
 import { AuthProvider } from './contexts/AuthContext';
@@ -54,6 +55,14 @@ function App() {
               element={
                 <ProtectedRoute openAuthModal={openAuthModal}>
                   <TemplatesPage />
+                </ProtectedRoute>
+              }
+            />
+            <Route
+              path="/contract-review"
+              element={
+                <ProtectedRoute openAuthModal={openAuthModal}>
+                  <ContractReviewPage />
                 </ProtectedRoute>
               }
             />

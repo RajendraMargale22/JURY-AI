@@ -11,7 +11,7 @@ POST http://localhost:8000/ask/ net::ERR_CONNECTION_REFUSED
 
 ## ✅ Solution: Start All Services
 
-You need to start **3 services** in **3 separate terminal windows**:
+You need to start **4 services** in **4 separate terminal windows**:
 
 ### **Terminal 1: Python Chatbot Backend (Port 8000)**
 
@@ -73,6 +73,29 @@ You can now view frontend in the browser.
 
 ---
 
+### **Terminal 4: Contract Review Backend (Port 8001)**
+
+```bash
+cd /home/aditya/Downloads/JURY-AI-main/contract-review-backend
+/home/aditya/Downloads/JURY-AI-main/.venv/bin/pip install -r requirements.txt
+./start.sh
+```
+
+If `.venv` does not exist yet:
+
+```bash
+cd /home/aditya/Downloads/JURY-AI-main
+python3 -m venv .venv
+/home/aditya/Downloads/JURY-AI-main/.venv/bin/pip install -r contract-review-backend/requirements.txt
+```
+
+**You should see:**
+```
+INFO:     Uvicorn running on http://0.0.0.0:8001 (Press CTRL+C to quit)
+```
+
+---
+
 ## 🧪 Testing Each Service
 
 ### Test Python Backend (Port 8000):
@@ -106,6 +129,21 @@ curl http://localhost:5000/api/health
 ### Test Frontend (Port 3000):
 Open browser: http://localhost:3000
 
+### Test Contract Review Backend (Port 8001):
+```bash
+curl http://localhost:8001/health
+```
+
+**Expected response:**
+```json
+{
+  "status": "healthy",
+  "service": "contract-review-backend",
+  "legacy_loaded": false,
+  "version": "1.0.0"
+}
+```
+
 ---
 
 ## 🐛 Troubleshooting
@@ -127,6 +165,12 @@ kill -9 <PID>
 **For port 3000:**
 ```bash
 lsof -i :3000
+kill -9 <PID>
+```
+
+**For port 8001:**
+```bash
+lsof -i :8001
 kill -9 <PID>
 ```
 
@@ -170,9 +214,14 @@ logger = loguru_logger
 **Install Python dependencies:**
 ```bash
 cd /home/aditya/Downloads/JURY-AI-main/chatbot-backend
-source venv/bin/activate
-pip install -r requirements.txt
+/home/aditya/Downloads/JURY-AI-main/.venv/bin/pip install -r requirements.txt
+
+cd /home/aditya/Downloads/JURY-AI-main/contract-review-backend
+/home/aditya/Downloads/JURY-AI-main/.venv/bin/pip install -r requirements.txt
 ```
+
+If you see `externally-managed-environment`, do not use system `pip`.
+Use `/home/aditya/Downloads/JURY-AI-main/.venv/bin/pip` commands shown above.
 
 **Install Node.js dependencies:**
 ```bash
@@ -191,8 +240,10 @@ npm install
 - [ ] Terminal 1: Python backend started on port 8000
 - [ ] Terminal 2: Node.js backend started on port 5000  
 - [ ] Terminal 3: React frontend started on port 3000
+- [ ] Terminal 4: Contract review backend started on port 8001
 - [ ] Test Python backend: `curl http://localhost:8000/health/`
 - [ ] Test Node backend: `curl http://localhost:5000/api/health`
+- [ ] Test Contract backend: `curl http://localhost:8001/health`
 - [ ] Open browser: http://localhost:3000
 - [ ] Try asking a question in the chat
 
@@ -205,14 +256,16 @@ npm install
 | Frontend | http://localhost:3000 | User interface |
 | Node.js API | http://localhost:5000 | Main backend |
 | Python AI | http://localhost:8000 | Chatbot AI |
+| Contract Review API | http://localhost:8001 | Contract document analysis |
 | FastAPI Docs | http://localhost:8000/docs | API documentation |
+| Contract Review Docs | http://localhost:8001/docs | Contract review API docs |
 | MongoDB Compass | mongodb://localhost:27017 | Database GUI |
 
 ---
 
 ## 💡 Tips
 
-1. **Keep all 3 terminals open** - Don't close them
+1. **Keep all 4 terminals open** - Don't close them
 2. **MongoDB must be running** before starting backends
 3. **Wait for each service to start** before testing
 4. **Check logs** if something fails
@@ -239,6 +292,9 @@ gnome-terminal -- bash -c "cd /home/aditya/Downloads/JURY-AI-main/jury-ai-app/ba
 # Terminal 3: Frontend
 gnome-terminal -- bash -c "cd /home/aditya/Downloads/JURY-AI-main/jury-ai-app/frontend && npm start; exec bash"
 
+# Terminal 4: Contract Review Backend
+gnome-terminal -- bash -c "cd /home/aditya/Downloads/JURY-AI-main/contract-review-backend && ./start.sh; exec bash"
+
 echo "✅ All services starting in separate terminals!"
 ```
 
@@ -250,4 +306,4 @@ chmod +x start-all.sh
 
 ---
 
-**After starting all 3 services, the chatbot will work!** 🎉
+**After starting all 4 services, chatbot + contract review will work smoothly!** 🎉

@@ -26,7 +26,7 @@ const Footer: React.FC = () => {
               <li><a href="/">Home</a></li>
               <li><a href="/chat">AI Chat</a></li>
               <li><a href="/templates">Templates</a></li>
-              <li><a href="#">Document Retriver</a></li>
+              <li><a href="/contract-review">Contract Review</a></li>
             </ul>
           </div>
           <div className="col-md-2">
