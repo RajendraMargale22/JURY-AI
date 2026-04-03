@@ -12,6 +12,7 @@ interface NewsArticle {
   };
 }
 
+
 const FALLBACK_NEWS: NewsArticle[] = [
   {
     title: 'Criminal Procedure Code Amendment 2025',
@@ -139,7 +140,7 @@ const LegalNews: React.FC = () => {
                       <i className="fas fa-calendar-alt me-2"></i>
                       {formatDate(article.publishedAt)}
                     </span>
-                    <a href={article.url} target="_blank" rel="noopener noreferrer" className="read-more-link">
+                    <a href="#" onClick={(e) => e.preventDefault()} className="read-more-link" aria-disabled="true">
                       Read More <i className="fas fa-arrow-right ms-1"></i>
                     </a>
                   </div>

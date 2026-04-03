@@ -6,6 +6,14 @@ interface AuthRequest extends Request {
   user?: any;
 }
 
+const getJwtSecret = (): string => {
+  const secret = process.env.JWT_SECRET;
+  if (!secret) {
+    throw new Error('JWT_SECRET is not configured');
+  }
+  return secret;
+};
+
 export const auth = async (req: AuthRequest, res: Response, next: NextFunction) => {
   try {
     const token = req.header('Authorization')?.replace('Bearer ', '') || req.cookies.token;
@@ -14,7 +22,7 @@ export const auth = async (req: AuthRequest, res: Response, next: NextFunction) 
       return res.status(401).json({ message: 'No token, authorization denied' });
     }
 
-    const decoded = jwt.verify(token, process.env.JWT_SECRET || 'fallback-secret') as any;
+    const decoded = jwt.verify(token, getJwtSecret()) as any;
     const user = mockDB.findUserById(decoded.userId);
 
     if (!user) {

@@ -182,10 +182,10 @@ const TemplatesPage: React.FC = () => {
       const url = window.URL.createObjectURL(blob);
       const link = document.createElement('a');
       link.href = url;
-      link.download = template.fileName || `${template.name}.${format === 'pdf' ? 'pdf' : 'docx'}`;
-      document.body.appendChild(link);
+      const safeFileName = (template.fileName || `${template.name}.${format === 'pdf' ? 'pdf' : 'docx'}`)
+        .replace(/[\r\n\\/]/g, '_');
+      link.download = safeFileName;
       link.click();
-      document.body.removeChild(link);
       window.URL.revokeObjectURL(url);
 
       toast.success('Template downloaded successfully!');

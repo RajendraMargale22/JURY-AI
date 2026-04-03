@@ -20,8 +20,13 @@ const createAdminUser = async () => {
       process.exit(0);
     }
     
-    // Hash default password
-    const hashedPassword = await bcrypt.hash('admin123', 12);
+    const adminPassword = process.env.ADMIN_PASSWORD;
+    if (!adminPassword || adminPassword.length < 8) {
+      throw new Error('ADMIN_PASSWORD must be set and at least 8 characters long');
+    }
+
+    // Hash configured password
+    const hashedPassword = await bcrypt.hash(adminPassword, 12);
     
     // Create admin user
     const adminUser = new User({
@@ -37,8 +42,7 @@ const createAdminUser = async () => {
     
     console.log('✅ Admin user created successfully!');
     console.log(`📧 Email: ${adminUser.email}`);
-    console.log('🔑 Password: admin123');
-    console.log('⚠️  Please change the password after first login!');
+    console.log('🔑 Password: [from ADMIN_PASSWORD environment variable]');
     
     process.exit(0);
   } catch (error) {

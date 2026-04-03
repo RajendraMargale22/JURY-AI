@@ -1,5 +1,5 @@
 from pydantic import BaseModel, Field
-from typing import List, Literal
+from typing import List, Literal, Optional, Dict, Any
 
 
 class ClauseResult(BaseModel):
@@ -13,6 +13,9 @@ class ClauseResult(BaseModel):
 
 class AnalyzeContractResponse(BaseModel):
     success: bool = True
+    message: str = "Contract analysis completed"
+    requestId: Optional[str] = None
+    data: Optional[Dict[str, Any]] = None
     summary: str
     document_type: str
     risk_level: Literal["low", "medium", "high"]
@@ -30,6 +33,10 @@ class AnalyzeContractResponse(BaseModel):
 
 
 class HealthResponse(BaseModel):
+    success: bool = True
+    message: str = "Health check successful"
+    requestId: Optional[str] = None
+    data: Optional[Dict[str, Any]] = None
     status: str
     service: str
     legacy_loaded: bool

@@ -48,6 +48,17 @@ const defaultSystemSettings: SettingsMap = {
 
 const settingsKeys = Object.keys(defaultSystemSettings);
 
+const asString = (value: unknown, maxLength = 200): string =>
+  typeof value === 'string' ? value.trim().slice(0, maxLength) : '';
+
+const asPositiveInt = (value: unknown, fallback: number, max = 100): number => {
+  const parsed = typeof value === 'string' ? Number.parseInt(value, 10) : Number.NaN;
+  if (!Number.isFinite(parsed) || parsed <= 0) return fallback;
+  return Math.min(parsed, max);
+};
+
+const escapeRegex = (value: string): string => value.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
+
 const normalizeSettingsPayload = (payload: Record<string, unknown>): SettingsMap => {
   const normalized: SettingsMap = {};
 
@@ -150,20 +161,21 @@ export const getDashboardStats = async (req: AuthRequest, res: Response) => {
 // Get users with pagination and filtering
 export const getUsers = async (req: AuthRequest, res: Response) => {
   try {
-    const page = parseInt(req.query.page as string) || 1;
-    const limit = parseInt(req.query.limit as string) || 10;
-    const search = req.query.search as string;
-    const role = req.query.role as string;
-    const status = req.query.status as string;
+    const page = asPositiveInt(req.query.page, 1, 10000);
+    const limit = asPositiveInt(req.query.limit, 10, 100);
+    const search = asString(req.query.search, 120);
+    const role = asString(req.query.role, 40);
+    const status = asString(req.query.status, 40);
 
     const skip = (page - 1) * limit;
 
     // Build query
     const query: any = {};
     if (search) {
+      const safeSearch = escapeRegex(search);
       query.$or = [
-        { name: { $regex: search, $options: 'i' } },
-        { email: { $regex: search, $options: 'i' } }
+        { name: { $regex: safeSearch, $options: 'i' } },
+        { email: { $regex: safeSearch, $options: 'i' } }
       ];
     }
     if (role && role !== 'all') {
@@ -303,10 +315,10 @@ export const suspendUser = async (req: AuthRequest, res: Response) => {
 // Get lawyers with verification status
 export const getLawyers = async (req: AuthRequest, res: Response) => {
   try {
-    const page = parseInt(req.query.page as string) || 1;
-    const limit = parseInt(req.query.limit as string) || 10;
-    const status = req.query.status as string;
-    const search = req.query.search as string;
+    const page = asPositiveInt(req.query.page, 1, 10000);
+    const limit = asPositiveInt(req.query.limit, 10, 100);
+    const status = asString(req.query.status, 40);
+    const search = asString(req.query.search, 120);
 
     const skip = (page - 1) * limit;
 
@@ -323,9 +335,10 @@ export const getLawyers = async (req: AuthRequest, res: Response) => {
     }
 
     if (search) {
+      const safeSearch = escapeRegex(search);
       query.$or = [
-        { name: { $regex: search, $options: 'i' } },
-        { email: { $regex: search, $options: 'i' } }
+        { name: { $regex: safeSearch, $options: 'i' } },
+        { email: { $regex: safeSearch, $options: 'i' } }
       ];
     }
 
@@ -658,8 +671,9 @@ export const deleteTemplate = async (req: AuthRequest, res: Response) => {
 // Get analytics
 export const getAnalytics = async (req: AuthRequest, res: Response) => {
   try {
-    const period = req.query.period as string || '30d';
-    const type = req.query.type as string;
+    const period = asString(req.query.period, 8) || '30d';
+    const type = asString(req.query.type, 30);
+    void type;
 
     // Calculate date range
     let days = 30;

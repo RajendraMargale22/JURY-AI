@@ -7,6 +7,9 @@ import { AuthRequest } from '../types/interfaces';
 
 let firebaseInitialized = false;
 
+const asString = (value: unknown, maxLength = 250): string =>
+  typeof value === 'string' ? value.trim().slice(0, maxLength) : '';
+
 const initFirebaseAdmin = () => {
   if (firebaseInitialized || admin.apps.length > 0) {
     firebaseInitialized = true;
@@ -37,11 +40,19 @@ const verifyFirebaseIdToken = async (idToken: string) => {
   return admin.auth().verifyIdToken(idToken, true);
 };
 
+const getJwtSecret = (): string => {
+  const secret = process.env.JWT_SECRET;
+  if (!secret) {
+    throw new Error('JWT_SECRET is not configured');
+  }
+  return secret;
+};
+
 // Generate JWT token
 const generateToken = (userId: string): string => {
   return jwt.sign(
     { userId },
-    process.env.JWT_SECRET || 'fallback-secret-key-change-in-production',
+    getJwtSecret(),
     { expiresIn: '7d' }
   );
 };
@@ -49,7 +60,10 @@ const generateToken = (userId: string): string => {
 // Register new user
 export const register = async (req: Request, res: Response) => {
   try {
-    const { name, email, password, role } = req.body;
+    const name = asString(req.body?.name, 100);
+    const email = asString(req.body?.email, 200).toLowerCase();
+    const password = asString(req.body?.password, 200);
+    const role = asString(req.body?.role, 20);
 
     // Validation
     if (!name || !email || !password) {
@@ -67,7 +81,7 @@ export const register = async (req: Request, res: Response) => {
     }
 
     // Check if user already exists
-    const existingUser = await User.findOne({ email: email.toLowerCase() });
+    const existingUser = await User.findOne({ email });
     if (existingUser) {
       return res.status(400).json({
         success: false,
@@ -78,7 +92,7 @@ export const register = async (req: Request, res: Response) => {
     // Create new user
     const user = await User.create({
       name,
-      email: email.toLowerCase(),
+      email,
       password,
       role: role || 'user',
       isVerified: false
@@ -120,7 +134,8 @@ export const register = async (req: Request, res: Response) => {
 // Login user
 export const login = async (req: Request, res: Response) => {
   try {
-    const { email, password } = req.body;
+    const email = asString(req.body?.email, 200).toLowerCase();
+    const password = asString(req.body?.password, 200);
 
     // Validation
     if (!email || !password) {
@@ -131,7 +146,7 @@ export const login = async (req: Request, res: Response) => {
     }
 
     // Find user by email
-    const user = await User.findOne({ email: email.toLowerCase() });
+    const user = await User.findOne({ email });
     if (!user) {
       return res.status(401).json({
         success: false,
@@ -252,7 +267,10 @@ export const updateProfile = async (req: AuthRequest, res: Response) => {
       });
     }
 
-    const { name, phone, bio, address } = req.body;
+    const name = asString(req.body?.name, 100);
+    const phone = req.body?.phone === undefined ? undefined : asString(req.body?.phone, 30);
+    const bio = req.body?.bio === undefined ? undefined : asString(req.body?.bio, 500);
+    const address = req.body?.address === undefined ? undefined : asString(req.body?.address, 300);
 
     const user = await User.findById(req.user._id);
     if (!user) {
@@ -306,7 +324,8 @@ export const updateProfile = async (req: AuthRequest, res: Response) => {
 // Google login/signup via Firebase ID token
 export const googleAuth = async (req: Request, res: Response) => {
   try {
-    const { idToken, role } = req.body;
+    const idToken = asString(req.body?.idToken, 5000);
+    const role = asString(req.body?.role, 20);
 
     if (!idToken) {
       return res.status(400).json({

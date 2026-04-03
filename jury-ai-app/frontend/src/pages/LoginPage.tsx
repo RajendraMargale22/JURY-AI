@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { useNavigate, Link, useLocation } from 'react-router-dom';
+import { useNavigate, Link } from 'react-router-dom';
 import { toast } from 'react-toastify';
 import axios from 'axios';
 import { useAuth } from '../contexts/AuthContext';
@@ -7,7 +7,6 @@ import './AuthPage.css';
 
 const LoginPage: React.FC = () => {
   const navigate = useNavigate();
-  const location = useLocation();
   const { updateUser, isAuthenticated, user } = useAuth();
   const [formData, setFormData] = useState({
     email: '',
@@ -15,8 +14,8 @@ const LoginPage: React.FC = () => {
   });
   const [isLoading, setIsLoading] = useState(false);
 
-  // Get the page user was trying to access
-  const from = (location.state as any)?.from?.pathname || '/';
+  // Use fixed internal destination for non-admin users
+  const postLoginPath = '/';
 
   // Redirect if already logged in
   useEffect(() => {
@@ -24,10 +23,10 @@ const LoginPage: React.FC = () => {
       if (user.role === 'admin') {
         navigate('/admin', { replace: true });
       } else {
-        navigate(from, { replace: true });
+        navigate(postLoginPath, { replace: true });
       }
     }
-  }, [isAuthenticated, user, navigate, from]);
+  }, [isAuthenticated, user, navigate]);
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     setFormData({
@@ -59,7 +58,7 @@ const LoginPage: React.FC = () => {
           if (data.user.role === 'admin') {
             navigate('/admin', { replace: true });
           } else {
-            navigate(from, { replace: true });
+            navigate(postLoginPath, { replace: true });
           }
         }, 100);
       }

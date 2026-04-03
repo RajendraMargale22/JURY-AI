@@ -1,4 +1,4 @@
-from fastapi import APIRouter, Depends, File, Form, UploadFile
+from fastapi import APIRouter, Depends, File, Form, UploadFile, Request
 from fastapi.responses import JSONResponse
 from models.schemas import AnalyzeContractResponse
 from services.document_parser import save_upload_file, extract_contract_text
@@ -17,7 +17,7 @@ from typing import Optional
 router = APIRouter(prefix="/contract-review", tags=["contract-review"])
 
 
-def _normalize_legacy_payload(payload: dict) -> AnalyzeContractResponse:
+def _normalize_legacy_payload(payload: dict, request_id: Optional[str]) -> AnalyzeContractResponse:
     clause_results = payload.get("clause_results", [])
     high_count = sum(1 for row in clause_results if row.get("final_risk_level") == "high")
     medium_count = sum(1 for row in clause_results if row.get("final_risk_level") == "medium")
@@ -25,6 +25,9 @@ def _normalize_legacy_payload(payload: dict) -> AnalyzeContractResponse:
 
     return AnalyzeContractResponse(
         success=True,
+        message="Contract analysis completed",
+        requestId=request_id,
+        data={"source": "legacy"},
         summary=payload.get("summary", "Legacy analysis completed"),
         document_type=payload.get("document_type", "contract"),
         risk_level=payload.get("risk_level", "medium"),
@@ -85,16 +88,20 @@ def compute_final_risk_score(clauses: list[dict]) -> dict:
 
 @router.post("/analyze", response_model=AnalyzeContractResponse)
 async def analyze_contract(
+    request: Request,
     contract_text: Optional[str] = Form(default=None),
     file: Optional[UploadFile] = File(default=None),
     _rate_limit_guard: None = Depends(enforce_rate_limit),
 ):
+    request_id = getattr(request.state, "request_id", None)
     if not contract_text and not file:
         return JSONResponse(
             status_code=400,
             content={
                 "success": False,
-                "message": "Provide either `contract_text` or `file`"
+                "message": "Provide either `contract_text` or `file`",
+                "data": None,
+                "requestId": request_id,
             }
         )
 
@@ -109,6 +116,8 @@ async def analyze_contract(
                 content={
                     "success": False,
                     "message": str(error),
+                    "data": None,
+                    "requestId": request_id,
                 },
             )
         file_text = extract_contract_text(file_path)
@@ -119,14 +128,16 @@ async def analyze_contract(
             status_code=400,
             content={
                 "success": False,
-                "message": "Could not extract readable contract text"
+                "message": "Could not extract readable contract text",
+                "data": None,
+                "requestId": request_id,
             }
         )
 
     if runtime_state.legacy_analyzer is not None:
         try:
             legacy_result = runtime_state.legacy_analyzer(extracted_text)
-            return _normalize_legacy_payload(legacy_result)
+            return _normalize_legacy_payload(legacy_result, request_id)
         except Exception as error:  # pylint: disable=broad-except
             logger.warning(f"Legacy analyzer failed, falling back to native engine: {error}")
 
@@ -190,6 +201,9 @@ async def analyze_contract(
 
     return AnalyzeContractResponse(
         success=True,
+        message="Contract analysis completed",
+        requestId=request_id,
+        data={"source": "native"},
         summary=summary_text,
         document_type=native_result["document_type"],
         risk_level=native_result["risk_level"],

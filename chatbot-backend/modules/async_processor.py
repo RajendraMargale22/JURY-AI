@@ -36,7 +36,10 @@ async def process_document_async(file_path: str, file_id: str):
         # Initialize (cached after first use)
         embed_model = HuggingFaceEmbeddings(model_name='sentence-transformers/all-mpnet-base-v2')
         pc = Pinecone(api_key=os.environ.get("PINECONE_API_KEY"))
-        index = pc.Index(os.environ.get("PINECONE_INDEX_NAME"))
+        if "PINECONE_INDEX_NAME" not in os.environ:
+            raise ValueError("PINECONE_INDEX_NAME is not set")
+        index_name = os.environ["PINECONE_INDEX_NAME"]
+        index = pc.Index(index_name)
         
         processing_status[file_id]["progress"] = 20
         

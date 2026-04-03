@@ -1,26 +1,27 @@
 import React from 'react';
 import { render, screen } from '@testing-library/react';
+import { vi } from 'vitest';
 import App from './App';
 
-jest.mock('axios', () => ({
+vi.mock('axios', () => ({
   defaults: {
     baseURL: '',
     withCredentials: false,
     headers: { common: {} },
   },
   interceptors: {
-    request: { use: jest.fn() },
-    response: { use: jest.fn() },
+    request: { use: vi.fn() },
+    response: { use: vi.fn() },
   },
-  create: jest.fn(() => ({
+  create: vi.fn(() => ({
     interceptors: {
-      request: { use: jest.fn() },
-      response: { use: jest.fn() },
+      request: { use: vi.fn() },
+      response: { use: vi.fn() },
     },
     defaults: { headers: { common: {} } },
   })),
-  get: jest.fn(),
-  post: jest.fn(),
+  get: vi.fn(),
+  post: vi.fn(),
 }));
 
 test('renders jury ai landing page', () => {

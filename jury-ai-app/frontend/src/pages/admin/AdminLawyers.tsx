@@ -445,10 +445,14 @@ const AdminLawyers: React.FC = () => {
                               Uploaded: {new Date(doc.uploadedAt).toLocaleDateString()}
                             </small>
                           </div>
-                          <a href={doc.url} target="_blank" rel="noopener noreferrer" className="btn btn-sm btn-outline-primary">
+                          <button
+                            type="button"
+                            className="btn btn-sm btn-outline-primary"
+                            disabled
+                          >
                             <i className="fas fa-download me-1"></i>
                             View
-                          </a>
+                          </button>
                         </div>
                       ))}
                     </div>

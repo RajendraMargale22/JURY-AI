@@ -37,6 +37,15 @@ const defaultMockSettings: MockSettingsMap = {
 
 let mockSettingsStore: MockSettingsMap = { ...defaultMockSettings };
 
+const asString = (value: unknown, maxLength = 200): string =>
+  typeof value === 'string' ? value.trim().slice(0, maxLength) : '';
+
+const asPositiveInt = (value: unknown, fallback: number, max = 100): number => {
+  const parsed = typeof value === 'string' ? Number.parseInt(value, 10) : Number.NaN;
+  if (!Number.isFinite(parsed) || parsed <= 0) return fallback;
+  return Math.min(parsed, max);
+};
+
 // Get dashboard statistics
 export const getDashboardStats = async (req: AuthRequest, res: Response) => {
   try {
@@ -51,11 +60,11 @@ export const getDashboardStats = async (req: AuthRequest, res: Response) => {
 // Get all users with pagination and filters
 export const getUsers = async (req: AuthRequest, res: Response) => {
   try {
-    const page = parseInt(req.query.page as string) || 1;
-    const limit = parseInt(req.query.limit as string) || 10;
-    const search = req.query.search as string || '';
-    const role = req.query.role as string || 'all';
-    const status = req.query.status as string || 'all';
+    const page = asPositiveInt(req.query.page, 1, 10000);
+    const limit = asPositiveInt(req.query.limit, 10, 100);
+    const search = asString(req.query.search, 120);
+    const role = asString(req.query.role, 40) || 'all';
+    const status = asString(req.query.status, 40) || 'all';
 
     const result = mockDB.getAllUsers(page, limit, { search, role, status });
     
@@ -112,10 +121,10 @@ export const deleteUser = async (req: AuthRequest, res: Response) => {
 // Get lawyers with filters
 export const getLawyers = async (req: AuthRequest, res: Response) => {
   try {
-    const page = parseInt(req.query.page as string) || 1;
-    const limit = parseInt(req.query.limit as string) || 10;
-    const search = req.query.search as string || '';
-    const status = req.query.status as string || 'all';
+    const page = asPositiveInt(req.query.page, 1, 10000);
+    const limit = asPositiveInt(req.query.limit, 10, 100);
+    const search = asString(req.query.search, 120);
+    const status = asString(req.query.status, 40) || 'all';
 
     const result = mockDB.getAllUsers(page, limit, { search, role: 'lawyer', status });
     
@@ -168,11 +177,11 @@ export const verifyLawyer = async (req: AuthRequest, res: Response) => {
 // Get community posts
 export const getCommunityPosts = async (req: AuthRequest, res: Response) => {
   try {
-    const page = parseInt(req.query.page as string) || 1;
-    const limit = parseInt(req.query.limit as string) || 10;
-    const search = req.query.search as string || '';
-    const status = req.query.status as string || 'all';
-    const category = req.query.category as string || 'all';
+    const page = asPositiveInt(req.query.page, 1, 10000);
+    const limit = asPositiveInt(req.query.limit, 10, 100);
+    const search = asString(req.query.search, 120);
+    const status = asString(req.query.status, 40) || 'all';
+    const category = asString(req.query.category, 60) || 'all';
 
     const result = mockDB.getAllPosts(page, limit, { search, status, category });
     
@@ -218,11 +227,11 @@ export const deletePost = async (req: AuthRequest, res: Response) => {
 // Get templates
 export const getTemplates = async (req: AuthRequest, res: Response) => {
   try {
-    const page = parseInt(req.query.page as string) || 1;
-    const limit = parseInt(req.query.limit as string) || 10;
-    const search = req.query.search as string || '';
-    const category = req.query.category as string || 'all';
-    const status = req.query.status as string || 'all';
+    const page = asPositiveInt(req.query.page, 1, 10000);
+    const limit = asPositiveInt(req.query.limit, 10, 100);
+    const search = asString(req.query.search, 120);
+    const category = asString(req.query.category, 60) || 'all';
+    const status = asString(req.query.status, 40) || 'all';
 
     const result = mockDB.getAllTemplates(page, limit, { search, category, status });
     

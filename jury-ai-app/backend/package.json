@@ -19,14 +19,15 @@
   "description": "",
   "dependencies": {
     "@pinecone-database/pinecone": "^6.1.2",
-    "axios": "^1.13.1",
+    "axios": "^1.13.5",
     "bcryptjs": "^3.0.2",
     "compression": "^1.8.1",
     "cookie-parser": "^1.4.7",
     "cors": "^2.8.5",
+    "csurf": "^1.11.0",
     "dotenv": "^17.2.3",
     "express": "^5.1.0",
-    "express-rate-limit": "^8.1.0",
+    "express-rate-limit": "^8.1.1",
     "express-validator": "^7.3.0",
     "firebase-admin": "^13.7.0",
     "helmet": "^8.1.0",
@@ -34,17 +35,18 @@
     "mammoth": "^1.11.0",
     "mongoose": "^8.19.2",
     "morgan": "^1.10.1",
-    "multer": "^2.0.2",
-    "nodemailer": "^7.0.10",
+    "multer": "^2.1.1",
+    "nodemailer": "^7.0.11",
     "openai": "^6.7.0",
     "pdf-parse": "^2.4.5",
-    "socket.io": "^4.8.1"
+    "socket.io": "^4.8.2"
   },
   "devDependencies": {
     "@types/bcryptjs": "^2.4.6",
     "@types/compression": "^1.8.1",
     "@types/cookie-parser": "^1.4.10",
     "@types/cors": "^2.8.19",
+    "@types/csurf": "^1.11.5",
     "@types/express": "^5.0.4",
     "@types/helmet": "^0.0.48",
     "@types/jsonwebtoken": "^9.0.10",
@@ -55,5 +57,8 @@
     "nodemon": "^3.1.10",
     "ts-node": "^10.9.2",
     "typescript": "^5.9.3"
+  },
+  "overrides": {
+    "@tootallnate/once": "^3.0.1"
   }
 }

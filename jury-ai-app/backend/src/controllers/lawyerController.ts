@@ -2,6 +2,17 @@ import { Response } from 'express';
 import User from '../models/User';
 import { AuthRequest } from '../types/interfaces';
 
+const asString = (value: unknown, maxLength = 200): string =>
+  typeof value === 'string' ? value.trim().slice(0, maxLength) : '';
+
+const asPositiveInt = (value: unknown, fallback: number, max = 100): number => {
+  const parsed = typeof value === 'string' ? Number.parseInt(value, 10) : Number.NaN;
+  if (!Number.isFinite(parsed) || parsed <= 0) return fallback;
+  return Math.min(parsed, max);
+};
+
+const escapeRegex = (value: string): string => value.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
+
 const parseCsv = (value?: string): string[] => {
   if (!value) return [];
   return value
@@ -29,10 +40,10 @@ const mapLawyerPublic = (lawyer: any) => ({
 
 export const getPublicLawyers = async (req: AuthRequest, res: Response) => {
   try {
-    const page = parseInt((req.query.page as string) || '1', 10);
-    const limit = Math.min(parseInt((req.query.limit as string) || '12', 10), 50);
-    const search = (req.query.search as string) || '';
-    const specialization = (req.query.specialization as string) || '';
+    const page = asPositiveInt(req.query.page, 1, 10000);
+    const limit = asPositiveInt(req.query.limit, 12, 50);
+    const search = asString(req.query.search, 120);
+    const specialization = asString(req.query.specialization, 80);
     const verifiedOnly = (req.query.verifiedOnly as string) === 'true';
 
     const skip = (page - 1) * limit;
@@ -48,10 +59,11 @@ export const getPublicLawyers = async (req: AuthRequest, res: Response) => {
     }
 
     if (search) {
+      const safeSearch = escapeRegex(search);
       query.$or = [
-        { name: { $regex: search, $options: 'i' } },
-        { city: { $regex: search, $options: 'i' } },
-        { specialization: { $elemMatch: { $regex: search, $options: 'i' } } }
+        { name: { $regex: safeSearch, $options: 'i' } },
+        { city: { $regex: safeSearch, $options: 'i' } },
+        { specialization: { $elemMatch: { $regex: safeSearch, $options: 'i' } } }
       ];
     }
 
@@ -90,7 +102,7 @@ export const getPublicLawyers = async (req: AuthRequest, res: Response) => {
 
 export const getFeaturedLawyers = async (req: AuthRequest, res: Response) => {
   try {
-    const limit = Math.min(parseInt((req.query.limit as string) || '6', 10), 12);
+    const limit = asPositiveInt(req.query.limit, 6, 12);
 
     const lawyers = await User.find({
       role: 'lawyer',
@@ -136,14 +148,15 @@ export const applyAsLawyer = async (req: AuthRequest, res: Response) => {
     }
 
     const specializationList = Array.isArray(specialization)
-      ? specialization.map((item: string) => item.trim()).filter(Boolean)
+      ? specialization.map((item: string) => asString(item, 80)).filter(Boolean)
       : parseCsv(specialization);
 
     const languageList = Array.isArray(languages)
-      ? languages.map((item: string) => item.trim()).filter(Boolean)
+      ? languages.map((item: string) => asString(item, 60)).filter(Boolean)
       : parseCsv(languages);
 
-    if (!barNumber || specializationList.length === 0) {
+    const safeBarNumber = asString(barNumber, 80);
+    if (!safeBarNumber || specializationList.length === 0) {
       return res.status(400).json({
         success: false,
         message: 'Bar number and at least one specialization are required'
@@ -153,16 +166,16 @@ export const applyAsLawyer = async (req: AuthRequest, res: Response) => {
     user.role = 'lawyer';
     user.specialization = specializationList;
     user.experience = Math.max(0, Number(experience) || 0);
-    user.barNumber = barNumber;
-    user.city = city || '';
+    user.barNumber = safeBarNumber;
+    user.city = asString(city, 80);
     user.consultationFee = Math.max(0, Number(consultationFee) || 0);
     user.languages = languageList;
     user.lawyerVerificationStatus = 'pending';
     user.isEmailVerified = false;
 
     if (!user.profile) user.profile = {};
-    if (phone !== undefined) user.profile.phone = phone;
-    if (bio !== undefined) user.profile.bio = bio;
+    if (phone !== undefined) user.profile.phone = asString(phone, 30);
+    if (bio !== undefined) user.profile.bio = asString(bio, 500);
 
     await user.save();
 

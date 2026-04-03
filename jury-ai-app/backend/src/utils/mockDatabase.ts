@@ -67,6 +67,8 @@ interface Document {
   updatedAt: Date;
 }
 
+const DEMO_PASSWORD_HASH = process.env.MOCK_DEMO_PASSWORD_HASH || '';
+
 // In-memory database for development
 class MockDatabase {
   private users: User[] = [
@@ -74,7 +76,7 @@ class MockDatabase {
       id: '1',
       username: 'admin',
       email: 'admin@juryai.com',
-      password: '$2a$10$92IXUNpkjO0rOQ5byMi.Ye4oKoEa3Ro9llC/.og/at2.uheWG/igi', // password
+      password: DEMO_PASSWORD_HASH,
       role: 'admin',
       isVerified: true,
       status: 'active',
@@ -85,7 +87,7 @@ class MockDatabase {
       id: '2',
       username: 'demo_user',
       email: 'user@demo.com',
-      password: '$2a$10$92IXUNpkjO0rOQ5byMi.Ye4oKoEa3Ro9llC/.og/at2.uheWG/igi', // password
+      password: DEMO_PASSWORD_HASH,
       role: 'user',
       isVerified: true,
       status: 'active',
@@ -96,7 +98,7 @@ class MockDatabase {
       id: '3',
       username: 'demo_lawyer',
       email: 'lawyer@demo.com',
-      password: '$2a$10$92IXUNpkjO0rOQ5byMi.Ye4oKoEa3Ro9llC/.og/at2.uheWG/igi', // password
+      password: DEMO_PASSWORD_HASH,
       role: 'lawyer',
       isVerified: true,
       status: 'active',

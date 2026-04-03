@@ -7,4 +7,12 @@ async def catch_exception_middleware(request: Request, call_next):
         return await call_next(request)
     except Exception as e:
         logger.exception("UNHANDLED EXCEPTION")
-        return JSONResponse(status_code=500, content={"error": str(e)})
+        request_id = getattr(request.state, "request_id", None)
+        return JSONResponse(
+            status_code=500,
+            content={
+                "success": False,
+                "message": "Internal server error",
+                "requestId": request_id,
+            },
+        )

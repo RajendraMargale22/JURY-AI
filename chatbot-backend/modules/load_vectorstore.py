@@ -23,7 +23,14 @@ os.makedirs(UPLOAD_DIR, exist_ok=True)
 # ✅ Initialize Pinecone
 pc = Pinecone(api_key=PINECONE_API_KEY)
 spec = ServerlessSpec(cloud="aws", region=PINECONE_ENV)
-existing_indexes = [i["name"] for i in pc.list_indexes()]
+existing_indexes = []
+for item in pc.list_indexes():
+    if isinstance(item, dict):
+        name = item.get("name")
+    else:
+        name = getattr(item, "name", None)
+    if name:
+        existing_indexes.append(name)
 
 if PINECONE_INDEX_NAME not in existing_indexes:
     print(f"Creating Pinecone index: {PINECONE_INDEX_NAME}")
@@ -33,7 +40,11 @@ if PINECONE_INDEX_NAME not in existing_indexes:
         metric="cosine",
         spec=spec
     )
-    while not pc.describe_index(PINECONE_INDEX_NAME).status["ready"]:
+    while True:
+        description = pc.describe_index(PINECONE_INDEX_NAME)
+        status = getattr(description, "status", None)
+        if isinstance(status, dict) and status.get("ready"):
+            break
         time.sleep(1)
 
 index = pc.Index(PINECONE_INDEX_NAME)

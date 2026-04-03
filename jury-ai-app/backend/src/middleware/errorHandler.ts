@@ -40,6 +40,8 @@ export const errorHandler = (err: any, req: Request, res: Response, next: NextFu
   res.status(error.statusCode || 500).json({
     success: false,
     message: error.message || 'Server Error',
+    data: null,
+    requestId: req.requestId,
     ...(process.env.NODE_ENV === 'development' && { stack: err.stack })
   });
 };

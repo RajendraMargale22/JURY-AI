@@ -6,6 +6,7 @@
  */
 
 import mongoose from 'mongoose';
+import bcrypt from 'bcryptjs';
 import Template from '../models/Template';
 import User from '../models/User';
 import { TEMPLATE_CATEGORIES, getCategoryDescription } from '../config/templateCategories';
@@ -558,10 +559,16 @@ async function seedTemplates() {
     
     if (!creator) {
       console.log('⚠️  No admin or lawyer user found. Creating default admin...');
+      const adminPassword = process.env.ADMIN_PASSWORD;
+      if (!adminPassword || adminPassword.length < 8) {
+        throw new Error('ADMIN_PASSWORD must be set and at least 8 characters long to seed a default admin');
+      }
+      const hashedPassword = await bcrypt.hash(adminPassword, 12);
+
       creator = await User.create({
         name: 'System Admin',
         email: 'admin@juryai.com',
-        password: '$2a$10$dummyHashedPassword', // This should be properly hashed
+        password: hashedPassword,
         role: 'admin',
         isVerified: true,
         isEmailVerified: true,

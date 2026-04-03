@@ -1,4 +1,4 @@
-from fastapi import APIRouter, Form, UploadFile, File
+from fastapi import APIRouter, Form, UploadFile, File, Request
 from fastapi.responses import JSONResponse
 from modules.llm import get_llm_chain
 from modules.query_handlers import query_chain
@@ -8,6 +8,8 @@ from logger import logger
 import os
 from dotenv import load_dotenv
 from datetime import datetime
+import time
+from utils.response_envelope import success_payload, error_response
 
 # Import MongoDB functions
 try:
@@ -21,19 +23,43 @@ load_dotenv()
 
 router = APIRouter()
 
+MAX_QUESTION_CHARS = int(os.getenv("MAX_QUESTION_CHARS", "2000"))
+MAX_ATTACHMENT_BYTES = int(os.getenv("MAX_ATTACHMENT_BYTES", str(10 * 1024 * 1024)))
+ALLOWED_ATTACHMENT_TYPES = {
+    "application/pdf",
+    "application/msword",
+    "application/vnd.openxmlformats-officedocument.wordprocessingml.document",
+    "text/plain"
+}
+DEFAULT_TOP_K = int(os.getenv("VECTOR_TOP_K", "5"))
+
 @router.post("/ask/")
 async def ask_question(
+    request: Request,
     question: str = Form(...),
     user_id: str = Form(default="anonymous"),
     file: Optional[UploadFile] = File(None)
 ):
     try:
+        started_at = time.perf_counter()
+        question = (question or "").strip()
+        user_id = (user_id or "anonymous").strip()[:120] or "anonymous"
+
+        if len(question) < 3:
+            return error_response("Question is too short", 400, request)
+
+        if len(question) > MAX_QUESTION_CHARS:
+            return error_response(f"Question is too long. Max {MAX_QUESTION_CHARS} characters.", 400, request)
+
         logger.info(f"User {user_id} query: {question}")
         
         # Handle file if attached
         file_metadata = None
         if file:
             logger.info(f"File attached: {file.filename}")
+
+            if file.content_type not in ALLOWED_ATTACHMENT_TYPES:
+                return error_response("Unsupported attachment type", 400, request)
             
             # Store file metadata in MongoDB
             if MONGODB_ENABLED:
@@ -44,6 +70,12 @@ async def ask_question(
                     
                     # Read file content for potential processing
                     file_content = await file.read()
+                    if len(file_content) > MAX_ATTACHMENT_BYTES:
+                        return error_response(
+                            f"Attachment too large. Max {MAX_ATTACHMENT_BYTES} bytes.",
+                            400,
+                            request,
+                        )
                     await file.seek(0)  # Reset file pointer
                     
                     file_metadata = {
@@ -76,7 +108,7 @@ async def ask_question(
             from modules.model_cache import get_cached_embedding_model, get_cached_pinecone_index
         except Exception as e:
             logger.error(f"Required ML/vector libraries missing: {e}")
-            return JSONResponse(status_code=503, content={"error": "ML/vector libraries not available. Please install required packages."})
+            return error_response("ML/vector libraries not available. Please install required packages.", 503, request)
 
         # Use cached models for much faster response
         embed_model = get_cached_embedding_model()
@@ -84,7 +116,7 @@ async def ask_question(
         
         # Embed query (much faster with cached model)
         embedded_query = embed_model.embed_query(question)
-        res = index.query(vector=embedded_query, top_k=5, include_metadata=True)
+        res = index.query(vector=embedded_query, top_k=DEFAULT_TOP_K, include_metadata=True)
 
         # Calculate confidence score from top match
         confidence_score = res.get("matches", [])[0].get("score") if res.get("matches") else 0.0
@@ -94,6 +126,7 @@ async def ask_question(
                 page_content=match.get("metadata", {}).get("text", ""),
                 metadata=match.get('metadata', {})
             ) for match in res.get("matches", [])
+            if match.get("metadata", {}).get("text")
         ]
 
         class SimpleRetriever(BaseRetriever):                          
@@ -109,6 +142,16 @@ async def ask_question(
             
         retriever = SimpleRetriever(docs)
         chain = get_llm_chain(retriever)
+        if not docs:
+            fallback_response = {
+                "answer": "I’m sorry, but I couldn’t find relevant legal information in the provided references.",
+                "confidence": 0.0,
+                "sources": [],
+                "queryId": None,
+                "processingMs": round((time.perf_counter() - started_at) * 1000, 2)
+            }
+            return success_payload(fallback_response, message="No relevant sources found", request=request)
+
         result = query_chain(chain, question)
 
         # Extract the clean text response from the result dictionary
@@ -158,7 +201,17 @@ async def ask_question(
         
         # Return clean, formatted response
         response_data = {
-            "answer": ai_text
+            "answer": ai_text,
+            "confidence": round(float(confidence_score or 0.0), 4),
+            "sources": [
+                {
+                    "snippet": doc.page_content[:220],
+                    "metadata": doc.metadata
+                }
+                for doc in docs[:3]
+            ],
+            "queryId": query_id,
+            "processingMs": round((time.perf_counter() - started_at) * 1000, 2)
         }
         
         # Include file info if file was attached
@@ -168,7 +221,7 @@ async def ask_question(
                 "size": file_metadata.get('size')
             }
         
-        return response_data
+        return success_payload(response_data, message="Query processed successfully", request=request)
         
     except Exception as e:
         logger.exception("Error processing in question")
@@ -180,11 +233,12 @@ async def ask_question(
                 "error": str(e)
             })
         
-        return JSONResponse(status_code=500, content={"error": str(e)})
+        return error_response("Failed to process query", 500, request, data={"detail": str(e)})
 
 
 @router.post("/feedback/")
 async def submit_feedback(
+    request: Request,
     query_id: str = Form(...),
     feedback: str = Form(...)
 ):
@@ -193,10 +247,7 @@ async def submit_feedback(
     feedback should be: 'helpful', 'not_helpful', or 'partially_helpful'
     """
     if not MONGODB_ENABLED:
-        return JSONResponse(
-            status_code=503,
-            content={"error": "MongoDB not available"}
-        )
+        return error_response("MongoDB not available", 503, request)
     
     try:
         from config.mongodb import update_query_feedback
@@ -205,78 +256,69 @@ async def submit_feedback(
         
         if success:
             logger.info(f"Feedback updated for query {query_id}: {feedback}")
-            return {"message": "Feedback recorded", "queryId": query_id}
+            return success_payload({"queryId": query_id}, message="Feedback recorded", request=request)
         else:
-            return JSONResponse(
-                status_code=400,
-                content={"error": "Failed to update feedback"}
-            )
+            return error_response("Failed to update feedback", 400, request)
     except Exception as e:
         logger.exception("Error submitting feedback")
-        return JSONResponse(status_code=500, content={"error": str(e)})
+        return error_response("Error submitting feedback", 500, request, data={"detail": str(e)})
 
 
 @router.get("/history/{user_id}")
-async def get_query_history(user_id: str, limit: int = 10):
+async def get_query_history(request: Request, user_id: str, limit: int = 10):
     """Get query history for a user"""
     if not MONGODB_ENABLED:
-        return JSONResponse(
-            status_code=503,
-            content={"error": "MongoDB not available"}
-        )
+        return error_response("MongoDB not available", 503, request)
     
     try:
         from config.mongodb import get_user_query_history
         
         history = get_user_query_history(user_id, limit)
         
-        return {
+        return success_payload({
             "userId": user_id,
             "totalQueries": len(history),
             "queries": history
-        }
+        }, message="Query history fetched", request=request)
     except Exception as e:
         logger.exception("Error fetching history")
-        return JSONResponse(status_code=500, content={"error": str(e)})
+        return error_response("Error fetching history", 500, request, data={"detail": str(e)})
 
 
 @router.get("/analytics/")
-async def get_analytics(days: int = 7):
+async def get_analytics(request: Request, days: int = 7):
     """Get analytics summary"""
     if not MONGODB_ENABLED:
-        return JSONResponse(
-            status_code=503,
-            content={"error": "MongoDB not available"}
-        )
+        return error_response("MongoDB not available", 503, request)
     
     try:
         from config.mongodb import get_analytics_summary
         
         summary = get_analytics_summary(days)
-        return summary
+        return success_payload(summary, message="Analytics fetched", request=request)
     except Exception as e:
         logger.exception("Error fetching analytics")
-        return JSONResponse(status_code=500, content={"error": str(e)})
+        return error_response("Error fetching analytics", 500, request, data={"detail": str(e)})
 
 
 @router.get("/health/")
-async def health_check():
+async def health_check(request: Request):
     """Check MongoDB and service health"""
     try:
         from config.mongodb import check_mongodb_health
         
         mongodb_status = check_mongodb_health() if MONGODB_ENABLED else False
         
-        return {
+        return success_payload({
             "status": "healthy",
             "mongodb": "connected" if mongodb_status else "disconnected",
             "mongodb_enabled": MONGODB_ENABLED
-        }
+        }, message="Service health fetched", request=request)
     except Exception as e:
-        return {
+        return error_response("Health check degraded", 503, request, data={
             "status": "degraded",
             "mongodb": "error",
             "error": str(e)
-        }
+        })
 
 

@@ -28,6 +28,19 @@ interface LawyerResponse {
   };
 }
 
+const getSafeMailtoHref = (email: string): string | undefined => {
+  const value = (email || '').trim();
+  const isValidEmail = /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(value);
+  return isValidEmail ? `mailto:${encodeURIComponent(value)}` : undefined;
+};
+
+const getSafeTelHref = (phone: string): string | undefined => {
+  const value = (phone || '').trim();
+  const normalized = value.replace(/[^\d+\-()\s]/g, '');
+  const hasDigits = /\d{6,}/.test(normalized);
+  return hasDigits ? `tel:${normalized}` : undefined;
+};
+
 const LawyerNetworkPage: React.FC = () => {
   const { isAuthenticated, user, updateUser } = useAuth();
 
@@ -233,9 +246,13 @@ const LawyerNetworkPage: React.FC = () => {
                     </div>
                     <p className="small" style={{ color: 'rgba(255,255,255,0.65)' }}>{lawyer.bio || 'No bio added yet.'}</p>
                     <div className="mt-auto d-flex gap-2">
-                      <a className="btn btn-outline-info btn-sm" href={`mailto:${lawyer.email}`}>Email</a>
-                      {lawyer.phone ? (
-                        <a className="btn btn-outline-light btn-sm" href={`tel:${lawyer.phone}`}>Call</a>
+                      {getSafeMailtoHref(lawyer.email) ? (
+                        <a className="btn btn-outline-info btn-sm" href={getSafeMailtoHref(lawyer.email)}>Email</a>
+                      ) : (
+                        <button className="btn btn-outline-info btn-sm" disabled>Email</button>
+                      )}
+                      {getSafeTelHref(lawyer.phone) ? (
+                        <a className="btn btn-outline-light btn-sm" href={getSafeTelHref(lawyer.phone)}>Call</a>
                       ) : (
                         <button className="btn btn-outline-light btn-sm" disabled>Call</button>
                       )}

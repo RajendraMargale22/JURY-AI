@@ -7,6 +7,7 @@ from langchain_classic.chains import RetrievalQA
  
 from langchain_groq import ChatGroq
 from langchain_google_genai import ChatGoogleGenerativeAI
+from pydantic import SecretStr
 import os
 from dotenv import load_dotenv
 
@@ -15,9 +16,9 @@ GROQ_API_KEY=os.environ.get("GROQ_API_KEY")
 GOOGLE_API_KEY=os.environ.get("GOOGLE_API_KEY")
 
 def get_llm_chain(retriever):
-    llm=ChatGroq(
-        groq_api_key=GROQ_API_KEY,
-        model_name="llama-3.3-70b-versatile" 
+    llm = ChatGroq(
+        model="llama-3.3-70b-versatile",
+        api_key=SecretStr(GROQ_API_KEY) if GROQ_API_KEY else None
     )
 
     # llm=ChatGoogleGenerativeAI(

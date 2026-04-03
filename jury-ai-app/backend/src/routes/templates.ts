@@ -11,18 +11,33 @@ interface AuthRequest extends express.Request {
 }
 
 const router = express.Router();
+const MAX_TEMPLATE_DOWNLOAD_BYTES = 25 * 1024 * 1024; // 25MB
+const TEMPLATE_UPLOAD_DIR = path.resolve(__dirname, '../../uploads/templates');
+const MAX_CONCURRENT_TEMPLATE_DOWNLOADS = 20;
+const SAFE_TEMPLATE_FILENAME = /^[A-Za-z0-9][A-Za-z0-9._-]*$/;
+let activeTemplateDownloads = 0;
+
+fs.mkdirSync(TEMPLATE_UPLOAD_DIR, { recursive: true });
+
+const normalizeTemplateFileName = (fileName?: string): string | null => {
+  const safeName = path.basename((fileName || '').trim());
+  if (!safeName || !SAFE_TEMPLATE_FILENAME.test(safeName)) return null;
+  return safeName;
+};
+
+const escapeRegExp = (value: string): string => value.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
+const asString = (value: unknown, maxLength = 200): string =>
+  typeof value === 'string' ? value.trim().slice(0, maxLength) : '';
+const asPositiveInt = (value: unknown, fallback: number, max = 100): number => {
+  const parsed = typeof value === 'string' ? Number.parseInt(value, 10) : Number.NaN;
+  if (!Number.isFinite(parsed) || parsed <= 0) return fallback;
+  return Math.min(parsed, max);
+};
 
 // Configure multer for file uploads
 const storage = multer.diskStorage({
   destination: (req, file, cb) => {
-    const uploadDir = path.join(__dirname, '../../uploads/templates');
-    
-    // Create directory if it doesn't exist
-    if (!fs.existsSync(uploadDir)) {
-      fs.mkdirSync(uploadDir, { recursive: true });
-    }
-    
-    cb(null, uploadDir);
+    cb(null, TEMPLATE_UPLOAD_DIR);
   },
   filename: (req, file, cb) => {
     // Generate unique filename with timestamp
@@ -55,10 +70,10 @@ const upload = multer({
 // Get all templates with pagination
 router.get('/', async (req: AuthRequest, res: Response) => {
   try {
-    const page = parseInt(req.query.page as string) || 1;
-    const limit = parseInt(req.query.limit as string) || 12;
-    const category = req.query.category as string;
-    const search = req.query.search as string;
+    const page = asPositiveInt(req.query.page, 1, 10000);
+    const limit = asPositiveInt(req.query.limit, 12, 100);
+    const category = asString(req.query.category, 60);
+    const search = asString(req.query.search, 120);
 
     let query: any = { isActive: true };
 
@@ -67,9 +82,10 @@ router.get('/', async (req: AuthRequest, res: Response) => {
     }
 
     if (search) {
+      const safeSearch = escapeRegExp(search);
       query.$or = [
-        { title: { $regex: search, $options: 'i' } },
-        { description: { $regex: search, $options: 'i' } }
+        { title: { $regex: safeSearch, $options: 'i' } },
+        { description: { $regex: safeSearch, $options: 'i' } }
       ];
     }
 
@@ -156,6 +172,11 @@ router.post('/:id/download', auth, async (req: AuthRequest, res: Response) => {
 
 // Serve template file
 router.get('/:id/file', auth, async (req: AuthRequest, res: Response) => {
+  if (activeTemplateDownloads >= MAX_CONCURRENT_TEMPLATE_DOWNLOADS) {
+    return res.status(429).json({ message: 'Too many concurrent downloads. Please retry shortly.' });
+  }
+
+  activeTemplateDownloads += 1;
   try {
     const template = await Template.findOne({
       _id: req.params.id,
@@ -166,20 +187,38 @@ router.get('/:id/file', auth, async (req: AuthRequest, res: Response) => {
       return res.status(404).json({ message: 'Template not found' });
     }
 
-    if (!template.filePath || !fs.existsSync(template.filePath)) {
+    if (!template.fileName) {
       return res.status(404).json({ message: 'Template file not found' });
     }
 
-    // Set appropriate headers for file download
+    const safeTemplateName = normalizeTemplateFileName(template.fileName);
+    if (!safeTemplateName) {
+      return res.status(400).json({ message: 'Invalid template file path' });
+    }
+
+    if ((template.fileSize || 0) > MAX_TEMPLATE_DOWNLOAD_BYTES) {
+      return res.status(413).json({ message: 'Template file is too large to download' });
+    }
+
+    const safeFileName = safeTemplateName.replace(/[\r\n"]/g, '_');
+
     res.setHeader('Content-Type', template.mimeType || 'application/octet-stream');
-    res.setHeader('Content-Disposition', `attachment; filename="${template.fileName}"`);
-    
-    // Stream the file
-    const fileStream = fs.createReadStream(template.filePath);
-    fileStream.pipe(res);
+    res.setHeader('Content-Disposition', `attachment; filename="${safeFileName}"`);
+
+    return res.sendFile(safeTemplateName, { root: TEMPLATE_UPLOAD_DIR }, (downloadError) => {
+      if (downloadError && !res.headersSent) {
+        if ((downloadError as any)?.code === 'ENOENT') {
+          return res.status(404).json({ message: 'Template file not found' });
+        }
+        console.error('Error serving template file:', downloadError);
+        return res.status(500).json({ message: 'Error reading template file' });
+      }
+    });
   } catch (error) {
     console.error('Error serving template file:', error);
     res.status(500).json({ message: 'Server error' });
+  } finally {
+    activeTemplateDownloads = Math.max(0, activeTemplateDownloads - 1);
   }
 });
 
@@ -202,7 +241,7 @@ router.post('/:id/generate', auth, async (req: AuthRequest, res: Response) => {
     
     if (fields) {
       Object.keys(fields).forEach(key => {
-        const placeholder = `{{${key}}}`;
+        const placeholder = `{{${escapeRegExp(key)}}}`;
         const value = fields[key] || `[${key}]`;
         generatedContent = generatedContent.replace(new RegExp(placeholder, 'g'), value);
       });
@@ -268,20 +307,12 @@ router.post('/upload', auth, upload.single('file'), async (req: AuthRequest, res
   try {
     // Check if user is admin or lawyer
     if (req.user?.role !== 'admin' && req.user?.role !== 'lawyer') {
-      // Delete uploaded file if user is not authorized
-      if (req.file) {
-        fs.unlinkSync(req.file.path);
-      }
       return res.status(403).json({ message: 'Access denied. Admin or lawyer role required.' });
     }
 
     const { title, description, category } = req.body;
 
     if (!title || !description || !category) {
-      // Delete uploaded file if validation fails
-      if (req.file) {
-        fs.unlinkSync(req.file.path);
-      }
       return res.status(400).json({ message: 'Title, description, and category are required' });
     }
 
@@ -307,7 +338,7 @@ router.post('/upload', auth, upload.single('file'), async (req: AuthRequest, res
       isActive: true,
       createdBy: req.user?._id || req.user?.id,
       downloads: 0,
-      filePath: req.file.path,
+      filePath: req.file.filename,
       fileName: req.file.filename,
       fileSize: req.file.size,
       mimeType: req.file.mimetype
@@ -321,10 +352,6 @@ router.post('/upload', auth, upload.single('file'), async (req: AuthRequest, res
       template
     });
   } catch (error) {
-    // Clean up uploaded file in case of error
-    if (req.file) {
-      fs.unlinkSync(req.file.path);
-    }
     console.error('Error uploading template:', error);
     res.status(500).json({ message: 'Server error while uploading template' });
   }

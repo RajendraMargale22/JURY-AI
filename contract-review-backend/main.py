@@ -1,9 +1,10 @@
 import os
-from fastapi import FastAPI
+from fastapi import FastAPI, Request
 from fastapi.responses import Response
 from fastapi.middleware.cors import CORSMiddleware
 from middlewares.exception_handlers import catch_exception_middleware
 from middlewares.metrics import instrument_request_middleware
+from middlewares.request_context import attach_request_id_middleware
 from routes.contract_review import router as contract_review_router
 from models.schemas import HealthResponse
 from services.legacy_adapter import load_legacy_analyzer
@@ -34,6 +35,7 @@ app.add_middleware(
 
 app.middleware("http")(instrument_request_middleware)
 app.middleware("http")(catch_exception_middleware)
+app.middleware("http")(attach_request_id_middleware)
 
 legacy_path = os.getenv("LEGACY_CONTRACT_REVIEW_PATH", "./legacy/copy_of_contract_review.py")
 use_legacy_analyzer = os.getenv("USE_LEGACY_CONTRACT_REVIEW", "false").lower() == "true"
@@ -41,8 +43,13 @@ runtime_state.legacy_analyzer = load_legacy_analyzer(legacy_path) if use_legacy_
 
 
 @app.get("/health", response_model=HealthResponse)
-async def health_check():
+async def health_check(request: Request):
+    request_id = getattr(request.state, "request_id", None)
     return HealthResponse(
+        success=True,
+        message="Health check successful",
+        requestId=request_id,
+        data={"status": "healthy"},
         status="healthy",
         service="contract-review-backend",
         legacy_loaded=runtime_state.legacy_analyzer is not None,

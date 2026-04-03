@@ -16,6 +16,24 @@ interface ChatSession {
   createdAt: Date;
 }
 
+const renderAiMessage = (content: string): React.ReactNode => {
+  const lines = content.split('\n');
+  return lines.map((line, lineIdx) => {
+    const parts = line.split(/(\*\*[^*]+\*\*)/g);
+    return (
+      <React.Fragment key={`line-${lineIdx}`}>
+        {parts.map((part, partIdx) => {
+          if (part.startsWith('**') && part.endsWith('**') && part.length > 4) {
+            return <strong key={`part-${lineIdx}-${partIdx}`}>{part.slice(2, -2)}</strong>;
+          }
+          return <React.Fragment key={`part-${lineIdx}-${partIdx}`}>{part}</React.Fragment>;
+        })}
+        {lineIdx < lines.length - 1 && <br />}
+      </React.Fragment>
+    );
+  });
+};
+
 const ChatPage: React.FC = () => {
   const { user } = useAuth();
   const [message, setMessage] = useState('');
@@ -444,12 +462,7 @@ const ChatPage: React.FC = () => {
                       </div>
                       <div className="chat-message-content" style={{ whiteSpace: 'pre-wrap', lineHeight: '1.6' }}>
                         {msg.sender === 'ai' ? (
-                          <div dangerouslySetInnerHTML={{
-                            __html: msg.message
-                              .replace(/\*\*(.+?)\*\*/g, '<strong>$1</strong>')
-                              .replace(/\n\n/g, '<br/><br/>')
-                              .replace(/\n/g, '<br/>')
-                          }} />
+                          <div>{renderAiMessage(msg.message)}</div>
                         ) : (
                           msg.message
                         )}

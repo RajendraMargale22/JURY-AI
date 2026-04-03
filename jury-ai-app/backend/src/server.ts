@@ -4,8 +4,8 @@ import helmet from 'helmet';
 import morgan from 'morgan';
 import compression from 'compression';
 import cookieParser from 'cookie-parser';
+import csrf from 'csurf';
 import rateLimit from 'express-rate-limit';
-import { createServer } from 'http';
 import { Server as SocketServer } from 'socket.io';
 import dotenv from 'dotenv';
 import connectDB from './config/database';
@@ -18,21 +18,42 @@ import lawyerRoutes from './routes/lawyers';
 // import documentRoutes from './routes/documents';
 // import analyticsRoutes from './routes/analytics';
 import { errorHandler } from './middleware/errorHandler';
+import { attachRequestContext } from './middleware/requestContext';
+import { responseEnvelope } from './middleware/responseEnvelope';
 // import { socketHandler } from './utils/socketHandler';
 
 dotenv.config();
 
 const app = express();
-const server = createServer({ maxHeaderSize: 16777216 }, app); // Increased to 16MB to prevent 431 errors
-const io = new SocketServer(server, {
-  cors: {
-    origin: process.env.CLIENT_URL || "http://localhost:3000",
-    methods: ["GET", "POST"]
-  }
-});
 
 // Connect to MongoDB
 connectDB();
+
+const allowedOrigins = [
+  'http://localhost:3000',
+  'http://localhost:3001',
+  process.env.CLIENT_URL || 'http://localhost:3000'
+];
+
+const isUnsafeMethod = (method: string) => ['POST', 'PUT', 'PATCH', 'DELETE'].includes(method.toUpperCase());
+
+const csrfOriginGuard: express.RequestHandler = (req, res, next) => {
+  if (!isUnsafeMethod(req.method)) {
+    return next();
+  }
+
+  const origin = req.headers.origin;
+  const referer = req.headers.referer;
+
+  const hasValidOrigin = !!origin && allowedOrigins.some((allowed) => origin.startsWith(allowed));
+  const hasValidReferer = !!referer && allowedOrigins.some((allowed) => referer.startsWith(allowed));
+
+  if (!hasValidOrigin && !hasValidReferer) {
+    return res.status(403).json({ message: 'CSRF validation failed' });
+  }
+
+  return next();
+};
 
 // Rate limiting (more lenient for development)
 const limiter = rateLimit({
@@ -50,22 +71,41 @@ app.use(helmet({
 app.use(compression());
 app.use(limiter);
 app.use(morgan('combined'));
+app.use(attachRequestContext);
+app.use(responseEnvelope);
 
 // CORS configuration - must be before routes
 app.use(cors({
-  origin: [
-    'http://localhost:3000',
-    'http://localhost:3001',
-    process.env.CLIENT_URL || 'http://localhost:3000'
-  ],
+  origin: allowedOrigins,
   credentials: true,
   methods: ['GET', 'POST', 'PUT', 'DELETE', 'PATCH', 'OPTIONS'],
   allowedHeaders: ['Content-Type', 'Authorization', 'X-Requested-With'],
   exposedHeaders: ['Content-Disposition']
 }));
+app.use(csrfOriginGuard);
 app.use(express.json({ limit: '10mb' }));
 app.use(express.urlencoded({ extended: true }));
 app.use(cookieParser());
+
+const csrfProtection = csrf({
+  cookie: {
+    key: '_csrf',
+    httpOnly: true,
+    sameSite: 'lax',
+    secure: process.env.NODE_ENV === 'production'
+  },
+  ignoreMethods: ['GET', 'HEAD', 'OPTIONS']
+});
+app.use((req, res, next) => {
+  if (req.path.startsWith('/api/auth')) {
+    return next();
+  }
+  return csrfProtection(req, res, next);
+});
+
+app.get('/api/csrf-token', (req, res) => {
+  res.json({ csrfToken: req.csrfToken() });
+});
 
 // Static files
 app.use('/uploads', express.static('uploads'));
@@ -102,9 +142,18 @@ app.use(errorHandler);
 
 const PORT = process.env.PORT || 5000;
 
-server.listen(PORT, () => {
+const server = app.listen(PORT, () => {
   console.log(`🚀 Server running on port ${PORT}`);
   console.log(`📱 Environment: ${process.env.NODE_ENV || 'development'}`);
 });
+
+const io = new SocketServer(server, {
+  cors: {
+    origin: process.env.CLIENT_URL || 'http://localhost:3000',
+    methods: ['GET', 'POST']
+  }
+});
+
+void io;
 
 export default app;
