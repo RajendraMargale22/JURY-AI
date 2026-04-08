@@ -1,5 +1,6 @@
 services:
-  - type: static
+  - type: web
+    runtime: static
     name: jury-ai-frontend
     rootDir: jury-ai-app/frontend
     buildCommand: npm install && npm run build
