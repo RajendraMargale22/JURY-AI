@@ -2,6 +2,7 @@ services:
   - type: web
     runtime: static
     name: jury-ai-frontend
+    plan: free
     rootDir: jury-ai-app/frontend
     buildCommand: npm install && npm run build
     staticPublishPath: dist
@@ -28,6 +29,7 @@ services:
   - type: web
     name: jury-ai-backend
     runtime: node
+    plan: free
     rootDir: jury-ai-app/backend
     buildCommand: npm install && npm run build
     startCommand: npm start
@@ -58,6 +60,7 @@ services:
   - type: web
     name: jury-ai-chatbot
     runtime: python
+    plan: free
     rootDir: chatbot-backend
     buildCommand: pip install -r requirements.txt
     startCommand: uvicorn main:app --host 0.0.0.0 --port $PORT
@@ -88,6 +91,7 @@ services:
   - type: web
     name: jury-ai-contract-review
     runtime: python
+    plan: free
     rootDir: contract-review-backend
     buildCommand: pip install -r requirements.txt
     startCommand: uvicorn main:app --host 0.0.0.0 --port $PORT --workers 2
