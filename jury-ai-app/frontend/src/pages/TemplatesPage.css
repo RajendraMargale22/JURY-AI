@@ -2,8 +2,14 @@
 .templates-page-container {
   min-height: 100vh;
   background: linear-gradient(135deg, #0b1220 0%, #0f172a 50%, #0b1220 100%);
-  padding-top: 80px;
+  padding-top: 0;
   padding-bottom: 60px;
+}
+
+.templates-top-navbar {
+  position: sticky;
+  top: 0;
+  z-index: 1020;
 }
 
 .templates-page-header {
@@ -35,8 +41,8 @@
 /* Sidebar Styles */
 .templates-sidebar {
   position: sticky;
-  top: 100px;
-  max-height: calc(100vh - 120px);
+  top: 88px;
+  max-height: calc(100vh - 108px);
   overflow-y: auto;
 }
 

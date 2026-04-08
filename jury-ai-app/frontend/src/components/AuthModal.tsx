@@ -13,12 +13,38 @@ interface AuthModalProps {
   initialMode?: 'login' | 'register';
 }
 
+interface AuthPolicySettings {
+  registrationEnabled: boolean;
+  socialLoginEnabled: boolean;
+  twoFactorEnabled: boolean;
+  chatEnabled?: boolean;
+  templatesEnabled?: boolean;
+  documentAnalysisEnabled?: boolean;
+  passwordMinLength: number;
+  passwordRequireUppercase: boolean;
+  passwordRequireNumbers: boolean;
+  passwordRequireSpecialChars: boolean;
+}
+
 const AuthModal: React.FC<AuthModalProps> = ({ isOpen, onClose, initialMode = 'login' }) => {
   const navigate = useNavigate();
   const { updateUser, isAuthenticated, user } = useAuth();
   const [mode, setMode] = useState<'login' | 'register'>(initialMode);
   const [isLoading, setIsLoading] = useState(false);
   const [isClosing, setIsClosing] = useState(false);
+  const [settingsLoading, setSettingsLoading] = useState(false);
+  const [authSettings, setAuthSettings] = useState<AuthPolicySettings>({
+    registrationEnabled: true,
+    socialLoginEnabled: false,
+    twoFactorEnabled: false,
+    passwordMinLength: 8,
+    passwordRequireUppercase: true,
+    passwordRequireNumbers: true,
+    passwordRequireSpecialChars: false,
+  });
+  const [twoFactorToken, setTwoFactorToken] = useState('');
+  const [twoFactorCode, setTwoFactorCode] = useState('');
+  const [pendingTwoFactor, setPendingTwoFactor] = useState(false);
 
   const [loginData, setLoginData] = useState({ email: '', password: '' });
   const [registerData, setRegisterData] = useState({
@@ -57,11 +83,58 @@ const AuthModal: React.FC<AuthModalProps> = ({ isOpen, onClose, initialMode = 'l
     if (isOpen) {
       document.body.style.overflow = 'hidden';
       setIsClosing(false);
+      fetchAuthSettings();
     }
     return () => {
       document.body.style.overflow = '';
     };
   }, [isOpen]);
+
+  const fetchAuthSettings = async () => {
+    try {
+      setSettingsLoading(true);
+      const response = await axios.get('/auth/settings');
+      const payload = (response.data?.data || response.data) as Partial<AuthPolicySettings>;
+      setAuthSettings((prev) => ({ ...prev, ...payload }));
+    } catch (error) {
+      console.error('Failed to fetch auth settings:', error);
+    } finally {
+      setSettingsLoading(false);
+    }
+  };
+
+  const completeAuthentication = (data: any, successMessage: string) => {
+    localStorage.setItem('token', data.token);
+    updateUser(data.user);
+
+    if (data.user.role === 'admin') {
+      toast.success('Welcome back, Admin! Redirecting to dashboard...');
+      handleClose();
+      setTimeout(() => {
+        navigate('/admin', { replace: true });
+      }, 400);
+      return;
+    }
+
+    toast.success(successMessage);
+    handleClose();
+  };
+
+  const validatePassword = (password: string): string | null => {
+    if (password.length < authSettings.passwordMinLength) {
+      return `Password must be at least ${authSettings.passwordMinLength} characters`;
+    }
+    if (authSettings.passwordRequireUppercase && !/[A-Z]/.test(password)) {
+      return 'Password must include at least one uppercase letter';
+    }
+    if (authSettings.passwordRequireNumbers && !/\d/.test(password)) {
+      return 'Password must include at least one number';
+    }
+    if (authSettings.passwordRequireSpecialChars && !/[^A-Za-z0-9]/.test(password)) {
+      return 'Password must include at least one special character';
+    }
+    return null;
+  };
 
   // Close if user becomes authenticated
   useEffect(() => {
@@ -78,6 +151,9 @@ const AuthModal: React.FC<AuthModalProps> = ({ isOpen, onClose, initialMode = 'l
       // Reset forms
       setLoginData({ email: '', password: '' });
       setRegisterData({ name: '', email: '', password: '', confirmPassword: '', role: 'user', agreeToTerms: false });
+      setPendingTwoFactor(false);
+      setTwoFactorToken('');
+      setTwoFactorCode('');
     }, 300);
   };
 
@@ -88,25 +164,19 @@ const AuthModal: React.FC<AuthModalProps> = ({ isOpen, onClose, initialMode = 'l
       const response = await axios.post('/auth/login', loginData);
       const data = response.data as any;
       if (data.success) {
-        console.log('Login response:', data);
-        console.log('User role:', data.user.role);
-        
-        localStorage.setItem('token', data.token);
-        updateUser(data.user);
-        
-        // Show different message for admin
-        if (data.user.role === 'admin') {
-          toast.success('Welcome back, Admin! Redirecting to dashboard...');
-          handleClose();
-          // Redirect admin users immediately
-          setTimeout(() => {
-            console.log('Navigating to admin dashboard...');
-            navigate('/admin', { replace: true });
-          }, 400);
-        } else {
-          toast.success('Login successful! Welcome back.');
-          handleClose();
+        if (data.requiresTwoFactor && data.twoFactorToken) {
+          setMode('login');
+          setPendingTwoFactor(true);
+          setTwoFactorToken(data.twoFactorToken);
+          if (data.twoFactorCode) {
+            toast.info(`2FA code (dev): ${data.twoFactorCode}`);
+          } else {
+            toast.info('Enter your 2FA code to continue');
+          }
+          return;
         }
+
+        completeAuthentication(data, 'Login successful! Welcome back.');
       }
     } catch (error: any) {
       console.error('Login error:', error);
@@ -129,7 +199,18 @@ const AuthModal: React.FC<AuthModalProps> = ({ isOpen, onClose, initialMode = 'l
       return;
     }
     if (registerData.password.length < 6) {
-      toast.error('Password must be at least 6 characters');
+      toast.error(`Password must be at least ${authSettings.passwordMinLength} characters`);
+      return;
+    }
+
+    const passwordError = validatePassword(registerData.password);
+    if (passwordError) {
+      toast.error(passwordError);
+      return;
+    }
+
+    if (!authSettings.registrationEnabled) {
+      toast.error('Registration is currently disabled by admin settings');
       return;
     }
     if (!registerData.agreeToTerms) {
@@ -147,22 +228,7 @@ const AuthModal: React.FC<AuthModalProps> = ({ isOpen, onClose, initialMode = 'l
       });
       const data = response.data as any;
       if (data.success) {
-        localStorage.setItem('token', data.token);
-        updateUser(data.user);
-        
-        // Show different message for admin
-        if (data.user.role === 'admin') {
-          toast.success('Admin account created! Welcome to Jury AI.');
-        } else {
-          toast.success('Account created! Welcome to Jury AI.');
-        }
-        
-        handleClose();
-        
-        // Redirect admin users to admin dashboard
-        if (data.user.role === 'admin') {
-          setTimeout(() => navigate('/admin', { replace: true }), 300);
-        }
+        completeAuthentication(data, 'Account created! Welcome to Jury AI.');
       }
     } catch (error: any) {
       console.error('Registration error:', error);
@@ -178,6 +244,11 @@ const AuthModal: React.FC<AuthModalProps> = ({ isOpen, onClose, initialMode = 'l
   };
 
   const handleGoogleAuth = async () => {
+    if (!authSettings.socialLoginEnabled) {
+      toast.error('Social login is disabled by admin settings');
+      return;
+    }
+
     if (!firebaseEnabled || !firebaseAuth) {
       toast.error('Google auth is not configured yet. Add Firebase env variables.');
       return;
@@ -195,17 +266,19 @@ const AuthModal: React.FC<AuthModalProps> = ({ isOpen, onClose, initialMode = 'l
 
       const data = response.data as any;
       if (data.success) {
-        localStorage.setItem('token', data.token);
-        updateUser(data.user);
-
-        if (data.user.role === 'admin') {
-          toast.success('Welcome, Admin! Redirecting...');
-          handleClose();
-          setTimeout(() => navigate('/admin', { replace: true }), 300);
-        } else {
-          toast.success('Google authentication successful');
-          handleClose();
+        if (data.requiresTwoFactor && data.twoFactorToken) {
+          setMode('login');
+          setPendingTwoFactor(true);
+          setTwoFactorToken(data.twoFactorToken);
+          if (data.twoFactorCode) {
+            toast.info(`2FA code (dev): ${data.twoFactorCode}`);
+          } else {
+            toast.info('Enter your 2FA code to continue');
+          }
+          return;
         }
+
+        completeAuthentication(data, 'Google authentication successful');
       }
     } catch (error: any) {
       console.error('Google auth error:', error);
@@ -217,6 +290,34 @@ const AuthModal: React.FC<AuthModalProps> = ({ isOpen, onClose, initialMode = 'l
   };
 
   if (!isOpen && !isClosing) return null;
+
+  const verifyTwoFactorCode = async () => {
+    if (!twoFactorToken || !twoFactorCode) {
+      toast.error('Please enter the 2FA code');
+      return;
+    }
+
+    setIsLoading(true);
+    try {
+      const response = await axios.post('/auth/verify-2fa', {
+        twoFactorToken,
+        code: twoFactorCode,
+      });
+      const data = response.data as any;
+
+      if (data.success) {
+        setPendingTwoFactor(false);
+        setTwoFactorCode('');
+        setTwoFactorToken('');
+        completeAuthentication(data, 'Two-factor verification successful');
+      }
+    } catch (error: any) {
+      const message = error.response?.data?.message || 'Two-factor verification failed';
+      toast.error(message);
+    } finally {
+      setIsLoading(false);
+    }
+  };
 
   return (
     <div className={`auth-modal-overlay ${isClosing ? 'closing' : 'opening'}`} onClick={handleClose}>
@@ -262,14 +363,14 @@ const AuthModal: React.FC<AuthModalProps> = ({ isOpen, onClose, initialMode = 'l
             <button
               className={`auth-tab ${mode === 'login' ? 'active' : ''}`}
               onClick={() => setMode('login')}
-              disabled={isLoading}
+              disabled={isLoading || pendingTwoFactor}
             >
               Sign In
             </button>
             <button
               className={`auth-tab ${mode === 'register' ? 'active' : ''}`}
               onClick={() => setMode('register')}
-              disabled={isLoading}
+              disabled={isLoading || pendingTwoFactor || !authSettings.registrationEnabled}
             >
               Sign Up
             </button>
@@ -313,6 +414,38 @@ const AuthModal: React.FC<AuthModalProps> = ({ isOpen, onClose, initialMode = 'l
                 />
               </div>
 
+              {pendingTwoFactor ? (
+                <>
+                  <div className="auth-input-group">
+                    <div className="auth-input-icon">
+                      <i className="fas fa-shield-alt"></i>
+                    </div>
+                    <input
+                      type="text"
+                      placeholder="Enter 2FA code"
+                      value={twoFactorCode}
+                      onChange={(e) => setTwoFactorCode(e.target.value)}
+                      maxLength={6}
+                      required
+                      disabled={isLoading}
+                    />
+                  </div>
+
+                  <button type="button" className="auth-submit-btn" disabled={isLoading} onClick={verifyTwoFactorCode}>
+                    {isLoading ? (
+                      <>
+                        <span className="spinner-border spinner-border-sm me-2" />
+                        Verifying...
+                      </>
+                    ) : (
+                      <>
+                        Verify 2FA <i className="fas fa-check ms-2"></i>
+                      </>
+                    )}
+                  </button>
+                </>
+              ) : (
+                <>
               <div className="auth-form-extras">
                 <label className="auth-checkbox">
                   <input type="checkbox" />
@@ -340,7 +473,7 @@ const AuthModal: React.FC<AuthModalProps> = ({ isOpen, onClose, initialMode = 'l
               </div>
 
               <div className="auth-social-row">
-                <button type="button" className="auth-social-btn" onClick={handleGoogleAuth} disabled={isLoading} title="Continue with Google">
+                <button type="button" className="auth-social-btn" onClick={handleGoogleAuth} disabled={isLoading || settingsLoading || !authSettings.socialLoginEnabled} title="Continue with Google">
                   <i className="fab fa-google"></i>
                 </button>
                 <button type="button" className="auth-social-btn">
@@ -357,6 +490,8 @@ const AuthModal: React.FC<AuthModalProps> = ({ isOpen, onClose, initialMode = 'l
                   Create one
                 </button>
               </p>
+                </>
+              )}
             </form>
           )}
 
@@ -455,7 +590,7 @@ const AuthModal: React.FC<AuthModalProps> = ({ isOpen, onClose, initialMode = 'l
                 I agree to the <button type="button" className="auth-link-btn">Terms</button> & <button type="button" className="auth-link-btn">Privacy Policy</button>
               </label>
 
-              <button type="submit" className="auth-submit-btn" disabled={isLoading}>
+              <button type="submit" className="auth-submit-btn" disabled={isLoading || !authSettings.registrationEnabled}>
                 {isLoading ? (
                   <>
                     <span className="spinner-border spinner-border-sm me-2" />
@@ -473,10 +608,16 @@ const AuthModal: React.FC<AuthModalProps> = ({ isOpen, onClose, initialMode = 'l
               </div>
 
               <div className="auth-social-row">
-                <button type="button" className="auth-social-btn" onClick={handleGoogleAuth} disabled={isLoading} title="Continue with Google">
+                <button type="button" className="auth-social-btn" onClick={handleGoogleAuth} disabled={isLoading || settingsLoading || !authSettings.socialLoginEnabled} title="Continue with Google">
                   <i className="fab fa-google"></i>
                 </button>
               </div>
+
+              {!authSettings.registrationEnabled && (
+                <p className="auth-switch-text" style={{ color: '#f87171' }}>
+                  Registration is currently disabled by admin settings.
+                </p>
+              )}
 
               <p className="auth-switch-text">
                 Already have an account?{' '}

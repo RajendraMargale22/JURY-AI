@@ -5,6 +5,7 @@ import multer from 'multer';
 import path from 'path';
 import fs from 'fs';
 import { TEMPLATE_CATEGORIES, isValidCategory } from '../config/templateCategories';
+import { getMergedSystemSettings } from '../utils/systemSettings';
 
 interface AuthRequest extends express.Request {
   user?: any;
@@ -14,10 +15,23 @@ const router = express.Router();
 const MAX_TEMPLATE_DOWNLOAD_BYTES = 25 * 1024 * 1024; // 25MB
 const TEMPLATE_UPLOAD_DIR = path.resolve(__dirname, '../../uploads/templates');
 const MAX_CONCURRENT_TEMPLATE_DOWNLOADS = 20;
-const SAFE_TEMPLATE_FILENAME = /^[A-Za-z0-9][A-Za-z0-9._-]*$/;
+const SAFE_TEMPLATE_FILENAME = /^[A-Za-z0-9][A-Za-z0-9._\- ()]*$/;
 let activeTemplateDownloads = 0;
 
 fs.mkdirSync(TEMPLATE_UPLOAD_DIR, { recursive: true });
+
+router.use(async (req, res, next) => {
+  try {
+    const settings = await getMergedSystemSettings();
+    if (settings.templatesEnabled === false) {
+      return res.status(403).json({ message: 'Template feature is currently disabled by admin settings' });
+    }
+    return next();
+  } catch (error) {
+    console.error('Template settings check failed:', error);
+    return res.status(500).json({ message: 'Unable to validate template availability' });
+  }
+});
 
 const normalizeTemplateFileName = (fileName?: string): string | null => {
   const safeName = path.basename((fileName || '').trim());

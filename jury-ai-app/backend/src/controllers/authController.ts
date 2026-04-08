@@ -3,9 +3,89 @@ import jwt from 'jsonwebtoken';
 import crypto from 'crypto';
 import admin from 'firebase-admin';
 import User from '../models/User';
+import { getMergedSystemSettings } from '../utils/systemSettings';
 import { AuthRequest } from '../types/interfaces';
 
 let firebaseInitialized = false;
+const TWO_FACTOR_TTL_MS = 10 * 60 * 1000;
+const twoFactorChallenges = new Map<string, {
+  userId: string;
+  code: string;
+  expiresAt: number;
+}>();
+
+const parseBoolean = (value: unknown, fallback: boolean): boolean =>
+  typeof value === 'boolean' ? value : fallback;
+
+const parseNumber = (value: unknown, fallback: number): number =>
+  typeof value === 'number' && Number.isFinite(value) ? value : fallback;
+
+const getAuthSettings = async () => {
+  const settings = await getMergedSystemSettings();
+  return {
+    registrationEnabled: parseBoolean(settings.registrationEnabled, true),
+    socialLoginEnabled: parseBoolean(settings.socialLoginEnabled, false),
+    twoFactorEnabled: parseBoolean(settings.twoFactorEnabled, false),
+    chatEnabled: parseBoolean(settings.chatEnabled, true),
+    templatesEnabled: parseBoolean(settings.templatesEnabled, true),
+    documentAnalysisEnabled: parseBoolean(settings.documentAnalysisEnabled, true),
+    passwordMinLength: parseNumber(settings.passwordMinLength, 8),
+    passwordRequireUppercase: parseBoolean(settings.passwordRequireUppercase, true),
+    passwordRequireNumbers: parseBoolean(settings.passwordRequireNumbers, true),
+    passwordRequireSpecialChars: parseBoolean(settings.passwordRequireSpecialChars, false),
+  };
+};
+
+const validatePasswordWithSettings = (password: string, settings: Awaited<ReturnType<typeof getAuthSettings>>): string | null => {
+  if (password.length < settings.passwordMinLength) {
+    return `Password must be at least ${settings.passwordMinLength} characters long`;
+  }
+  if (settings.passwordRequireUppercase && !/[A-Z]/.test(password)) {
+    return 'Password must contain at least one uppercase letter';
+  }
+  if (settings.passwordRequireNumbers && !/\d/.test(password)) {
+    return 'Password must contain at least one number';
+  }
+  if (settings.passwordRequireSpecialChars && !/[^A-Za-z0-9]/.test(password)) {
+    return 'Password must contain at least one special character';
+  }
+  return null;
+};
+
+const createTwoFactorChallenge = (userId: string) => {
+  const token = crypto.randomBytes(24).toString('hex');
+  const code = `${Math.floor(100000 + Math.random() * 900000)}`;
+  const expiresAt = Date.now() + TWO_FACTOR_TTL_MS;
+  twoFactorChallenges.set(token, { userId, code, expiresAt });
+  return { token, code, expiresAt };
+};
+
+const buildAuthenticatedPayload = (user: any, token: string) => ({
+  success: true,
+  message: 'Authentication successful',
+  token,
+  user: {
+    id: user._id,
+    name: user.name,
+    email: user.email,
+    role: user.role,
+    isEmailVerified: user.isEmailVerified,
+    avatar: user.avatar
+  }
+});
+
+const issueAuthResponse = (res: Response, user: any) => {
+  const token = generateToken(user._id.toString());
+
+  res.cookie('token', token, {
+    httpOnly: true,
+    secure: process.env.NODE_ENV === 'production',
+    sameSite: 'lax',
+    maxAge: 7 * 24 * 60 * 60 * 1000
+  });
+
+  res.json(buildAuthenticatedPayload(user, token));
+};
 
 const asString = (value: unknown, maxLength = 250): string =>
   typeof value === 'string' ? value.trim().slice(0, maxLength) : '';
@@ -60,10 +140,18 @@ const generateToken = (userId: string): string => {
 // Register new user
 export const register = async (req: Request, res: Response) => {
   try {
+    const authSettings = await getAuthSettings();
     const name = asString(req.body?.name, 100);
     const email = asString(req.body?.email, 200).toLowerCase();
     const password = asString(req.body?.password, 200);
     const role = asString(req.body?.role, 20);
+
+    if (!authSettings.registrationEnabled) {
+      return res.status(403).json({
+        success: false,
+        message: 'New registrations are currently disabled by the administrator'
+      });
+    }
 
     // Validation
     if (!name || !email || !password) {
@@ -73,10 +161,11 @@ export const register = async (req: Request, res: Response) => {
       });
     }
 
-    if (password.length < 6) {
+    const passwordError = validatePasswordWithSettings(password, authSettings);
+    if (passwordError) {
       return res.status(400).json({
         success: false,
-        message: 'Password must be at least 6 characters long'
+        message: passwordError
       });
     }
 
@@ -98,29 +187,17 @@ export const register = async (req: Request, res: Response) => {
       isVerified: false
     });
 
-    // Generate token
     const token = generateToken(user._id.toString());
-
-    // Set cookie
     res.cookie('token', token, {
       httpOnly: true,
       secure: process.env.NODE_ENV === 'production',
       sameSite: 'lax',
-      maxAge: 7 * 24 * 60 * 60 * 1000 // 7 days
+      maxAge: 7 * 24 * 60 * 60 * 1000
     });
 
     res.status(201).json({
-      success: true,
-      message: 'Registration successful',
-      token,
-      user: {
-        id: user._id,
-        name: user.name,
-        email: user.email,
-        role: user.role,
-        isEmailVerified: user.isEmailVerified,
-        avatar: user.avatar
-      }
+      ...buildAuthenticatedPayload(user, token),
+      message: 'Registration successful'
     });
   } catch (error: any) {
     console.error('Registration error:', error);
@@ -134,6 +211,7 @@ export const register = async (req: Request, res: Response) => {
 // Login user
 export const login = async (req: Request, res: Response) => {
   try {
+    const authSettings = await getAuthSettings();
     const email = asString(req.body?.email, 200).toLowerCase();
     const password = asString(req.body?.password, 200);
 
@@ -175,30 +253,20 @@ export const login = async (req: Request, res: Response) => {
     user.lastLogin = new Date();
     await user.save();
 
-    // Generate token
-    const token = generateToken(user._id.toString());
+    if (authSettings.twoFactorEnabled) {
+      const challenge = createTwoFactorChallenge(user._id.toString());
+      console.log(`[2FA] Login code for ${user.email}: ${challenge.code}`);
 
-    // Set cookie
-    res.cookie('token', token, {
-      httpOnly: true,
-      secure: process.env.NODE_ENV === 'production',
-      sameSite: 'lax',
-      maxAge: 7 * 24 * 60 * 60 * 1000 // 7 days
-    });
+      return res.json({
+        success: true,
+        requiresTwoFactor: true,
+        message: 'Two-factor authentication code is required',
+        twoFactorToken: challenge.token,
+        ...(process.env.NODE_ENV !== 'production' ? { twoFactorCode: challenge.code } : {})
+      });
+    }
 
-    res.json({
-      success: true,
-      message: 'Login successful',
-      token,
-      user: {
-        id: user._id,
-        name: user.name,
-        email: user.email,
-        role: user.role,
-        isEmailVerified: user.isEmailVerified,
-        avatar: user.avatar
-      }
-    });
+    issueAuthResponse(res, user);
   } catch (error: any) {
     console.error('Login error:', error);
     res.status(500).json({
@@ -324,8 +392,16 @@ export const updateProfile = async (req: AuthRequest, res: Response) => {
 // Google login/signup via Firebase ID token
 export const googleAuth = async (req: Request, res: Response) => {
   try {
+    const authSettings = await getAuthSettings();
     const idToken = asString(req.body?.idToken, 5000);
     const role = asString(req.body?.role, 20);
+
+    if (!authSettings.socialLoginEnabled) {
+      return res.status(403).json({
+        success: false,
+        message: 'Social login is currently disabled by the administrator'
+      });
+    }
 
     if (!idToken) {
       return res.status(400).json({
@@ -371,6 +447,19 @@ export const googleAuth = async (req: Request, res: Response) => {
       });
     }
 
+    if (authSettings.twoFactorEnabled) {
+      const challenge = createTwoFactorChallenge(user._id.toString());
+      console.log(`[2FA] Google login code for ${user.email}: ${challenge.code}`);
+
+      return res.json({
+        success: true,
+        requiresTwoFactor: true,
+        message: 'Two-factor authentication code is required',
+        twoFactorToken: challenge.token,
+        ...(process.env.NODE_ENV !== 'production' ? { twoFactorCode: challenge.code } : {})
+      });
+    }
+
     const token = generateToken(user._id.toString());
 
     res.cookie('token', token, {
@@ -381,23 +470,88 @@ export const googleAuth = async (req: Request, res: Response) => {
     });
 
     res.json({
-      success: true,
-      message: 'Google authentication successful',
-      token,
-      user: {
-        id: user._id,
-        name: user.name,
-        email: user.email,
-        role: user.role,
-        isEmailVerified: user.isEmailVerified,
-        avatar: user.avatar
-      }
+      ...buildAuthenticatedPayload(user, token),
+      message: 'Google authentication successful'
     });
   } catch (error: any) {
     console.error('Google auth error:', error);
     res.status(401).json({
       success: false,
       message: error?.message || 'Google authentication failed'
+    });
+  }
+};
+
+export const verifyTwoFactor = async (req: Request, res: Response) => {
+  try {
+    const twoFactorToken = asString(req.body?.twoFactorToken, 100);
+    const code = asString(req.body?.code, 10);
+
+    if (!twoFactorToken || !code) {
+      return res.status(400).json({
+        success: false,
+        message: 'Two-factor token and code are required'
+      });
+    }
+
+    const challenge = twoFactorChallenges.get(twoFactorToken);
+    if (!challenge) {
+      return res.status(400).json({
+        success: false,
+        message: 'Invalid or expired two-factor token'
+      });
+    }
+
+    if (Date.now() > challenge.expiresAt) {
+      twoFactorChallenges.delete(twoFactorToken);
+      return res.status(400).json({
+        success: false,
+        message: 'Two-factor code expired. Please login again.'
+      });
+    }
+
+    if (challenge.code !== code) {
+      return res.status(401).json({
+        success: false,
+        message: 'Invalid two-factor code'
+      });
+    }
+
+    const user = await User.findById(challenge.userId);
+    if (!user) {
+      return res.status(404).json({
+        success: false,
+        message: 'User not found'
+      });
+    }
+
+    if (!user.isActive) {
+      return res.status(401).json({
+        success: false,
+        message: 'Account has been deactivated. Please contact support.'
+      });
+    }
+
+    twoFactorChallenges.delete(twoFactorToken);
+    issueAuthResponse(res, user);
+  } catch (error: any) {
+    console.error('Two-factor verification error:', error);
+    res.status(500).json({
+      success: false,
+      message: error.message || 'Server error during two-factor verification'
+    });
+  }
+};
+
+export const getPublicAuthSettings = async (req: Request, res: Response) => {
+  try {
+    const settings = await getAuthSettings();
+    res.json(settings);
+  } catch (error: any) {
+    console.error('Auth settings fetch error:', error);
+    res.status(500).json({
+      success: false,
+      message: 'Failed to fetch authentication settings'
     });
   }
 };

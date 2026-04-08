@@ -42,6 +42,7 @@ const ChatPage: React.FC = () => {
   const [currentChat, setCurrentChat] = useState<ChatSession | null>(null);
   const [attachedFile, setAttachedFile] = useState<File | null>(null);
   const [uploadingDB, setUploadingDB] = useState(false);
+  const [chatEnabled, setChatEnabled] = useState(true);
   const fileInputRef = useRef<HTMLInputElement>(null);
   const dbFileInputRef = useRef<HTMLInputElement>(null);
   const [chatHistory, setChatHistory] = useState<ChatSession[]>([
@@ -72,6 +73,22 @@ const ChatPage: React.FC = () => {
       setCurrentChat(chatHistory[0]);
     }
   }, [chatHistory, currentChat]);
+
+  useEffect(() => {
+    const fetchSettings = async () => {
+      try {
+        const response = await fetch('/api/auth/settings');
+        if (!response.ok) return;
+        const data = await response.json();
+        const payload = data?.data || data;
+        setChatEnabled(payload?.chatEnabled !== false);
+      } catch (error) {
+        console.error('Failed to fetch auth settings for chat:', error);
+      }
+    };
+
+    fetchSettings();
+  }, []);
 
   useEffect(() => {
     scrollToBottom();
@@ -114,6 +131,7 @@ const ChatPage: React.FC = () => {
 
   const handleSendMessage = async (e: React.FormEvent) => {
     e.preventDefault();
+    if (!chatEnabled) return;
     if (!message.trim() && !attachedFile) return;
 
     const userMessage: Message = {
@@ -308,7 +326,7 @@ const ChatPage: React.FC = () => {
             </Link>
           </div>
           <div className="d-flex align-items-center">
-            <Link to="/" className="btn btn-outline-light">
+            <Link to="/" className="btn btn-outline-light home-nav-btn">
               <i className="fas fa-home"></i> Home
             </Link>
           </div>
@@ -505,6 +523,11 @@ const ChatPage: React.FC = () => {
 
           {/* Message Input */}
           <div className="p-3" style={{ borderTop: '1px solid rgba(255,255,255,0.06)', background: 'rgba(255,255,255,0.02)' }}>
+            {!chatEnabled && (
+              <div className="alert alert-warning mb-3" role="alert">
+                AI chat is currently disabled by admin settings.
+              </div>
+            )}
             {/* File attachment preview */}
             {attachedFile && (
               <div className="alert alert-info alert-dismissible fade show mb-2 d-flex align-items-center" role="alert">
@@ -537,7 +560,7 @@ const ChatPage: React.FC = () => {
                   className="btn"
                   type="button"
                   onClick={() => fileInputRef.current?.click()}
-                  disabled={isTyping}
+                  disabled={isTyping || !chatEnabled}
                   title="Attach file"
                   style={{ border: '1px solid rgba(255,255,255,0.1)', color: 'rgba(255,255,255,0.5)', borderRadius: '12px 0 0 12px', background: 'rgba(255,255,255,0.04)' }}
                 >
@@ -549,13 +572,13 @@ const ChatPage: React.FC = () => {
                   placeholder="Ask me anything about legal matters..."
                   value={message}
                   onChange={(e) => setMessage(e.target.value)}
-                  disabled={isTyping}
+                  disabled={isTyping || !chatEnabled}
                   style={{ background: 'rgba(255,255,255,0.04)', border: '1px solid rgba(255,255,255,0.1)', color: '#e2e8f0', borderLeft: 'none', borderRight: 'none' }}
                 />
                 <button
                   className="btn"
                   type="submit"
-                  disabled={(!message.trim() && !attachedFile) || isTyping}
+                  disabled={(!message.trim() && !attachedFile) || isTyping || !chatEnabled}
                   style={{ background: 'linear-gradient(135deg, #5dd0ff, #7c5dff)', color: '#fff', border: 'none', borderRadius: '0 12px 12px 0', fontWeight: 600 }}
                 >
                   <i className="fas fa-paper-plane"></i>

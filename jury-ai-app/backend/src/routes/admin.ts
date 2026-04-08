@@ -4,6 +4,7 @@ import {
   getDashboardStats,
   getUsers,
   updateUser,
+  updateUserStatus,
   deleteUser,
   getLawyers,
   verifyLawyer,
@@ -44,6 +45,11 @@ router.put('/users/:id', [
   body('role').optional().isIn(['user', 'lawyer', 'admin']).withMessage('Invalid role'),
   body('isActive').optional().isBoolean().withMessage('isActive must be a boolean')
 ], validateRequest, updateUser);
+
+router.put('/users/:id/status', [
+  adminAuth,
+  body('status').isIn(['active', 'inactive', 'suspended']).withMessage('Status must be active, inactive, or suspended')
+], validateRequest, updateUserStatus);
 
 router.delete('/users/:id', adminAuth, deleteUser);
 

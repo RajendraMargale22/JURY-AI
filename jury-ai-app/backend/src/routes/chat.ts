@@ -1,8 +1,22 @@
 import express, { Response } from 'express';
 import Chat from '../models/Chat';
 import { getAIResponse } from '../utils/aiService';
+import { getMergedSystemSettings } from '../utils/systemSettings';
 
 const router = express.Router();
+
+router.use(async (req, res, next) => {
+  try {
+    const settings = await getMergedSystemSettings();
+    if (settings.chatEnabled === false) {
+      return res.status(403).json({ message: 'Chat feature is currently disabled by admin settings' });
+    }
+    return next();
+  } catch (error) {
+    console.error('Chat settings check failed:', error);
+    return res.status(500).json({ message: 'Unable to validate chat availability' });
+  }
+});
 
 // Get chat history (no auth, returns empty for demo)
 router.get('/history', async (req, res: Response) => {

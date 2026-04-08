@@ -1,0 +1,20 @@
+[
+  {
+    "id": "safe-service-agreement",
+    "contract_text": "1. This agreement is between Alpha and Beta. 2. Payment shall be made in INR within 15 days of invoice. 3. Either party may terminate with 30 days notice. 4. Confidential information shall be protected by both parties. 5. Liability is capped at total fees paid.",
+    "expected": {
+      "risk_level": "low",
+      "missing_clauses": [],
+      "key_clauses_found": ["Parties", "Payment Terms", "Termination", "Confidentiality", "Liability"]
+    }
+  },
+  {
+    "id": "risky-one-sided-contract",
+    "contract_text": "1. Company may terminate immediately at sole discretion without notice. 2. Consultant has unlimited liability and irrevocable indemnity. 3. Payment is in USD only. 4. Arbitration seat is London and arbitrator appointed solely by Company.",
+    "expected": {
+      "risk_level": "high",
+      "missing_clauses": ["Confidentiality"],
+      "key_clauses_found": ["Payment Terms", "Termination", "Liability"]
+    }
+  }
+]

@@ -26,6 +26,7 @@ export interface IUser extends Document {
   updatedAt: Date;
   lastLogin?: Date;
   isActive: boolean;
+  accountStatus?: 'active' | 'inactive' | 'suspended';
   // Lawyer specific fields
   specialization?: string[];
   experience?: number;

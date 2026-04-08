@@ -370,3 +370,57 @@ def test_partnership_asymmetry_rules_detect_key_high_risks():
     assert payload["risk_level"] == "high"
     assert payload["risky_clauses"] >= 8
     assert 84 <= payload["risk_score"] <= 92
+
+
+def test_legacy_output_overlap_between_key_and_missing_is_reconciled():
+    def fake_legacy(_text: str):
+        return {
+            "summary": "legacy overlap",
+            "document_type": "contract",
+            "risk_level": "medium",
+            "risk_score": 50,
+            "key_clauses_found": ["Termination", "Payment Terms"],
+            "missing_clauses": ["Termination", "Liability"],
+            "suggestions": ["review"],
+            "clauses_analyzed": 1,
+            "risky_clauses": 0,
+            "clause_results": [
+                {
+                    "clause_text": "legacy clause",
+                    "ml_risk_level": "low",
+                    "ml_confidence": 0.8,
+                    "ml_source": "heuristic",
+                    "indian_risks": [],
+                    "final_risk_level": "low",
+                }
+            ],
+        }
+
+    runtime_state.legacy_analyzer = fake_legacy
+
+    response = post_analyze(data={"contract_text": "Any contract text"})
+    assert response.status_code == 200
+    payload = response.json()
+
+    lowered_keys = {item.lower() for item in payload["key_clauses_found"]}
+    lowered_missing = {item.lower() for item in payload["missing_clauses"]}
+    assert "termination" not in lowered_keys.intersection(lowered_missing)
+
+    runtime_state.legacy_analyzer = None
+
+
+def test_native_summary_understatement_gets_consistency_suggestion():
+    runtime_state.legacy_analyzer = None
+
+    risky_contract = (
+        "1. The Company may terminate immediately at sole discretion without notice.\n"
+        "2. Consultant shall be liable for all indirect damages without any cap.\n"
+        "3. Arbitration seat shall be outside India and selected solely by Company.\n"
+    )
+
+    response = post_analyze(data={"contract_text": risky_contract})
+    assert response.status_code == 200
+    payload = response.json()
+
+    if payload["high_risk_clauses"] > 0:
+        assert any("consistency check" in s.lower() for s in payload["suggestions"])

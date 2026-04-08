@@ -29,12 +29,12 @@ router.get('/dashboard', getDashboardStats);
 
 // User management
 router.get('/users', getUsers);
-router.put('/users/:userId/status', updateUserStatus);
-router.delete('/users/:userId', deleteUser);
+router.put('/users/:id/status', updateUserStatus);
+router.delete('/users/:id', deleteUser);
 
 // Lawyer management
 router.get('/lawyers', getLawyers);
-router.put('/lawyers/:lawyerId/verify', verifyLawyer);
+router.put('/lawyers/:id/verify', verifyLawyer);
 
 // Community management
 router.get('/community', getCommunityPosts);
@@ -44,8 +44,8 @@ router.delete('/community/:postId', deletePost);
 // Template management
 router.get('/templates', getTemplates);
 router.post('/templates', createTemplate);
-router.put('/templates/:templateId/status', updateTemplateStatus);
-router.delete('/templates/:templateId', deleteTemplate);
+router.put('/templates/:id/status', updateTemplateStatus);
+router.delete('/templates/:id', deleteTemplate);
 
 // Settings
 router.get('/settings', getSettings);

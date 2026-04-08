@@ -52,19 +52,40 @@ export const templateService = {
     }
 
     const response = await axios.get(`${API_URL}/templates?${params.toString()}`);
-    return response.data as TemplatesResponse;
+    const payload = response.data as any;
+
+    if (payload?.data && typeof payload.data === 'object') {
+      return payload.data as TemplatesResponse;
+    }
+
+    return payload as TemplatesResponse;
   },
 
   // Get template categories
   async getCategories(): Promise<string[]> {
     const response = await axios.get(`${API_URL}/templates/categories`);
-    return response.data as string[];
+    const payload = response.data as any;
+
+    if (Array.isArray(payload)) {
+      return payload;
+    }
+
+    if (Array.isArray(payload?.data)) {
+      return payload.data;
+    }
+
+    if (Array.isArray(payload?.categories)) {
+      return payload.categories;
+    }
+
+    return [];
   },
 
   // Get specific template
   async getTemplate(id: string): Promise<Template> {
     const response = await axios.get(`${API_URL}/templates/${id}`);
-    return response.data as Template;
+    const payload = response.data as any;
+    return (payload?.data || payload) as Template;
   },
 
   // Upload new template

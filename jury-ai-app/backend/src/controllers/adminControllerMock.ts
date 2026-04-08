@@ -83,7 +83,7 @@ export const getUsers = async (req: AuthRequest, res: Response) => {
 // Update user status
 export const updateUserStatus = async (req: AuthRequest, res: Response) => {
   try {
-    const { userId } = req.params;
+    const userId = req.params.userId || req.params.id;
     const { status } = req.body;
 
     const user = mockDB.updateUser(userId, { status });
@@ -102,7 +102,7 @@ export const updateUserStatus = async (req: AuthRequest, res: Response) => {
 // Delete user
 export const deleteUser = async (req: AuthRequest, res: Response) => {
   try {
-    const { userId } = req.params;
+    const userId = req.params.userId || req.params.id;
     
     // For demo purposes, we'll just mark as inactive instead of deleting
     const user = mockDB.updateUser(userId, { status: 'inactive' });
@@ -143,7 +143,7 @@ export const getLawyers = async (req: AuthRequest, res: Response) => {
 // Verify lawyer
 export const verifyLawyer = async (req: AuthRequest, res: Response) => {
   try {
-    const { lawyerId } = req.params;
+    const lawyerId = req.params.lawyerId || req.params.id;
     const { action, reason } = req.body;
 
     const updates: any = {};
@@ -250,7 +250,7 @@ export const getTemplates = async (req: AuthRequest, res: Response) => {
 // Update template status
 export const updateTemplateStatus = async (req: AuthRequest, res: Response) => {
   try {
-    const { templateId } = req.params;
+    const templateId = req.params.templateId || req.params.id;
     const { isActive } = req.body;
 
     const template = mockDB.updateTemplate(templateId, { isActive });
@@ -269,7 +269,7 @@ export const updateTemplateStatus = async (req: AuthRequest, res: Response) => {
 // Delete template
 export const deleteTemplate = async (req: AuthRequest, res: Response) => {
   try {
-    const { templateId } = req.params;
+    const templateId = req.params.templateId || req.params.id;
     
     // In a real implementation, you'd delete the template from the database
     res.json({ message: 'Template deleted successfully' });

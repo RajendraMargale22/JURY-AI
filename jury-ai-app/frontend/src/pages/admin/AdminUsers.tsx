@@ -1,4 +1,6 @@
 import React, { useState, useEffect } from 'react';
+import { toast } from 'react-toastify';
+import { useAuth } from '../../contexts/AuthContext';
 
 interface User {
   _id: string;
@@ -12,6 +14,7 @@ interface User {
 }
 
 const AdminUsers: React.FC = () => {
+  const { user: currentUser } = useAuth();
   const [users, setUsers] = useState<User[]>([]);
   const [loading, setLoading] = useState(true);
   const [searchTerm, setSearchTerm] = useState('');
@@ -44,11 +47,16 @@ const AdminUsers: React.FC = () => {
 
       if (response.ok) {
         const data = await response.json();
-        setUsers(data.users);
-        setTotalPages(data.totalPages);
+        const payload = data?.data || data;
+        setUsers(payload.users || []);
+        setTotalPages(payload.totalPages || 1);
+      } else {
+        const data = await response.json().catch(() => ({}));
+        toast.error(data?.message || 'Failed to fetch users');
       }
     } catch (error) {
       console.error('Error fetching users:', error);
+      toast.error('Failed to fetch users');
     } finally {
       setLoading(false);
     }
@@ -66,10 +74,15 @@ const AdminUsers: React.FC = () => {
       });
 
       if (response.ok) {
+        toast.success('User status updated');
         fetchUsers(); // Refresh the list
+      } else {
+        const data = await response.json().catch(() => ({}));
+        toast.error(data?.message || 'Failed to update user status');
       }
     } catch (error) {
       console.error('Error updating user status:', error);
+      toast.error('Failed to update user status');
     }
   };
 
@@ -82,10 +95,15 @@ const AdminUsers: React.FC = () => {
         });
 
         if (response.ok) {
+          toast.success('User deleted successfully');
           fetchUsers(); // Refresh the list
+        } else {
+          const data = await response.json().catch(() => ({}));
+          toast.error(data?.message || 'Failed to delete user');
         }
       } catch (error) {
         console.error('Error deleting user:', error);
+        toast.error('Failed to delete user');
       }
     }
   };
@@ -142,7 +160,7 @@ const AdminUsers: React.FC = () => {
             backdropFilter: 'blur(10px)'
           }}>
             <div className="card-body text-center">
-              <i className="fas fa-user-check fa-2x mb-2\" style={{color: '#7c5dff'}}></i>
+              <i className="fas fa-user-check fa-2x mb-2" style={{color: '#7c5dff'}}></i>
               <h3 style={{color: '#7c5dff', marginBottom: '0.25rem'}}>{users.filter(u => u.status === 'active').length}</h3>
               <p className="mb-0" style={{color: 'rgba(255, 255, 255, 0.6)', fontSize: '0.875rem'}}>Active Users</p>
             </div>
@@ -155,7 +173,7 @@ const AdminUsers: React.FC = () => {
             backdropFilter: 'blur(10px)'
           }}>
             <div className="card-body text-center">
-              <i className="fas fa-shield-alt fa-2x mb-2\" style={{color: '#22c55e'}}></i>
+              <i className="fas fa-shield-alt fa-2x mb-2" style={{color: '#22c55e'}}></i>
               <h3 style={{color: '#22c55e', marginBottom: '0.25rem'}}>{users.filter(u => u.isVerified).length}</h3>
               <p className="mb-0" style={{color: 'rgba(255, 255, 255, 0.6)', fontSize: '0.875rem'}}>Verified</p>
             </div>
@@ -168,7 +186,7 @@ const AdminUsers: React.FC = () => {
             backdropFilter: 'blur(10px)'
           }}>
             <div className="card-body text-center">
-              <i className="fas fa-ban fa-2x mb-2\" style={{color: '#ef4444'}}></i>
+              <i className="fas fa-ban fa-2x mb-2" style={{color: '#ef4444'}}></i>
               <h3 style={{color: '#ef4444', marginBottom: '0.25rem'}}>{users.filter(u => u.status === 'suspended').length}</h3>
               <p className="mb-0" style={{color: 'rgba(255, 255, 255, 0.6)', fontSize: '0.875rem'}}>Suspended</p>
             </div>
@@ -352,6 +370,7 @@ const AdminUsers: React.FC = () => {
                             <button
                               className="btn btn-outline-danger"
                               onClick={() => handleDeleteUser(user._id)}
+                              disabled={currentUser?.id === user._id}
                               title="Delete User"
                             >
                               <i className="fas fa-trash"></i>

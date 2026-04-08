@@ -32,9 +32,7 @@ const ProtectedRoute: React.FC<ProtectedRouteProps> = ({ children, requiredRole,
       // If user is admin and trying to access non-admin routes, redirect to admin
       if (user.role === 'admin' && !location.pathname.startsWith('/admin')) {
         // Allow homepage access
-        if (location.pathname !== '/') {
-          toast.info('Redirecting to Admin Dashboard');
-        }
+        // Intentionally no toast here to avoid duplicate notifications in development StrictMode.
       }
     }
   }, [isLoading, isAuthenticated, user, location]);

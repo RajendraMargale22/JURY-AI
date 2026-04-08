@@ -37,6 +37,12 @@ export const errorHandler = (err: any, req: Request, res: Response, next: NextFu
     error = { message, statusCode: 401 };
   }
 
+  // CSRF token errors
+  if (err.code === 'EBADCSRFTOKEN') {
+    const message = 'Invalid or missing CSRF token';
+    error = { message, statusCode: 403 };
+  }
+
   res.status(error.statusCode || 500).json({
     success: false,
     message: error.message || 'Server Error',

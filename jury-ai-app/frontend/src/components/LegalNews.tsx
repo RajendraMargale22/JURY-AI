@@ -43,24 +43,29 @@ const FALLBACK_NEWS: NewsArticle[] = [
 const LegalNews: React.FC = () => {
   const [news, setNews] = useState<NewsArticle[]>([]);
   const [loading, setLoading] = useState(true);
-  const newsApiKey = process.env.REACT_APP_NEWS_API_KEY;
 
   const fetchLegalNews = useCallback(async () => {
     try {
-      if (!newsApiKey) {
-        setNews(FALLBACK_NEWS);
-        return;
-      }
-
-      // Using NewsAPI.org - Free tier allows 100 requests per day
-      // You can get a free API key from https://newsapi.org/
+      const rssUrl = encodeURIComponent('https://news.google.com/rss/search?q=india+legal+news+court+judgment+law&hl=en-IN&gl=IN&ceid=IN:en');
       const response = await fetch(
-        `https://newsapi.org/v2/everything?q=(law OR legal OR court OR justice OR attorney)&sortBy=publishedAt&language=en&pageSize=6&apiKey=${newsApiKey}`
+        `https://api.rss2json.com/v1/api.json?rss_url=${rssUrl}&count=10`
       );
       
       if (response.ok) {
         const data = await response.json();
-        setNews(data.articles || []);
+        const items = Array.isArray(data?.items) ? data.items : [];
+        const mapped: NewsArticle[] = items.map((item: any) => ({
+          title: item?.title || 'Legal Update',
+          description: item?.description || item?.contentSnippet || 'Latest legal news update.',
+          url: item?.link || '#',
+          urlToImage: item?.thumbnail || 'https://placehold.co/400x200.png?text=Legal+News',
+          publishedAt: item?.pubDate || new Date().toISOString(),
+          source: {
+            name: item?.author || 'Google News'
+          }
+        }));
+
+        setNews(mapped.length > 0 ? mapped : FALLBACK_NEWS);
       } else {
         setNews(FALLBACK_NEWS);
       }
@@ -79,7 +84,7 @@ const LegalNews: React.FC = () => {
     } finally {
       setLoading(false);
     }
-  }, [newsApiKey]);
+  }, []);
 
   useEffect(() => {
     fetchLegalNews();
@@ -140,7 +145,7 @@ const LegalNews: React.FC = () => {
                       <i className="fas fa-calendar-alt me-2"></i>
                       {formatDate(article.publishedAt)}
                     </span>
-                    <a href="#" onClick={(e) => e.preventDefault()} className="read-more-link" aria-disabled="true">
+                    <a href={article.url} target="_blank" rel="noreferrer" className="read-more-link">
                       Read More <i className="fas fa-arrow-right ms-1"></i>
                     </a>
                   </div>

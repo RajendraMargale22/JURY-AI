@@ -45,6 +45,11 @@ const userSchema = new Schema<IUser>({
     type: Boolean,
     default: true
   },
+  accountStatus: {
+    type: String,
+    enum: ['active', 'inactive', 'suspended'],
+    default: 'active'
+  },
   profile: {
     phone: String,
     address: String,

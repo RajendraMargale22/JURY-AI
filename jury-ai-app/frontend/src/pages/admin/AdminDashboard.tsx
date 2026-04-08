@@ -12,6 +12,9 @@ const AdminDashboard: React.FC = () => {
   const { user } = useAuth();
   const location = useLocation();
   const [sidebarCollapsed, setSidebarCollapsed] = useState(false);
+  const [notificationsOpen, setNotificationsOpen] = useState(false);
+  const [recentActivity, setRecentActivity] = useState<Array<{ type: string; description: string; timestamp: string }>>([]);
+  const [unreadCount, setUnreadCount] = useState(0);
 
   const menuItems = [
     { path: '/admin', icon: 'fas fa-tachometer-alt', label: 'Dashboard', exact: true },
@@ -34,6 +37,39 @@ const AdminDashboard: React.FC = () => {
       item.exact ? currentPath === item.path : currentPath.startsWith(item.path)
     );
     return menuItem?.label || 'Dashboard';
+  };
+
+  useEffect(() => {
+    const fetchNotifications = async () => {
+      try {
+        const response = await fetch('/api/admin/dashboard', {
+          method: 'GET',
+          credentials: 'include',
+          headers: {
+            'Content-Type': 'application/json',
+          },
+        });
+
+        if (!response.ok) return;
+        const payload = await response.json();
+        const activities = payload?.data?.recentActivity || payload?.recentActivity || [];
+        setRecentActivity(activities);
+
+        const lastSeenRaw = localStorage.getItem('adminNotificationsLastSeenAt');
+        const lastSeenTs = lastSeenRaw ? Date.parse(lastSeenRaw) : 0;
+        const unread = activities.filter((item: { timestamp: string }) => Date.parse(item.timestamp) > lastSeenTs).length;
+        setUnreadCount(unread);
+      } catch (error) {
+        console.error('Failed to fetch admin notifications:', error);
+      }
+    };
+
+    fetchNotifications();
+  }, [location.pathname]);
+
+  const markNotificationsAsRead = () => {
+    localStorage.setItem('adminNotificationsLastSeenAt', new Date().toISOString());
+    setUnreadCount(0);
   };
 
   return (
@@ -122,14 +158,66 @@ const AdminDashboard: React.FC = () => {
             
             <div className="d-flex align-items-center">
               <div className="me-3" style={{ position: 'relative' }}>
-                <span className="badge" style={{
-                  position: 'absolute',
-                  top: '-5px',
-                  right: '-5px',
-                  background: 'linear-gradient(135deg, #ff6b6b, #ee5a6f)',
-                  fontSize: '0.7rem'
-                }}>5</span>
-                <i className="fas fa-bell ms-1" style={{ color: 'rgba(255, 255, 255, 0.7)', fontSize: '1.2rem' }}></i>
+                <button
+                  className="btn p-0 border-0 bg-transparent"
+                  onClick={() => {
+                    const next = !notificationsOpen;
+                    setNotificationsOpen(next);
+                    if (next) {
+                      markNotificationsAsRead();
+                    }
+                  }}
+                  title="Notifications"
+                  style={{ color: 'rgba(255, 255, 255, 0.7)' }}
+                >
+                  <i className="fas fa-bell ms-1" style={{ color: 'rgba(255, 255, 255, 0.7)', fontSize: '1.2rem' }}></i>
+                </button>
+                {unreadCount > 0 && (
+                  <span className="badge" style={{
+                    position: 'absolute',
+                    top: '-5px',
+                    right: '-8px',
+                    background: 'linear-gradient(135deg, #ff6b6b, #ee5a6f)',
+                    fontSize: '0.7rem'
+                  }}>
+                    {unreadCount > 99 ? '99+' : unreadCount}
+                  </span>
+                )}
+
+                {notificationsOpen && (
+                  <div
+                    style={{
+                      position: 'absolute',
+                      right: 0,
+                      top: 'calc(100% + 10px)',
+                      width: '320px',
+                      maxHeight: '360px',
+                      overflowY: 'auto',
+                      zIndex: 2000,
+                      background: 'rgba(15, 23, 42, 0.98)',
+                      border: '1px solid rgba(93, 208, 255, 0.25)',
+                      borderRadius: '10px',
+                      boxShadow: '0 10px 30px rgba(0,0,0,0.35)'
+                    }}
+                  >
+                    <div style={{ padding: '10px 12px', borderBottom: '1px solid rgba(255,255,255,0.08)', color: '#e2e8f0', fontWeight: 600 }}>
+                      Notifications
+                    </div>
+                    {recentActivity.length === 0 ? (
+                      <div style={{ padding: '12px', color: 'rgba(255,255,255,0.6)' }}>No notifications yet.</div>
+                    ) : (
+                      recentActivity.slice(0, 10).map((item, index) => (
+                        <div key={`${item.timestamp}-${index}`} style={{ padding: '10px 12px', borderBottom: '1px solid rgba(255,255,255,0.06)' }}>
+                          <div style={{ color: '#f8fafc', fontSize: '0.9rem', fontWeight: 600 }}>{item.type}</div>
+                          <div style={{ color: 'rgba(255,255,255,0.7)', fontSize: '0.82rem' }}>{item.description}</div>
+                          <div style={{ color: 'rgba(255,255,255,0.5)', fontSize: '0.75rem', marginTop: 4 }}>
+                            {new Date(item.timestamp).toLocaleString()}
+                          </div>
+                        </div>
+                      ))
+                    )}
+                  </div>
+                )}
               </div>
               <div className="d-flex align-items-center">
                 <div className="text-white rounded-circle d-flex align-items-center justify-content-center me-2"

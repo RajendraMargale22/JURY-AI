@@ -107,6 +107,31 @@
   background: rgba(255, 255, 255, 0.05);
 }
 
+.home-nav-btn {
+  background: #ffffff !important;
+  color: #111827 !important;
+  border: 1px solid #ffffff !important;
+  box-shadow: none !important;
+  transform: none !important;
+  transition: none !important;
+}
+
+.home-nav-btn i {
+  color: #111827 !important;
+}
+
+.home-nav-btn:hover,
+.home-nav-btn:focus,
+.home-nav-btn:active,
+.home-nav-btn.active,
+.home-nav-btn:focus-visible {
+  background: #ffffff !important;
+  color: #111827 !important;
+  border: 1px solid #ffffff !important;
+  box-shadow: none !important;
+  transform: none !important;
+}
+
 .feature-card {
   border: 1px solid var(--border) !important;
   background: linear-gradient(180deg, rgba(255, 255, 255, 0.04), rgba(255, 255, 255, 0.02));

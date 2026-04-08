@@ -1,5 +1,14 @@
 import express from 'express';
-import { register, login, logout, getProfile, updateProfile, googleAuth } from '../controllers/authController';
+import {
+	register,
+	login,
+	logout,
+	getProfile,
+	updateProfile,
+	googleAuth,
+	verifyTwoFactor,
+	getPublicAuthSettings,
+} from '../controllers/authController';
 import { auth } from '../middleware/auth';
 
 const router = express.Router();
@@ -8,6 +17,8 @@ const router = express.Router();
 router.post('/register', register);
 router.post('/login', login);
 router.post('/google', googleAuth);
+router.post('/verify-2fa', verifyTwoFactor);
+router.get('/settings', getPublicAuthSettings);
 router.post('/logout', logout);
 
 // Protected routes (require authentication)

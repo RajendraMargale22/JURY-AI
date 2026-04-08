@@ -31,6 +31,32 @@ If you get `externally-managed-environment`, use the project virtual environment
 
 Service URL: `http://localhost:8001`
 
+## Evaluation & quality checks
+
+Run syntax checks for core files:
+
+```bash
+cd /home/aditya/Downloads/JURY-AI-main/contract-review-backend
+make compile
+```
+
+Run evaluation on labeled dataset (sample included):
+
+```bash
+cd /home/aditya/Downloads/JURY-AI-main/contract-review-backend
+make eval
+```
+
+Default inputs/outputs:
+- dataset: `scripts/eval_dataset.sample.json`
+- report: `scripts/eval_report.json`
+
+Override at runtime:
+
+```bash
+make eval DATASET=scripts/my_eval_dataset.json REPORT=scripts/my_eval_report.json
+```
+
 ## API
 
 - `GET /health`

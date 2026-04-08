@@ -1,4 +1,4 @@
-import React, { useMemo, useState } from 'react';
+import React, { useEffect, useMemo, useState } from 'react';
 import { Link } from 'react-router-dom';
 import { contractReviewService, ContractAnalyzeResponse, RiskLevel } from '../services/contractReviewService';
 
@@ -118,6 +118,23 @@ const ContractReviewPage: React.FC = () => {
   const [result, setResult] = useState<ContractAnalyzeResponse | null>(null);
   const [activeTab, setActiveTab] = useState<TabKey>('summary');
   const [showAllClauses, setShowAllClauses] = useState(false);
+  const [documentAnalysisEnabled, setDocumentAnalysisEnabled] = useState(true);
+
+  useEffect(() => {
+    const fetchFeatureSettings = async () => {
+      try {
+        const response = await fetch('/api/auth/settings');
+        if (!response.ok) return;
+        const data = await response.json();
+        const payload = data?.data || data;
+        setDocumentAnalysisEnabled(payload?.documentAnalysisEnabled !== false);
+      } catch (error) {
+        console.error('Failed to fetch feature settings for contract review:', error);
+      }
+    };
+
+    fetchFeatureSettings();
+  }, []);
 
   const canAnalyze = useMemo(() => Boolean((contractText && contractText.trim()) || file), [contractText, file]);
 
@@ -223,7 +240,7 @@ const ContractReviewPage: React.FC = () => {
   }, [result]);
 
   const onAnalyze = async () => {
-    if (!canAnalyze || loading) {
+    if (!documentAnalysisEnabled || !canAnalyze || loading) {
       return;
     }
 
@@ -248,13 +265,18 @@ const ContractReviewPage: React.FC = () => {
       <div className="d-flex justify-content-between align-items-center mb-3">
         <h2 className="mb-0" style={{ color: '#e2e8f0' }}>Contract Review</h2>
         <div className="d-flex gap-2">
-          <Link to="/" className="btn btn-outline-light btn-sm">Home</Link>
+          <Link to="/" className="btn btn-outline-light home-nav-btn btn-sm">Home</Link>
           <Link to="/chat" className="btn btn-outline-info btn-sm">AI Chat</Link>
         </div>
       </div>
 
       <div className="card border-0 mb-4" style={{ background: 'rgba(255,255,255,0.04)' }}>
         <div className="card-body">
+          {!documentAnalysisEnabled && (
+            <div className="alert alert-warning">
+              Contract review is currently disabled by admin settings.
+            </div>
+          )}
           <div className="row g-3">
             <div className="col-12">
               <label className="form-label text-light">Paste contract text (optional)</label>
@@ -264,6 +286,7 @@ const ContractReviewPage: React.FC = () => {
                 value={contractText}
                 onChange={(e) => setContractText(e.target.value)}
                 placeholder="Paste your agreement/contract text here..."
+                disabled={!documentAnalysisEnabled}
               />
             </div>
             <div className="col-md-8">
@@ -273,11 +296,12 @@ const ContractReviewPage: React.FC = () => {
                 className="form-control"
                 accept=".pdf,.docx,.txt,.md"
                 onChange={(e) => setFile(e.target.files?.[0] || null)}
+                disabled={!documentAnalysisEnabled}
               />
               {file && <small className="text-info">Selected: {file.name}</small>}
             </div>
             <div className="col-md-4 d-flex align-items-end">
-              <button className="btn btn-primary w-100" onClick={onAnalyze} disabled={!canAnalyze || loading}>
+              <button className="btn btn-primary w-100" onClick={onAnalyze} disabled={!documentAnalysisEnabled || !canAnalyze || loading}>
                 {loading ? 'Analyzing...' : 'Analyze Contract'}
               </button>
             </div>

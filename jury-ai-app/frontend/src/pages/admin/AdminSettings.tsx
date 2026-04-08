@@ -98,7 +98,8 @@ const AdminSettings: React.FC = () => {
 
       if (response.ok) {
         const data = await response.json();
-        setSettings(prev => ({ ...prev, ...data }));
+        const settingsPayload = (data?.data || data) as Partial<SystemSettings>;
+        setSettings(prev => ({ ...prev, ...settingsPayload }));
       }
     } catch (error) {
       console.error('Error fetching settings:', error);

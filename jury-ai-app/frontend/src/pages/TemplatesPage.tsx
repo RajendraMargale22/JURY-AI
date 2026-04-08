@@ -36,6 +36,7 @@ const TemplatesPage: React.FC = () => {
   const [isUploading, setIsUploading] = useState(false);
   const [templates, setTemplates] = useState<Template[]>([]);
   const [isLoadingTemplates, setIsLoadingTemplates] = useState(true);
+  const [templatesEnabled, setTemplatesEnabled] = useState(true);
   const [categories, setCategories] = useState<string[]>([
     'all',
     'Sales Documents and Forms',
@@ -57,13 +58,35 @@ const TemplatesPage: React.FC = () => {
     'Lease Agreement'
   ]);
 
+  useEffect(() => {
+    fetchFeatureSettings();
+  }, []);
+
   // Fetch templates from API
   useEffect(() => {
     fetchTemplates();
     fetchCategories();
-  }, [selectedCategory, searchTerm]);
+  }, [selectedCategory, searchTerm, templatesEnabled]);
+
+  const fetchFeatureSettings = async () => {
+    try {
+      const response = await fetch('/api/auth/settings');
+      if (!response.ok) return;
+      const data = await response.json();
+      const payload = data?.data || data;
+      setTemplatesEnabled(payload?.templatesEnabled !== false);
+    } catch (error) {
+      console.error('Error fetching feature settings:', error);
+    }
+  };
 
   const fetchTemplates = async () => {
+    if (!templatesEnabled) {
+      setTemplates([]);
+      setIsLoadingTemplates(false);
+      return;
+    }
+
     setIsLoadingTemplates(true);
     try {
       const data = await templateService.getTemplates(
@@ -99,6 +122,8 @@ const TemplatesPage: React.FC = () => {
   };
 
   const fetchCategories = async () => {
+    if (!templatesEnabled) return;
+
     try {
       const apiCategories = await templateService.getCategories();
       setCategories(['all', ...apiCategories]);
@@ -109,6 +134,11 @@ const TemplatesPage: React.FC = () => {
 
   const handleUploadSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
+
+    if (!templatesEnabled) {
+      toast.error('Template feature is currently disabled by admin settings');
+      return;
+    }
     
     if (!uploadForm.title || !uploadForm.description || !uploadForm.file) {
       toast.error('Please fill in all fields and select a file');
@@ -163,6 +193,11 @@ const TemplatesPage: React.FC = () => {
   const canUploadTemplate = user && (user.role === 'admin' || user.role === 'lawyer');
 
   const downloadTemplate = async (template: Template, format: 'pdf' | 'word') => {
+    if (!templatesEnabled) {
+      toast.error('Template feature is currently disabled by admin settings');
+      return;
+    }
+
     try {
       const token = localStorage.getItem('token');
       if (!token) {
@@ -208,20 +243,25 @@ const TemplatesPage: React.FC = () => {
   return (
     <div className="templates-page-container">
       {/* Header */}
-      <nav className="navbar navbar-dark" style={{ 
+      <nav className="navbar navbar-dark templates-top-navbar" style={{ 
         background: 'rgba(15, 23, 42, 0.95)',
         backdropFilter: 'blur(10px)',
         borderBottom: '1px solid rgba(93, 208, 255, 0.2)'
       }}>
         <div className="container-fluid">
           <Link className="navbar-brand" to="/" style={{ 
-            color: '#5dd0ff',
-            fontWeight: 600
+            color: '#f8fbff',
+            fontWeight: 700,
+            textShadow: '0 1px 10px rgba(93, 208, 255, 0.45)'
           }}>
-            <i className="fas fa-balance-scale me-2"></i>
+            <i className="fas fa-balance-scale me-2" style={{ color: '#5dd0ff' }}></i>
             Jury AI - Legal Templates
           </Link>
           <div className="d-flex align-items-center">
+            <Link to="/" className="btn btn-outline-light home-nav-btn me-2">
+              <i className="fas fa-house me-2"></i>
+              Home
+            </Link>
             {user ? (
               <>
                 <span className="text-light me-3">Welcome, <span style={{color: '#5dd0ff'}}>{user.name}</span></span>
@@ -244,6 +284,11 @@ const TemplatesPage: React.FC = () => {
       </nav>
 
       <div className="container-fluid py-4">
+        {!templatesEnabled && (
+          <div className="alert alert-warning" role="alert">
+            Template feature is currently disabled by admin settings.
+          </div>
+        )}
         <div className="row">
           {/* Sidebar */}
           <div className="col-lg-3 mb-4 templates-sidebar">

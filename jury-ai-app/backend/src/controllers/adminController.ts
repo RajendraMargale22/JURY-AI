@@ -5,48 +5,11 @@ import Document from '../models/Document';
 import Template from '../models/Template';
 import SystemSettings from '../models/SystemSettings';
 import { AuthRequest } from '../types/interfaces';
-
-type SettingsMap = Record<string, string | number | boolean | string[]>;
-
-const defaultSystemSettings: SettingsMap = {
-  // General
-  siteName: 'Jury AI',
-  siteDescription: 'AI-Powered Legal Assistant Platform',
-  siteUrl: 'http://localhost:3000',
-  supportEmail: 'support@juryai.com',
-  contactEmail: 'contact@juryai.com',
-
-  // System
-  maintenanceMode: false,
-  registrationEnabled: true,
-  emailVerificationRequired: true,
-  maxFileUploadSize: 10,
-  allowedFileTypes: ['pdf', 'doc', 'docx', 'txt'],
-  sessionTimeout: 24,
-  logLevel: 'info',
-  backupFrequency: 'daily',
-
-  // Features
-  chatEnabled: true,
-  chatRateLimit: 10,
-  templatesEnabled: true,
-  documentAnalysisEnabled: true,
-  lawyerVerificationEnabled: true,
-  autoVerifyLawyers: false,
-  analyticsEnabled: true,
-
-  // Security
-  passwordMinLength: 8,
-  passwordRequireUppercase: true,
-  passwordRequireNumbers: true,
-  passwordRequireSpecialChars: false,
-  twoFactorEnabled: false,
-  socialLoginEnabled: false,
-  maxLoginAttempts: 5,
-  lockoutDuration: 15
-};
-
-const settingsKeys = Object.keys(defaultSystemSettings);
+import {
+  defaultSystemSettings,
+  normalizeSettingsPayload,
+  getMergedSystemSettings,
+} from '../utils/systemSettings';
 
 const asString = (value: unknown, maxLength = 200): string =>
   typeof value === 'string' ? value.trim().slice(0, maxLength) : '';
@@ -59,47 +22,6 @@ const asPositiveInt = (value: unknown, fallback: number, max = 100): number => {
 
 const escapeRegex = (value: string): string => value.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
 
-const normalizeSettingsPayload = (payload: Record<string, unknown>): SettingsMap => {
-  const normalized: SettingsMap = {};
-
-  for (const key of settingsKeys) {
-    if (!(key in payload)) {
-      continue;
-    }
-
-    const defaultValue = defaultSystemSettings[key];
-    const candidate = payload[key];
-
-    if (typeof defaultValue === 'boolean') {
-      if (typeof candidate === 'boolean') {
-        normalized[key] = candidate;
-      }
-      continue;
-    }
-
-    if (typeof defaultValue === 'number') {
-      if (typeof candidate === 'number' && Number.isFinite(candidate)) {
-        normalized[key] = candidate;
-      }
-      continue;
-    }
-
-    if (typeof defaultValue === 'string') {
-      if (typeof candidate === 'string') {
-        normalized[key] = candidate.trim();
-      }
-      continue;
-    }
-
-    if (Array.isArray(defaultValue)) {
-      if (Array.isArray(candidate)) {
-        normalized[key] = candidate.filter((item): item is string => typeof item === 'string');
-      }
-    }
-  }
-
-  return normalized;
-};
 
 // Get dashboard statistics
 export const getDashboardStats = async (req: AuthRequest, res: Response) => {
@@ -171,18 +93,41 @@ export const getUsers = async (req: AuthRequest, res: Response) => {
 
     // Build query
     const query: any = {};
+    const andConditions: any[] = [];
     if (search) {
       const safeSearch = escapeRegex(search);
-      query.$or = [
+      andConditions.push({
+        $or: [
         { name: { $regex: safeSearch, $options: 'i' } },
         { email: { $regex: safeSearch, $options: 'i' } }
-      ];
+        ]
+      });
     }
     if (role && role !== 'all') {
       query.role = role;
     }
     if (status && status !== 'all') {
-      query.isActive = status === 'active';
+      if (status === 'active') {
+        andConditions.push({
+          $or: [
+          { accountStatus: 'active' },
+          { accountStatus: { $exists: false }, isActive: true }
+          ]
+        });
+      } else if (status === 'inactive') {
+        andConditions.push({
+          $or: [
+            { accountStatus: 'inactive' },
+            { accountStatus: { $exists: false }, isActive: false }
+          ]
+        });
+      } else if (status === 'suspended') {
+        query.accountStatus = 'suspended';
+      }
+    }
+
+    if (andConditions.length > 0) {
+      query.$and = andConditions;
     }
 
     const [users, total] = await Promise.all([
@@ -201,7 +146,7 @@ export const getUsers = async (req: AuthRequest, res: Response) => {
       email: user.email,
       role: user.role,
       isVerified: user.isEmailVerified || false,
-      status: user.isActive ? 'active' : 'inactive',
+      status: user.accountStatus || (user.isActive ? 'active' : 'inactive'),
       createdAt: user.createdAt,
       lastLogin: user.lastLogin
     }));
@@ -259,6 +204,13 @@ export const deleteUser = async (req: AuthRequest, res: Response) => {
   try {
     const { id } = req.params;
 
+    if (req.user?.id?.toString() === id.toString()) {
+      return res.status(400).json({
+        success: false,
+        message: 'You cannot delete your own admin account'
+      });
+    }
+
     const user = await User.findByIdAndDelete(id);
     if (!user) {
       return res.status(404).json({
@@ -282,6 +234,49 @@ export const deleteUser = async (req: AuthRequest, res: Response) => {
   }
 };
 
+// Update user account status (active/inactive/suspended)
+export const updateUserStatus = async (req: AuthRequest, res: Response) => {
+  try {
+    const { id } = req.params;
+    const status = asString(req.body?.status, 20) as 'active' | 'inactive' | 'suspended';
+
+    if (!['active', 'inactive', 'suspended'].includes(status)) {
+      return res.status(400).json({
+        success: false,
+        message: 'Status must be active, inactive, or suspended'
+      });
+    }
+
+    const user = await User.findById(id);
+    if (!user) {
+      return res.status(404).json({
+        success: false,
+        message: 'User not found'
+      });
+    }
+
+    user.accountStatus = status;
+    user.isActive = status === 'active';
+    await user.save();
+
+    res.json({
+      success: true,
+      message: `User status updated to ${status}`,
+      data: {
+        id: user._id,
+        status: user.accountStatus,
+        isActive: user.isActive
+      }
+    });
+  } catch (error) {
+    console.error('Update user status error:', error);
+    res.status(500).json({
+      success: false,
+      message: 'Failed to update user status'
+    });
+  }
+};
+
 // Suspend/activate user
 export const suspendUser = async (req: AuthRequest, res: Response) => {
   try {
@@ -296,12 +291,13 @@ export const suspendUser = async (req: AuthRequest, res: Response) => {
     }
 
     user.isActive = !user.isActive;
+    user.accountStatus = user.isActive ? 'active' : 'suspended';
     await user.save();
 
     res.json({
       success: true,
       message: `User ${user.isActive ? 'activated' : 'suspended'} successfully`,
-      data: { isActive: user.isActive }
+      data: { isActive: user.isActive, status: user.accountStatus }
     });
   } catch (error) {
     console.error('Suspend user error:', error);
@@ -724,12 +720,7 @@ export const getAnalytics = async (req: AuthRequest, res: Response) => {
 // Get system settings
 export const getSystemSettings = async (req: AuthRequest, res: Response) => {
   try {
-    const settingsDoc = await SystemSettings.findOne({ key: 'global' }).lean();
-    const savedSettings = (settingsDoc?.settings || {}) as Record<string, unknown>;
-    const settings = {
-      ...defaultSystemSettings,
-      ...normalizeSettingsPayload(savedSettings)
-    };
+    const settings = await getMergedSystemSettings();
 
     res.json(settings);
   } catch (error) {

@@ -59,3 +59,18 @@ export const updateProfile = async (req: Request, res: Response) => {
     });
   }
 };
+
+export const getPublicAuthSettings = async (_req: Request, res: Response) => {
+  res.json({
+    registrationEnabled: true,
+    socialLoginEnabled: false,
+    twoFactorEnabled: false,
+    chatEnabled: true,
+    templatesEnabled: true,
+    documentAnalysisEnabled: true,
+    passwordMinLength: 8,
+    passwordRequireUppercase: true,
+    passwordRequireNumbers: true,
+    passwordRequireSpecialChars: false,
+  });
+};

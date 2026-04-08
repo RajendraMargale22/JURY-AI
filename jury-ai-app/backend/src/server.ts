@@ -96,16 +96,22 @@ const csrfProtection = csrf({
   },
   ignoreMethods: ['GET', 'HEAD', 'OPTIONS']
 });
-app.use((req, res, next) => {
-  if (req.path.startsWith('/api/auth')) {
-    return next();
-  }
-  return csrfProtection(req, res, next);
-});
+if (process.env.NODE_ENV === 'production') {
+  app.use((req, res, next) => {
+    if (req.path.startsWith('/api/auth')) {
+      return next();
+    }
+    return csrfProtection(req, res, next);
+  });
 
-app.get('/api/csrf-token', (req, res) => {
-  res.json({ csrfToken: req.csrfToken() });
-});
+  app.get('/api/csrf-token', (req, res) => {
+    res.json({ csrfToken: req.csrfToken() });
+  });
+} else {
+  app.get('/api/csrf-token', (_req, res) => {
+    res.json({ csrfToken: 'dev-csrf-disabled' });
+  });
+}
 
 // Static files
 app.use('/uploads', express.static('uploads'));

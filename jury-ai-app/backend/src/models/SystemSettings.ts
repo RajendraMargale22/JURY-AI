@@ -29,6 +29,4 @@ const systemSettingsSchema = new Schema<ISystemSettingsDocument>({
   timestamps: true
 });
 
-systemSettingsSchema.index({ key: 1 }, { unique: true });
-
 export default mongoose.model<ISystemSettingsDocument>('SystemSettings', systemSettingsSchema);
