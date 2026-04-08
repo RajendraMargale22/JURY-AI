@@ -1,0 +1,2002 @@
+[
+  {
+    "id": "low-001",
+    "contract_text": "1. The parties to this contract are Orion Consulting Pvt Ltd and Nimbus Retail Pvt Ltd.\n2. Consideration and payment obligations are due within 30 days of valid invoice submission.\n3. This contract may be terminated on expiry or earlier with mutual written consent.\n4. A non-disclosure obligation applies to all confidential business and technical information.\n5. Indemnity applies only for proven third-party claims arising from negligence or wilful misconduct.\n6. Governing law shall be laws of India and dispute resolution shall be seated in New Delhi.\n7. The parties shall cooperate in good faith and maintain written records for compliance and audit purposes.\n8. Any amendment must be in writing and signed by authorized representatives of both parties.\n9. Notices under this agreement shall be sent by email and registered post to official addresses.\n10. If any provision is held invalid, remaining provisions shall continue in full force and effect.",
+    "expected": {
+      "risk_level": "low",
+      "missing_clauses": [],
+      "key_clauses_found": [
+        "Parties",
+        "Payment Terms",
+        "Termination",
+        "Confidentiality",
+        "Liability",
+        "Governing Law"
+      ]
+    }
+  },
+  {
+    "id": "low-002",
+    "contract_text": "1. This agreement is made between Alpha Technologies Private Limited and Beta Services LLP (each a party and together the parties).\n2. Payment of professional fee shall be made against invoice within 15 days from receipt of invoice.\n3. Either party may terminate this agreement by giving 30 days prior written termination notice.\n4. Each party shall keep all confidential information strictly confidential and use it only for contract performance.\n5. Each party's liability and damages shall be limited to direct losses up to fees paid in the preceding 12 months.\n6. This agreement is governed by Indian law and disputes are subject to courts at Bengaluru jurisdiction.\n7. The parties shall cooperate in good faith and maintain written records for compliance and audit purposes.\n8. Any amendment must be in writing and signed by authorized representatives of both parties.\n9. Notices under this agreement shall be sent by email and registered post to official addresses.\n10. If any provision is held invalid, remaining provisions shall continue in full force and effect.",
+    "expected": {
+      "risk_level": "low",
+      "missing_clauses": [],
+      "key_clauses_found": [
+        "Parties",
+        "Payment Terms",
+        "Termination",
+        "Confidentiality",
+        "Liability",
+        "Governing Law"
+      ]
+    }
+  },
+  {
+    "id": "low-003",
+    "contract_text": "1. The parties to this contract are Orion Consulting Pvt Ltd and Nimbus Retail Pvt Ltd.\n2. Consideration and payment obligations are due within 30 days of valid invoice submission.\n3. This contract may be terminated on expiry or earlier with mutual written consent.\n4. A non-disclosure obligation applies to all confidential business and technical information.\n5. Indemnity applies only for proven third-party claims arising from negligence or wilful misconduct.\n6. Governing law shall be laws of India and dispute resolution shall be seated in New Delhi.\n7. The parties shall cooperate in good faith and maintain written records for compliance and audit purposes.\n8. Any amendment must be in writing and signed by authorized representatives of both parties.\n9. Notices under this agreement shall be sent by email and registered post to official addresses.\n10. If any provision is held invalid, remaining provisions shall continue in full force and effect.",
+    "expected": {
+      "risk_level": "low",
+      "missing_clauses": [],
+      "key_clauses_found": [
+        "Parties",
+        "Payment Terms",
+        "Termination",
+        "Confidentiality",
+        "Liability",
+        "Governing Law"
+      ]
+    }
+  },
+  {
+    "id": "low-004",
+    "contract_text": "1. This agreement is made between Alpha Technologies Private Limited and Beta Services LLP (each a party and together the parties).\n2. Payment of professional fee shall be made against invoice within 15 days from receipt of invoice.\n3. Either party may terminate this agreement by giving 30 days prior written termination notice.\n4. Each party shall keep all confidential information strictly confidential and use it only for contract performance.\n5. Each party's liability and damages shall be limited to direct losses up to fees paid in the preceding 12 months.\n6. This agreement is governed by Indian law and disputes are subject to courts at Bengaluru jurisdiction.\n7. The parties shall cooperate in good faith and maintain written records for compliance and audit purposes.\n8. Any amendment must be in writing and signed by authorized representatives of both parties.\n9. Notices under this agreement shall be sent by email and registered post to official addresses.\n10. If any provision is held invalid, remaining provisions shall continue in full force and effect.",
+    "expected": {
+      "risk_level": "low",
+      "missing_clauses": [],
+      "key_clauses_found": [
+        "Parties",
+        "Payment Terms",
+        "Termination",
+        "Confidentiality",
+        "Liability",
+        "Governing Law"
+      ]
+    }
+  },
+  {
+    "id": "low-005",
+    "contract_text": "1. The parties to this contract are Orion Consulting Pvt Ltd and Nimbus Retail Pvt Ltd.\n2. Consideration and payment obligations are due within 30 days of valid invoice submission.\n3. This contract may be terminated on expiry or earlier with mutual written consent.\n4. A non-disclosure obligation applies to all confidential business and technical information.\n5. Indemnity applies only for proven third-party claims arising from negligence or wilful misconduct.\n6. Governing law shall be laws of India and dispute resolution shall be seated in New Delhi.\n7. The parties shall cooperate in good faith and maintain written records for compliance and audit purposes.\n8. Any amendment must be in writing and signed by authorized representatives of both parties.\n9. Notices under this agreement shall be sent by email and registered post to official addresses.\n10. If any provision is held invalid, remaining provisions shall continue in full force and effect.",
+    "expected": {
+      "risk_level": "low",
+      "missing_clauses": [],
+      "key_clauses_found": [
+        "Parties",
+        "Payment Terms",
+        "Termination",
+        "Confidentiality",
+        "Liability",
+        "Governing Law"
+      ]
+    }
+  },
+  {
+    "id": "low-006",
+    "contract_text": "1. This agreement is made between Alpha Technologies Private Limited and Beta Services LLP (each a party and together the parties).\n2. Payment of professional fee shall be made against invoice within 15 days from receipt of invoice.\n3. Either party may terminate this agreement by giving 30 days prior written termination notice.\n4. Each party shall keep all confidential information strictly confidential and use it only for contract performance.\n5. Each party's liability and damages shall be limited to direct losses up to fees paid in the preceding 12 months.\n6. This agreement is governed by Indian law and disputes are subject to courts at Bengaluru jurisdiction.\n7. The parties shall cooperate in good faith and maintain written records for compliance and audit purposes.\n8. Any amendment must be in writing and signed by authorized representatives of both parties.\n9. Notices under this agreement shall be sent by email and registered post to official addresses.\n10. If any provision is held invalid, remaining provisions shall continue in full force and effect.",
+    "expected": {
+      "risk_level": "low",
+      "missing_clauses": [],
+      "key_clauses_found": [
+        "Parties",
+        "Payment Terms",
+        "Termination",
+        "Confidentiality",
+        "Liability",
+        "Governing Law"
+      ]
+    }
+  },
+  {
+    "id": "low-007",
+    "contract_text": "1. The parties to this contract are Orion Consulting Pvt Ltd and Nimbus Retail Pvt Ltd.\n2. Consideration and payment obligations are due within 30 days of valid invoice submission.\n3. This contract may be terminated on expiry or earlier with mutual written consent.\n4. A non-disclosure obligation applies to all confidential business and technical information.\n5. Indemnity applies only for proven third-party claims arising from negligence or wilful misconduct.\n6. Governing law shall be laws of India and dispute resolution shall be seated in New Delhi.\n7. The parties shall cooperate in good faith and maintain written records for compliance and audit purposes.\n8. Any amendment must be in writing and signed by authorized representatives of both parties.\n9. Notices under this agreement shall be sent by email and registered post to official addresses.\n10. If any provision is held invalid, remaining provisions shall continue in full force and effect.",
+    "expected": {
+      "risk_level": "low",
+      "missing_clauses": [],
+      "key_clauses_found": [
+        "Parties",
+        "Payment Terms",
+        "Termination",
+        "Confidentiality",
+        "Liability",
+        "Governing Law"
+      ]
+    }
+  },
+  {
+    "id": "low-008",
+    "contract_text": "1. This agreement is made between Alpha Technologies Private Limited and Beta Services LLP (each a party and together the parties).\n2. Payment of professional fee shall be made against invoice within 15 days from receipt of invoice.\n3. Either party may terminate this agreement by giving 30 days prior written termination notice.\n4. Each party shall keep all confidential information strictly confidential and use it only for contract performance.\n5. Each party's liability and damages shall be limited to direct losses up to fees paid in the preceding 12 months.\n6. This agreement is governed by Indian law and disputes are subject to courts at Bengaluru jurisdiction.\n7. The parties shall cooperate in good faith and maintain written records for compliance and audit purposes.\n8. Any amendment must be in writing and signed by authorized representatives of both parties.\n9. Notices under this agreement shall be sent by email and registered post to official addresses.\n10. If any provision is held invalid, remaining provisions shall continue in full force and effect.",
+    "expected": {
+      "risk_level": "low",
+      "missing_clauses": [],
+      "key_clauses_found": [
+        "Parties",
+        "Payment Terms",
+        "Termination",
+        "Confidentiality",
+        "Liability",
+        "Governing Law"
+      ]
+    }
+  },
+  {
+    "id": "low-009",
+    "contract_text": "1. The parties to this contract are Orion Consulting Pvt Ltd and Nimbus Retail Pvt Ltd.\n2. Consideration and payment obligations are due within 30 days of valid invoice submission.\n3. This contract may be terminated on expiry or earlier with mutual written consent.\n4. A non-disclosure obligation applies to all confidential business and technical information.\n5. Indemnity applies only for proven third-party claims arising from negligence or wilful misconduct.\n6. Governing law shall be laws of India and dispute resolution shall be seated in New Delhi.\n7. The parties shall cooperate in good faith and maintain written records for compliance and audit purposes.\n8. Any amendment must be in writing and signed by authorized representatives of both parties.\n9. Notices under this agreement shall be sent by email and registered post to official addresses.\n10. If any provision is held invalid, remaining provisions shall continue in full force and effect.",
+    "expected": {
+      "risk_level": "low",
+      "missing_clauses": [],
+      "key_clauses_found": [
+        "Parties",
+        "Payment Terms",
+        "Termination",
+        "Confidentiality",
+        "Liability",
+        "Governing Law"
+      ]
+    }
+  },
+  {
+    "id": "low-010",
+    "contract_text": "1. This agreement is made between Alpha Technologies Private Limited and Beta Services LLP (each a party and together the parties).\n2. Payment of professional fee shall be made against invoice within 15 days from receipt of invoice.\n3. Either party may terminate this agreement by giving 30 days prior written termination notice.\n4. Each party shall keep all confidential information strictly confidential and use it only for contract performance.\n5. Each party's liability and damages shall be limited to direct losses up to fees paid in the preceding 12 months.\n6. This agreement is governed by Indian law and disputes are subject to courts at Bengaluru jurisdiction.\n7. The parties shall cooperate in good faith and maintain written records for compliance and audit purposes.\n8. Any amendment must be in writing and signed by authorized representatives of both parties.\n9. Notices under this agreement shall be sent by email and registered post to official addresses.\n10. If any provision is held invalid, remaining provisions shall continue in full force and effect.",
+    "expected": {
+      "risk_level": "low",
+      "missing_clauses": [],
+      "key_clauses_found": [
+        "Parties",
+        "Payment Terms",
+        "Termination",
+        "Confidentiality",
+        "Liability",
+        "Governing Law"
+      ]
+    }
+  },
+  {
+    "id": "low-011",
+    "contract_text": "1. The parties to this contract are Orion Consulting Pvt Ltd and Nimbus Retail Pvt Ltd.\n2. Consideration and payment obligations are due within 30 days of valid invoice submission.\n3. This contract may be terminated on expiry or earlier with mutual written consent.\n4. A non-disclosure obligation applies to all confidential business and technical information.\n5. Indemnity applies only for proven third-party claims arising from negligence or wilful misconduct.\n6. Governing law shall be laws of India and dispute resolution shall be seated in New Delhi.\n7. The parties shall cooperate in good faith and maintain written records for compliance and audit purposes.\n8. Any amendment must be in writing and signed by authorized representatives of both parties.\n9. Notices under this agreement shall be sent by email and registered post to official addresses.\n10. If any provision is held invalid, remaining provisions shall continue in full force and effect.",
+    "expected": {
+      "risk_level": "low",
+      "missing_clauses": [],
+      "key_clauses_found": [
+        "Parties",
+        "Payment Terms",
+        "Termination",
+        "Confidentiality",
+        "Liability",
+        "Governing Law"
+      ]
+    }
+  },
+  {
+    "id": "low-012",
+    "contract_text": "1. This agreement is made between Alpha Technologies Private Limited and Beta Services LLP (each a party and together the parties).\n2. Payment of professional fee shall be made against invoice within 15 days from receipt of invoice.\n3. Either party may terminate this agreement by giving 30 days prior written termination notice.\n4. Each party shall keep all confidential information strictly confidential and use it only for contract performance.\n5. Each party's liability and damages shall be limited to direct losses up to fees paid in the preceding 12 months.\n6. This agreement is governed by Indian law and disputes are subject to courts at Bengaluru jurisdiction.\n7. The parties shall cooperate in good faith and maintain written records for compliance and audit purposes.\n8. Any amendment must be in writing and signed by authorized representatives of both parties.\n9. Notices under this agreement shall be sent by email and registered post to official addresses.\n10. If any provision is held invalid, remaining provisions shall continue in full force and effect.",
+    "expected": {
+      "risk_level": "low",
+      "missing_clauses": [],
+      "key_clauses_found": [
+        "Parties",
+        "Payment Terms",
+        "Termination",
+        "Confidentiality",
+        "Liability",
+        "Governing Law"
+      ]
+    }
+  },
+  {
+    "id": "low-013",
+    "contract_text": "1. The parties to this contract are Orion Consulting Pvt Ltd and Nimbus Retail Pvt Ltd.\n2. Consideration and payment obligations are due within 30 days of valid invoice submission.\n3. This contract may be terminated on expiry or earlier with mutual written consent.\n4. A non-disclosure obligation applies to all confidential business and technical information.\n5. Indemnity applies only for proven third-party claims arising from negligence or wilful misconduct.\n6. Governing law shall be laws of India and dispute resolution shall be seated in New Delhi.\n7. The parties shall cooperate in good faith and maintain written records for compliance and audit purposes.\n8. Any amendment must be in writing and signed by authorized representatives of both parties.\n9. Notices under this agreement shall be sent by email and registered post to official addresses.\n10. If any provision is held invalid, remaining provisions shall continue in full force and effect.",
+    "expected": {
+      "risk_level": "low",
+      "missing_clauses": [],
+      "key_clauses_found": [
+        "Parties",
+        "Payment Terms",
+        "Termination",
+        "Confidentiality",
+        "Liability",
+        "Governing Law"
+      ]
+    }
+  },
+  {
+    "id": "low-014",
+    "contract_text": "1. This agreement is made between Alpha Technologies Private Limited and Beta Services LLP (each a party and together the parties).\n2. Payment of professional fee shall be made against invoice within 15 days from receipt of invoice.\n3. Either party may terminate this agreement by giving 30 days prior written termination notice.\n4. Each party shall keep all confidential information strictly confidential and use it only for contract performance.\n5. Each party's liability and damages shall be limited to direct losses up to fees paid in the preceding 12 months.\n6. This agreement is governed by Indian law and disputes are subject to courts at Bengaluru jurisdiction.\n7. The parties shall cooperate in good faith and maintain written records for compliance and audit purposes.\n8. Any amendment must be in writing and signed by authorized representatives of both parties.\n9. Notices under this agreement shall be sent by email and registered post to official addresses.\n10. If any provision is held invalid, remaining provisions shall continue in full force and effect.",
+    "expected": {
+      "risk_level": "low",
+      "missing_clauses": [],
+      "key_clauses_found": [
+        "Parties",
+        "Payment Terms",
+        "Termination",
+        "Confidentiality",
+        "Liability",
+        "Governing Law"
+      ]
+    }
+  },
+  {
+    "id": "low-015",
+    "contract_text": "1. The parties to this contract are Orion Consulting Pvt Ltd and Nimbus Retail Pvt Ltd.\n2. Consideration and payment obligations are due within 30 days of valid invoice submission.\n3. This contract may be terminated on expiry or earlier with mutual written consent.\n4. A non-disclosure obligation applies to all confidential business and technical information.\n5. Indemnity applies only for proven third-party claims arising from negligence or wilful misconduct.\n6. Governing law shall be laws of India and dispute resolution shall be seated in New Delhi.\n7. The parties shall cooperate in good faith and maintain written records for compliance and audit purposes.\n8. Any amendment must be in writing and signed by authorized representatives of both parties.\n9. Notices under this agreement shall be sent by email and registered post to official addresses.\n10. If any provision is held invalid, remaining provisions shall continue in full force and effect.",
+    "expected": {
+      "risk_level": "low",
+      "missing_clauses": [],
+      "key_clauses_found": [
+        "Parties",
+        "Payment Terms",
+        "Termination",
+        "Confidentiality",
+        "Liability",
+        "Governing Law"
+      ]
+    }
+  },
+  {
+    "id": "low-016",
+    "contract_text": "1. This agreement is made between Alpha Technologies Private Limited and Beta Services LLP (each a party and together the parties).\n2. Payment of professional fee shall be made against invoice within 15 days from receipt of invoice.\n3. Either party may terminate this agreement by giving 30 days prior written termination notice.\n4. Each party shall keep all confidential information strictly confidential and use it only for contract performance.\n5. Each party's liability and damages shall be limited to direct losses up to fees paid in the preceding 12 months.\n6. This agreement is governed by Indian law and disputes are subject to courts at Bengaluru jurisdiction.\n7. The parties shall cooperate in good faith and maintain written records for compliance and audit purposes.\n8. Any amendment must be in writing and signed by authorized representatives of both parties.\n9. Notices under this agreement shall be sent by email and registered post to official addresses.\n10. If any provision is held invalid, remaining provisions shall continue in full force and effect.",
+    "expected": {
+      "risk_level": "low",
+      "missing_clauses": [],
+      "key_clauses_found": [
+        "Parties",
+        "Payment Terms",
+        "Termination",
+        "Confidentiality",
+        "Liability",
+        "Governing Law"
+      ]
+    }
+  },
+  {
+    "id": "low-017",
+    "contract_text": "1. The parties to this contract are Orion Consulting Pvt Ltd and Nimbus Retail Pvt Ltd.\n2. Consideration and payment obligations are due within 30 days of valid invoice submission.\n3. This contract may be terminated on expiry or earlier with mutual written consent.\n4. A non-disclosure obligation applies to all confidential business and technical information.\n5. Indemnity applies only for proven third-party claims arising from negligence or wilful misconduct.\n6. Governing law shall be laws of India and dispute resolution shall be seated in New Delhi.\n7. The parties shall cooperate in good faith and maintain written records for compliance and audit purposes.\n8. Any amendment must be in writing and signed by authorized representatives of both parties.\n9. Notices under this agreement shall be sent by email and registered post to official addresses.\n10. If any provision is held invalid, remaining provisions shall continue in full force and effect.",
+    "expected": {
+      "risk_level": "low",
+      "missing_clauses": [],
+      "key_clauses_found": [
+        "Parties",
+        "Payment Terms",
+        "Termination",
+        "Confidentiality",
+        "Liability",
+        "Governing Law"
+      ]
+    }
+  },
+  {
+    "id": "low-018",
+    "contract_text": "1. This agreement is made between Alpha Technologies Private Limited and Beta Services LLP (each a party and together the parties).\n2. Payment of professional fee shall be made against invoice within 15 days from receipt of invoice.\n3. Either party may terminate this agreement by giving 30 days prior written termination notice.\n4. Each party shall keep all confidential information strictly confidential and use it only for contract performance.\n5. Each party's liability and damages shall be limited to direct losses up to fees paid in the preceding 12 months.\n6. This agreement is governed by Indian law and disputes are subject to courts at Bengaluru jurisdiction.\n7. The parties shall cooperate in good faith and maintain written records for compliance and audit purposes.\n8. Any amendment must be in writing and signed by authorized representatives of both parties.\n9. Notices under this agreement shall be sent by email and registered post to official addresses.\n10. If any provision is held invalid, remaining provisions shall continue in full force and effect.",
+    "expected": {
+      "risk_level": "low",
+      "missing_clauses": [],
+      "key_clauses_found": [
+        "Parties",
+        "Payment Terms",
+        "Termination",
+        "Confidentiality",
+        "Liability",
+        "Governing Law"
+      ]
+    }
+  },
+  {
+    "id": "low-019",
+    "contract_text": "1. The parties to this contract are Orion Consulting Pvt Ltd and Nimbus Retail Pvt Ltd.\n2. Consideration and payment obligations are due within 30 days of valid invoice submission.\n3. This contract may be terminated on expiry or earlier with mutual written consent.\n4. A non-disclosure obligation applies to all confidential business and technical information.\n5. Indemnity applies only for proven third-party claims arising from negligence or wilful misconduct.\n6. Governing law shall be laws of India and dispute resolution shall be seated in New Delhi.\n7. The parties shall cooperate in good faith and maintain written records for compliance and audit purposes.\n8. Any amendment must be in writing and signed by authorized representatives of both parties.\n9. Notices under this agreement shall be sent by email and registered post to official addresses.\n10. If any provision is held invalid, remaining provisions shall continue in full force and effect.",
+    "expected": {
+      "risk_level": "low",
+      "missing_clauses": [],
+      "key_clauses_found": [
+        "Parties",
+        "Payment Terms",
+        "Termination",
+        "Confidentiality",
+        "Liability",
+        "Governing Law"
+      ]
+    }
+  },
+  {
+    "id": "low-020",
+    "contract_text": "1. This agreement is made between Alpha Technologies Private Limited and Beta Services LLP (each a party and together the parties).\n2. Payment of professional fee shall be made against invoice within 15 days from receipt of invoice.\n3. Either party may terminate this agreement by giving 30 days prior written termination notice.\n4. Each party shall keep all confidential information strictly confidential and use it only for contract performance.\n5. Each party's liability and damages shall be limited to direct losses up to fees paid in the preceding 12 months.\n6. This agreement is governed by Indian law and disputes are subject to courts at Bengaluru jurisdiction.\n7. The parties shall cooperate in good faith and maintain written records for compliance and audit purposes.\n8. Any amendment must be in writing and signed by authorized representatives of both parties.\n9. Notices under this agreement shall be sent by email and registered post to official addresses.\n10. If any provision is held invalid, remaining provisions shall continue in full force and effect.",
+    "expected": {
+      "risk_level": "low",
+      "missing_clauses": [],
+      "key_clauses_found": [
+        "Parties",
+        "Payment Terms",
+        "Termination",
+        "Confidentiality",
+        "Liability",
+        "Governing Law"
+      ]
+    }
+  },
+  {
+    "id": "low-021",
+    "contract_text": "1. The parties to this contract are Orion Consulting Pvt Ltd and Nimbus Retail Pvt Ltd.\n2. Consideration and payment obligations are due within 30 days of valid invoice submission.\n3. This contract may be terminated on expiry or earlier with mutual written consent.\n4. A non-disclosure obligation applies to all confidential business and technical information.\n5. Indemnity applies only for proven third-party claims arising from negligence or wilful misconduct.\n6. Governing law shall be laws of India and dispute resolution shall be seated in New Delhi.\n7. The parties shall cooperate in good faith and maintain written records for compliance and audit purposes.\n8. Any amendment must be in writing and signed by authorized representatives of both parties.\n9. Notices under this agreement shall be sent by email and registered post to official addresses.\n10. If any provision is held invalid, remaining provisions shall continue in full force and effect.",
+    "expected": {
+      "risk_level": "low",
+      "missing_clauses": [],
+      "key_clauses_found": [
+        "Parties",
+        "Payment Terms",
+        "Termination",
+        "Confidentiality",
+        "Liability",
+        "Governing Law"
+      ]
+    }
+  },
+  {
+    "id": "low-022",
+    "contract_text": "1. This agreement is made between Alpha Technologies Private Limited and Beta Services LLP (each a party and together the parties).\n2. Payment of professional fee shall be made against invoice within 15 days from receipt of invoice.\n3. Either party may terminate this agreement by giving 30 days prior written termination notice.\n4. Each party shall keep all confidential information strictly confidential and use it only for contract performance.\n5. Each party's liability and damages shall be limited to direct losses up to fees paid in the preceding 12 months.\n6. This agreement is governed by Indian law and disputes are subject to courts at Bengaluru jurisdiction.\n7. The parties shall cooperate in good faith and maintain written records for compliance and audit purposes.\n8. Any amendment must be in writing and signed by authorized representatives of both parties.\n9. Notices under this agreement shall be sent by email and registered post to official addresses.\n10. If any provision is held invalid, remaining provisions shall continue in full force and effect.",
+    "expected": {
+      "risk_level": "low",
+      "missing_clauses": [],
+      "key_clauses_found": [
+        "Parties",
+        "Payment Terms",
+        "Termination",
+        "Confidentiality",
+        "Liability",
+        "Governing Law"
+      ]
+    }
+  },
+  {
+    "id": "low-023",
+    "contract_text": "1. The parties to this contract are Orion Consulting Pvt Ltd and Nimbus Retail Pvt Ltd.\n2. Consideration and payment obligations are due within 30 days of valid invoice submission.\n3. This contract may be terminated on expiry or earlier with mutual written consent.\n4. A non-disclosure obligation applies to all confidential business and technical information.\n5. Indemnity applies only for proven third-party claims arising from negligence or wilful misconduct.\n6. Governing law shall be laws of India and dispute resolution shall be seated in New Delhi.\n7. The parties shall cooperate in good faith and maintain written records for compliance and audit purposes.\n8. Any amendment must be in writing and signed by authorized representatives of both parties.\n9. Notices under this agreement shall be sent by email and registered post to official addresses.\n10. If any provision is held invalid, remaining provisions shall continue in full force and effect.",
+    "expected": {
+      "risk_level": "low",
+      "missing_clauses": [],
+      "key_clauses_found": [
+        "Parties",
+        "Payment Terms",
+        "Termination",
+        "Confidentiality",
+        "Liability",
+        "Governing Law"
+      ]
+    }
+  },
+  {
+    "id": "low-024",
+    "contract_text": "1. This agreement is made between Alpha Technologies Private Limited and Beta Services LLP (each a party and together the parties).\n2. Payment of professional fee shall be made against invoice within 15 days from receipt of invoice.\n3. Either party may terminate this agreement by giving 30 days prior written termination notice.\n4. Each party shall keep all confidential information strictly confidential and use it only for contract performance.\n5. Each party's liability and damages shall be limited to direct losses up to fees paid in the preceding 12 months.\n6. This agreement is governed by Indian law and disputes are subject to courts at Bengaluru jurisdiction.\n7. The parties shall cooperate in good faith and maintain written records for compliance and audit purposes.\n8. Any amendment must be in writing and signed by authorized representatives of both parties.\n9. Notices under this agreement shall be sent by email and registered post to official addresses.\n10. If any provision is held invalid, remaining provisions shall continue in full force and effect.",
+    "expected": {
+      "risk_level": "low",
+      "missing_clauses": [],
+      "key_clauses_found": [
+        "Parties",
+        "Payment Terms",
+        "Termination",
+        "Confidentiality",
+        "Liability",
+        "Governing Law"
+      ]
+    }
+  },
+  {
+    "id": "low-025",
+    "contract_text": "1. The parties to this contract are Orion Consulting Pvt Ltd and Nimbus Retail Pvt Ltd.\n2. Consideration and payment obligations are due within 30 days of valid invoice submission.\n3. This contract may be terminated on expiry or earlier with mutual written consent.\n4. A non-disclosure obligation applies to all confidential business and technical information.\n5. Indemnity applies only for proven third-party claims arising from negligence or wilful misconduct.\n6. Governing law shall be laws of India and dispute resolution shall be seated in New Delhi.\n7. The parties shall cooperate in good faith and maintain written records for compliance and audit purposes.\n8. Any amendment must be in writing and signed by authorized representatives of both parties.\n9. Notices under this agreement shall be sent by email and registered post to official addresses.\n10. If any provision is held invalid, remaining provisions shall continue in full force and effect.",
+    "expected": {
+      "risk_level": "low",
+      "missing_clauses": [],
+      "key_clauses_found": [
+        "Parties",
+        "Payment Terms",
+        "Termination",
+        "Confidentiality",
+        "Liability",
+        "Governing Law"
+      ]
+    }
+  },
+  {
+    "id": "low-026",
+    "contract_text": "1. This agreement is made between Alpha Technologies Private Limited and Beta Services LLP (each a party and together the parties).\n2. Payment of professional fee shall be made against invoice within 15 days from receipt of invoice.\n3. Either party may terminate this agreement by giving 30 days prior written termination notice.\n4. Each party shall keep all confidential information strictly confidential and use it only for contract performance.\n5. Each party's liability and damages shall be limited to direct losses up to fees paid in the preceding 12 months.\n6. This agreement is governed by Indian law and disputes are subject to courts at Bengaluru jurisdiction.\n7. The parties shall cooperate in good faith and maintain written records for compliance and audit purposes.\n8. Any amendment must be in writing and signed by authorized representatives of both parties.\n9. Notices under this agreement shall be sent by email and registered post to official addresses.\n10. If any provision is held invalid, remaining provisions shall continue in full force and effect.",
+    "expected": {
+      "risk_level": "low",
+      "missing_clauses": [],
+      "key_clauses_found": [
+        "Parties",
+        "Payment Terms",
+        "Termination",
+        "Confidentiality",
+        "Liability",
+        "Governing Law"
+      ]
+    }
+  },
+  {
+    "id": "low-027",
+    "contract_text": "1. The parties to this contract are Orion Consulting Pvt Ltd and Nimbus Retail Pvt Ltd.\n2. Consideration and payment obligations are due within 30 days of valid invoice submission.\n3. This contract may be terminated on expiry or earlier with mutual written consent.\n4. A non-disclosure obligation applies to all confidential business and technical information.\n5. Indemnity applies only for proven third-party claims arising from negligence or wilful misconduct.\n6. Governing law shall be laws of India and dispute resolution shall be seated in New Delhi.\n7. The parties shall cooperate in good faith and maintain written records for compliance and audit purposes.\n8. Any amendment must be in writing and signed by authorized representatives of both parties.\n9. Notices under this agreement shall be sent by email and registered post to official addresses.\n10. If any provision is held invalid, remaining provisions shall continue in full force and effect.",
+    "expected": {
+      "risk_level": "low",
+      "missing_clauses": [],
+      "key_clauses_found": [
+        "Parties",
+        "Payment Terms",
+        "Termination",
+        "Confidentiality",
+        "Liability",
+        "Governing Law"
+      ]
+    }
+  },
+  {
+    "id": "low-028",
+    "contract_text": "1. This agreement is made between Alpha Technologies Private Limited and Beta Services LLP (each a party and together the parties).\n2. Payment of professional fee shall be made against invoice within 15 days from receipt of invoice.\n3. Either party may terminate this agreement by giving 30 days prior written termination notice.\n4. Each party shall keep all confidential information strictly confidential and use it only for contract performance.\n5. Each party's liability and damages shall be limited to direct losses up to fees paid in the preceding 12 months.\n6. This agreement is governed by Indian law and disputes are subject to courts at Bengaluru jurisdiction.\n7. The parties shall cooperate in good faith and maintain written records for compliance and audit purposes.\n8. Any amendment must be in writing and signed by authorized representatives of both parties.\n9. Notices under this agreement shall be sent by email and registered post to official addresses.\n10. If any provision is held invalid, remaining provisions shall continue in full force and effect.",
+    "expected": {
+      "risk_level": "low",
+      "missing_clauses": [],
+      "key_clauses_found": [
+        "Parties",
+        "Payment Terms",
+        "Termination",
+        "Confidentiality",
+        "Liability",
+        "Governing Law"
+      ]
+    }
+  },
+  {
+    "id": "low-029",
+    "contract_text": "1. The parties to this contract are Orion Consulting Pvt Ltd and Nimbus Retail Pvt Ltd.\n2. Consideration and payment obligations are due within 30 days of valid invoice submission.\n3. This contract may be terminated on expiry or earlier with mutual written consent.\n4. A non-disclosure obligation applies to all confidential business and technical information.\n5. Indemnity applies only for proven third-party claims arising from negligence or wilful misconduct.\n6. Governing law shall be laws of India and dispute resolution shall be seated in New Delhi.\n7. The parties shall cooperate in good faith and maintain written records for compliance and audit purposes.\n8. Any amendment must be in writing and signed by authorized representatives of both parties.\n9. Notices under this agreement shall be sent by email and registered post to official addresses.\n10. If any provision is held invalid, remaining provisions shall continue in full force and effect.",
+    "expected": {
+      "risk_level": "low",
+      "missing_clauses": [],
+      "key_clauses_found": [
+        "Parties",
+        "Payment Terms",
+        "Termination",
+        "Confidentiality",
+        "Liability",
+        "Governing Law"
+      ]
+    }
+  },
+  {
+    "id": "low-030",
+    "contract_text": "1. This agreement is made between Alpha Technologies Private Limited and Beta Services LLP (each a party and together the parties).\n2. Payment of professional fee shall be made against invoice within 15 days from receipt of invoice.\n3. Either party may terminate this agreement by giving 30 days prior written termination notice.\n4. Each party shall keep all confidential information strictly confidential and use it only for contract performance.\n5. Each party's liability and damages shall be limited to direct losses up to fees paid in the preceding 12 months.\n6. This agreement is governed by Indian law and disputes are subject to courts at Bengaluru jurisdiction.\n7. The parties shall cooperate in good faith and maintain written records for compliance and audit purposes.\n8. Any amendment must be in writing and signed by authorized representatives of both parties.\n9. Notices under this agreement shall be sent by email and registered post to official addresses.\n10. If any provision is held invalid, remaining provisions shall continue in full force and effect.",
+    "expected": {
+      "risk_level": "low",
+      "missing_clauses": [],
+      "key_clauses_found": [
+        "Parties",
+        "Payment Terms",
+        "Termination",
+        "Confidentiality",
+        "Liability",
+        "Governing Law"
+      ]
+    }
+  },
+  {
+    "id": "low-031",
+    "contract_text": "1. The parties to this contract are Orion Consulting Pvt Ltd and Nimbus Retail Pvt Ltd.\n2. Consideration and payment obligations are due within 30 days of valid invoice submission.\n3. This contract may be terminated on expiry or earlier with mutual written consent.\n4. A non-disclosure obligation applies to all confidential business and technical information.\n5. Indemnity applies only for proven third-party claims arising from negligence or wilful misconduct.\n6. Governing law shall be laws of India and dispute resolution shall be seated in New Delhi.\n7. The parties shall cooperate in good faith and maintain written records for compliance and audit purposes.\n8. Any amendment must be in writing and signed by authorized representatives of both parties.\n9. Notices under this agreement shall be sent by email and registered post to official addresses.\n10. If any provision is held invalid, remaining provisions shall continue in full force and effect.",
+    "expected": {
+      "risk_level": "low",
+      "missing_clauses": [],
+      "key_clauses_found": [
+        "Parties",
+        "Payment Terms",
+        "Termination",
+        "Confidentiality",
+        "Liability",
+        "Governing Law"
+      ]
+    }
+  },
+  {
+    "id": "low-032",
+    "contract_text": "1. This agreement is made between Alpha Technologies Private Limited and Beta Services LLP (each a party and together the parties).\n2. Payment of professional fee shall be made against invoice within 15 days from receipt of invoice.\n3. Either party may terminate this agreement by giving 30 days prior written termination notice.\n4. Each party shall keep all confidential information strictly confidential and use it only for contract performance.\n5. Each party's liability and damages shall be limited to direct losses up to fees paid in the preceding 12 months.\n6. This agreement is governed by Indian law and disputes are subject to courts at Bengaluru jurisdiction.\n7. The parties shall cooperate in good faith and maintain written records for compliance and audit purposes.\n8. Any amendment must be in writing and signed by authorized representatives of both parties.\n9. Notices under this agreement shall be sent by email and registered post to official addresses.\n10. If any provision is held invalid, remaining provisions shall continue in full force and effect.",
+    "expected": {
+      "risk_level": "low",
+      "missing_clauses": [],
+      "key_clauses_found": [
+        "Parties",
+        "Payment Terms",
+        "Termination",
+        "Confidentiality",
+        "Liability",
+        "Governing Law"
+      ]
+    }
+  },
+  {
+    "id": "low-033",
+    "contract_text": "1. The parties to this contract are Orion Consulting Pvt Ltd and Nimbus Retail Pvt Ltd.\n2. Consideration and payment obligations are due within 30 days of valid invoice submission.\n3. This contract may be terminated on expiry or earlier with mutual written consent.\n4. A non-disclosure obligation applies to all confidential business and technical information.\n5. Indemnity applies only for proven third-party claims arising from negligence or wilful misconduct.\n6. Governing law shall be laws of India and dispute resolution shall be seated in New Delhi.\n7. The parties shall cooperate in good faith and maintain written records for compliance and audit purposes.\n8. Any amendment must be in writing and signed by authorized representatives of both parties.\n9. Notices under this agreement shall be sent by email and registered post to official addresses.\n10. If any provision is held invalid, remaining provisions shall continue in full force and effect.",
+    "expected": {
+      "risk_level": "low",
+      "missing_clauses": [],
+      "key_clauses_found": [
+        "Parties",
+        "Payment Terms",
+        "Termination",
+        "Confidentiality",
+        "Liability",
+        "Governing Law"
+      ]
+    }
+  },
+  {
+    "id": "low-034",
+    "contract_text": "1. This agreement is made between Alpha Technologies Private Limited and Beta Services LLP (each a party and together the parties).\n2. Payment of professional fee shall be made against invoice within 15 days from receipt of invoice.\n3. Either party may terminate this agreement by giving 30 days prior written termination notice.\n4. Each party shall keep all confidential information strictly confidential and use it only for contract performance.\n5. Each party's liability and damages shall be limited to direct losses up to fees paid in the preceding 12 months.\n6. This agreement is governed by Indian law and disputes are subject to courts at Bengaluru jurisdiction.\n7. The parties shall cooperate in good faith and maintain written records for compliance and audit purposes.\n8. Any amendment must be in writing and signed by authorized representatives of both parties.\n9. Notices under this agreement shall be sent by email and registered post to official addresses.\n10. If any provision is held invalid, remaining provisions shall continue in full force and effect.",
+    "expected": {
+      "risk_level": "low",
+      "missing_clauses": [],
+      "key_clauses_found": [
+        "Parties",
+        "Payment Terms",
+        "Termination",
+        "Confidentiality",
+        "Liability",
+        "Governing Law"
+      ]
+    }
+  },
+  {
+    "id": "low-035",
+    "contract_text": "1. The parties to this contract are Orion Consulting Pvt Ltd and Nimbus Retail Pvt Ltd.\n2. Consideration and payment obligations are due within 30 days of valid invoice submission.\n3. This contract may be terminated on expiry or earlier with mutual written consent.\n4. A non-disclosure obligation applies to all confidential business and technical information.\n5. Indemnity applies only for proven third-party claims arising from negligence or wilful misconduct.\n6. Governing law shall be laws of India and dispute resolution shall be seated in New Delhi.\n7. The parties shall cooperate in good faith and maintain written records for compliance and audit purposes.\n8. Any amendment must be in writing and signed by authorized representatives of both parties.\n9. Notices under this agreement shall be sent by email and registered post to official addresses.\n10. If any provision is held invalid, remaining provisions shall continue in full force and effect.",
+    "expected": {
+      "risk_level": "low",
+      "missing_clauses": [],
+      "key_clauses_found": [
+        "Parties",
+        "Payment Terms",
+        "Termination",
+        "Confidentiality",
+        "Liability",
+        "Governing Law"
+      ]
+    }
+  },
+  {
+    "id": "low-036",
+    "contract_text": "1. This agreement is made between Alpha Technologies Private Limited and Beta Services LLP (each a party and together the parties).\n2. Payment of professional fee shall be made against invoice within 15 days from receipt of invoice.\n3. Either party may terminate this agreement by giving 30 days prior written termination notice.\n4. Each party shall keep all confidential information strictly confidential and use it only for contract performance.\n5. Each party's liability and damages shall be limited to direct losses up to fees paid in the preceding 12 months.\n6. This agreement is governed by Indian law and disputes are subject to courts at Bengaluru jurisdiction.\n7. The parties shall cooperate in good faith and maintain written records for compliance and audit purposes.\n8. Any amendment must be in writing and signed by authorized representatives of both parties.\n9. Notices under this agreement shall be sent by email and registered post to official addresses.\n10. If any provision is held invalid, remaining provisions shall continue in full force and effect.",
+    "expected": {
+      "risk_level": "low",
+      "missing_clauses": [],
+      "key_clauses_found": [
+        "Parties",
+        "Payment Terms",
+        "Termination",
+        "Confidentiality",
+        "Liability",
+        "Governing Law"
+      ]
+    }
+  },
+  {
+    "id": "low-037",
+    "contract_text": "1. The parties to this contract are Orion Consulting Pvt Ltd and Nimbus Retail Pvt Ltd.\n2. Consideration and payment obligations are due within 30 days of valid invoice submission.\n3. This contract may be terminated on expiry or earlier with mutual written consent.\n4. A non-disclosure obligation applies to all confidential business and technical information.\n5. Indemnity applies only for proven third-party claims arising from negligence or wilful misconduct.\n6. Governing law shall be laws of India and dispute resolution shall be seated in New Delhi.\n7. The parties shall cooperate in good faith and maintain written records for compliance and audit purposes.\n8. Any amendment must be in writing and signed by authorized representatives of both parties.\n9. Notices under this agreement shall be sent by email and registered post to official addresses.\n10. If any provision is held invalid, remaining provisions shall continue in full force and effect.",
+    "expected": {
+      "risk_level": "low",
+      "missing_clauses": [],
+      "key_clauses_found": [
+        "Parties",
+        "Payment Terms",
+        "Termination",
+        "Confidentiality",
+        "Liability",
+        "Governing Law"
+      ]
+    }
+  },
+  {
+    "id": "low-038",
+    "contract_text": "1. This agreement is made between Alpha Technologies Private Limited and Beta Services LLP (each a party and together the parties).\n2. Payment of professional fee shall be made against invoice within 15 days from receipt of invoice.\n3. Either party may terminate this agreement by giving 30 days prior written termination notice.\n4. Each party shall keep all confidential information strictly confidential and use it only for contract performance.\n5. Each party's liability and damages shall be limited to direct losses up to fees paid in the preceding 12 months.\n6. This agreement is governed by Indian law and disputes are subject to courts at Bengaluru jurisdiction.\n7. The parties shall cooperate in good faith and maintain written records for compliance and audit purposes.\n8. Any amendment must be in writing and signed by authorized representatives of both parties.\n9. Notices under this agreement shall be sent by email and registered post to official addresses.\n10. If any provision is held invalid, remaining provisions shall continue in full force and effect.",
+    "expected": {
+      "risk_level": "low",
+      "missing_clauses": [],
+      "key_clauses_found": [
+        "Parties",
+        "Payment Terms",
+        "Termination",
+        "Confidentiality",
+        "Liability",
+        "Governing Law"
+      ]
+    }
+  },
+  {
+    "id": "low-039",
+    "contract_text": "1. The parties to this contract are Orion Consulting Pvt Ltd and Nimbus Retail Pvt Ltd.\n2. Consideration and payment obligations are due within 30 days of valid invoice submission.\n3. This contract may be terminated on expiry or earlier with mutual written consent.\n4. A non-disclosure obligation applies to all confidential business and technical information.\n5. Indemnity applies only for proven third-party claims arising from negligence or wilful misconduct.\n6. Governing law shall be laws of India and dispute resolution shall be seated in New Delhi.\n7. The parties shall cooperate in good faith and maintain written records for compliance and audit purposes.\n8. Any amendment must be in writing and signed by authorized representatives of both parties.\n9. Notices under this agreement shall be sent by email and registered post to official addresses.\n10. If any provision is held invalid, remaining provisions shall continue in full force and effect.",
+    "expected": {
+      "risk_level": "low",
+      "missing_clauses": [],
+      "key_clauses_found": [
+        "Parties",
+        "Payment Terms",
+        "Termination",
+        "Confidentiality",
+        "Liability",
+        "Governing Law"
+      ]
+    }
+  },
+  {
+    "id": "low-040",
+    "contract_text": "1. This agreement is made between Alpha Technologies Private Limited and Beta Services LLP (each a party and together the parties).\n2. Payment of professional fee shall be made against invoice within 15 days from receipt of invoice.\n3. Either party may terminate this agreement by giving 30 days prior written termination notice.\n4. Each party shall keep all confidential information strictly confidential and use it only for contract performance.\n5. Each party's liability and damages shall be limited to direct losses up to fees paid in the preceding 12 months.\n6. This agreement is governed by Indian law and disputes are subject to courts at Bengaluru jurisdiction.\n7. The parties shall cooperate in good faith and maintain written records for compliance and audit purposes.\n8. Any amendment must be in writing and signed by authorized representatives of both parties.\n9. Notices under this agreement shall be sent by email and registered post to official addresses.\n10. If any provision is held invalid, remaining provisions shall continue in full force and effect.",
+    "expected": {
+      "risk_level": "low",
+      "missing_clauses": [],
+      "key_clauses_found": [
+        "Parties",
+        "Payment Terms",
+        "Termination",
+        "Confidentiality",
+        "Liability",
+        "Governing Law"
+      ]
+    }
+  },
+  {
+    "id": "medium-001",
+    "contract_text": "1. The parties to this contract are Orion Consulting Pvt Ltd and Nimbus Retail Pvt Ltd.\n2. Consideration and payment obligations are due within 30 days of valid invoice submission.\n3. This contract may be terminated on expiry or earlier with mutual written consent.\n4. The parties shall cooperate in good faith and maintain written records for compliance and audit purposes.\n5. Any amendment must be in writing and signed by authorized representatives of both parties.\n6. Notices under this agreement shall be sent by email and registered post to official addresses.\n7. If any provision is held invalid, remaining provisions shall continue in full force and effect.",
+    "expected": {
+      "risk_level": "medium",
+      "missing_clauses": [
+        "Confidentiality",
+        "Liability",
+        "Governing Law"
+      ],
+      "key_clauses_found": [
+        "Parties",
+        "Payment Terms",
+        "Termination"
+      ]
+    }
+  },
+  {
+    "id": "medium-002",
+    "contract_text": "1. This agreement is made between Alpha Technologies Private Limited and Beta Services LLP (each a party and together the parties).\n2. Each party shall keep all confidential information strictly confidential and use it only for contract performance.\n3. Each party's liability and damages shall be limited to direct losses up to fees paid in the preceding 12 months.\n4. The parties shall cooperate in good faith and maintain written records for compliance and audit purposes.\n5. Any amendment must be in writing and signed by authorized representatives of both parties.\n6. Notices under this agreement shall be sent by email and registered post to official addresses.\n7. If any provision is held invalid, remaining provisions shall continue in full force and effect.",
+    "expected": {
+      "risk_level": "medium",
+      "missing_clauses": [
+        "Payment Terms",
+        "Termination",
+        "Governing Law"
+      ],
+      "key_clauses_found": [
+        "Parties",
+        "Confidentiality",
+        "Liability"
+      ]
+    }
+  },
+  {
+    "id": "medium-003",
+    "contract_text": "1. Consideration and payment obligations are due within 30 days of valid invoice submission.\n2. This contract may be terminated on expiry or earlier with mutual written consent.\n3. Governing law shall be laws of India and dispute resolution shall be seated in New Delhi.\n4. The parties shall cooperate in good faith and maintain written records for compliance and audit purposes.\n5. Any amendment must be in writing and signed by authorized representatives of both parties.\n6. Notices under this agreement shall be sent by email and registered post to official addresses.\n7. If any provision is held invalid, remaining provisions shall continue in full force and effect.",
+    "expected": {
+      "risk_level": "medium",
+      "missing_clauses": [
+        "Parties",
+        "Confidentiality",
+        "Liability"
+      ],
+      "key_clauses_found": [
+        "Payment Terms",
+        "Termination",
+        "Governing Law"
+      ]
+    }
+  },
+  {
+    "id": "medium-004",
+    "contract_text": "1. This agreement is made between Alpha Technologies Private Limited and Beta Services LLP (each a party and together the parties).\n2. Payment of professional fee shall be made against invoice within 15 days from receipt of invoice.\n3. Each party's liability and damages shall be limited to direct losses up to fees paid in the preceding 12 months.\n4. The parties shall cooperate in good faith and maintain written records for compliance and audit purposes.\n5. Any amendment must be in writing and signed by authorized representatives of both parties.\n6. Notices under this agreement shall be sent by email and registered post to official addresses.\n7. If any provision is held invalid, remaining provisions shall continue in full force and effect.",
+    "expected": {
+      "risk_level": "medium",
+      "missing_clauses": [
+        "Termination",
+        "Confidentiality",
+        "Governing Law"
+      ],
+      "key_clauses_found": [
+        "Parties",
+        "Payment Terms",
+        "Liability"
+      ]
+    }
+  },
+  {
+    "id": "medium-005",
+    "contract_text": "1. The parties to this contract are Orion Consulting Pvt Ltd and Nimbus Retail Pvt Ltd.\n2. Consideration and payment obligations are due within 30 days of valid invoice submission.\n3. This contract may be terminated on expiry or earlier with mutual written consent.\n4. The parties shall cooperate in good faith and maintain written records for compliance and audit purposes.\n5. Any amendment must be in writing and signed by authorized representatives of both parties.\n6. Notices under this agreement shall be sent by email and registered post to official addresses.\n7. If any provision is held invalid, remaining provisions shall continue in full force and effect.",
+    "expected": {
+      "risk_level": "medium",
+      "missing_clauses": [
+        "Confidentiality",
+        "Liability",
+        "Governing Law"
+      ],
+      "key_clauses_found": [
+        "Parties",
+        "Payment Terms",
+        "Termination"
+      ]
+    }
+  },
+  {
+    "id": "medium-006",
+    "contract_text": "1. This agreement is made between Alpha Technologies Private Limited and Beta Services LLP (each a party and together the parties).\n2. Each party shall keep all confidential information strictly confidential and use it only for contract performance.\n3. Each party's liability and damages shall be limited to direct losses up to fees paid in the preceding 12 months.\n4. The parties shall cooperate in good faith and maintain written records for compliance and audit purposes.\n5. Any amendment must be in writing and signed by authorized representatives of both parties.\n6. Notices under this agreement shall be sent by email and registered post to official addresses.\n7. If any provision is held invalid, remaining provisions shall continue in full force and effect.",
+    "expected": {
+      "risk_level": "medium",
+      "missing_clauses": [
+        "Payment Terms",
+        "Termination",
+        "Governing Law"
+      ],
+      "key_clauses_found": [
+        "Parties",
+        "Confidentiality",
+        "Liability"
+      ]
+    }
+  },
+  {
+    "id": "medium-007",
+    "contract_text": "1. Consideration and payment obligations are due within 30 days of valid invoice submission.\n2. This contract may be terminated on expiry or earlier with mutual written consent.\n3. Governing law shall be laws of India and dispute resolution shall be seated in New Delhi.\n4. The parties shall cooperate in good faith and maintain written records for compliance and audit purposes.\n5. Any amendment must be in writing and signed by authorized representatives of both parties.\n6. Notices under this agreement shall be sent by email and registered post to official addresses.\n7. If any provision is held invalid, remaining provisions shall continue in full force and effect.",
+    "expected": {
+      "risk_level": "medium",
+      "missing_clauses": [
+        "Parties",
+        "Confidentiality",
+        "Liability"
+      ],
+      "key_clauses_found": [
+        "Payment Terms",
+        "Termination",
+        "Governing Law"
+      ]
+    }
+  },
+  {
+    "id": "medium-008",
+    "contract_text": "1. This agreement is made between Alpha Technologies Private Limited and Beta Services LLP (each a party and together the parties).\n2. Payment of professional fee shall be made against invoice within 15 days from receipt of invoice.\n3. Each party's liability and damages shall be limited to direct losses up to fees paid in the preceding 12 months.\n4. The parties shall cooperate in good faith and maintain written records for compliance and audit purposes.\n5. Any amendment must be in writing and signed by authorized representatives of both parties.\n6. Notices under this agreement shall be sent by email and registered post to official addresses.\n7. If any provision is held invalid, remaining provisions shall continue in full force and effect.",
+    "expected": {
+      "risk_level": "medium",
+      "missing_clauses": [
+        "Termination",
+        "Confidentiality",
+        "Governing Law"
+      ],
+      "key_clauses_found": [
+        "Parties",
+        "Payment Terms",
+        "Liability"
+      ]
+    }
+  },
+  {
+    "id": "medium-009",
+    "contract_text": "1. The parties to this contract are Orion Consulting Pvt Ltd and Nimbus Retail Pvt Ltd.\n2. Consideration and payment obligations are due within 30 days of valid invoice submission.\n3. This contract may be terminated on expiry or earlier with mutual written consent.\n4. The parties shall cooperate in good faith and maintain written records for compliance and audit purposes.\n5. Any amendment must be in writing and signed by authorized representatives of both parties.\n6. Notices under this agreement shall be sent by email and registered post to official addresses.\n7. If any provision is held invalid, remaining provisions shall continue in full force and effect.",
+    "expected": {
+      "risk_level": "medium",
+      "missing_clauses": [
+        "Confidentiality",
+        "Liability",
+        "Governing Law"
+      ],
+      "key_clauses_found": [
+        "Parties",
+        "Payment Terms",
+        "Termination"
+      ]
+    }
+  },
+  {
+    "id": "medium-010",
+    "contract_text": "1. This agreement is made between Alpha Technologies Private Limited and Beta Services LLP (each a party and together the parties).\n2. Each party shall keep all confidential information strictly confidential and use it only for contract performance.\n3. Each party's liability and damages shall be limited to direct losses up to fees paid in the preceding 12 months.\n4. The parties shall cooperate in good faith and maintain written records for compliance and audit purposes.\n5. Any amendment must be in writing and signed by authorized representatives of both parties.\n6. Notices under this agreement shall be sent by email and registered post to official addresses.\n7. If any provision is held invalid, remaining provisions shall continue in full force and effect.",
+    "expected": {
+      "risk_level": "medium",
+      "missing_clauses": [
+        "Payment Terms",
+        "Termination",
+        "Governing Law"
+      ],
+      "key_clauses_found": [
+        "Parties",
+        "Confidentiality",
+        "Liability"
+      ]
+    }
+  },
+  {
+    "id": "medium-011",
+    "contract_text": "1. Consideration and payment obligations are due within 30 days of valid invoice submission.\n2. This contract may be terminated on expiry or earlier with mutual written consent.\n3. Governing law shall be laws of India and dispute resolution shall be seated in New Delhi.\n4. The parties shall cooperate in good faith and maintain written records for compliance and audit purposes.\n5. Any amendment must be in writing and signed by authorized representatives of both parties.\n6. Notices under this agreement shall be sent by email and registered post to official addresses.\n7. If any provision is held invalid, remaining provisions shall continue in full force and effect.",
+    "expected": {
+      "risk_level": "medium",
+      "missing_clauses": [
+        "Parties",
+        "Confidentiality",
+        "Liability"
+      ],
+      "key_clauses_found": [
+        "Payment Terms",
+        "Termination",
+        "Governing Law"
+      ]
+    }
+  },
+  {
+    "id": "medium-012",
+    "contract_text": "1. This agreement is made between Alpha Technologies Private Limited and Beta Services LLP (each a party and together the parties).\n2. Payment of professional fee shall be made against invoice within 15 days from receipt of invoice.\n3. Each party's liability and damages shall be limited to direct losses up to fees paid in the preceding 12 months.\n4. The parties shall cooperate in good faith and maintain written records for compliance and audit purposes.\n5. Any amendment must be in writing and signed by authorized representatives of both parties.\n6. Notices under this agreement shall be sent by email and registered post to official addresses.\n7. If any provision is held invalid, remaining provisions shall continue in full force and effect.",
+    "expected": {
+      "risk_level": "medium",
+      "missing_clauses": [
+        "Termination",
+        "Confidentiality",
+        "Governing Law"
+      ],
+      "key_clauses_found": [
+        "Parties",
+        "Payment Terms",
+        "Liability"
+      ]
+    }
+  },
+  {
+    "id": "medium-013",
+    "contract_text": "1. The parties to this contract are Orion Consulting Pvt Ltd and Nimbus Retail Pvt Ltd.\n2. Consideration and payment obligations are due within 30 days of valid invoice submission.\n3. This contract may be terminated on expiry or earlier with mutual written consent.\n4. The parties shall cooperate in good faith and maintain written records for compliance and audit purposes.\n5. Any amendment must be in writing and signed by authorized representatives of both parties.\n6. Notices under this agreement shall be sent by email and registered post to official addresses.\n7. If any provision is held invalid, remaining provisions shall continue in full force and effect.",
+    "expected": {
+      "risk_level": "medium",
+      "missing_clauses": [
+        "Confidentiality",
+        "Liability",
+        "Governing Law"
+      ],
+      "key_clauses_found": [
+        "Parties",
+        "Payment Terms",
+        "Termination"
+      ]
+    }
+  },
+  {
+    "id": "medium-014",
+    "contract_text": "1. This agreement is made between Alpha Technologies Private Limited and Beta Services LLP (each a party and together the parties).\n2. Each party shall keep all confidential information strictly confidential and use it only for contract performance.\n3. Each party's liability and damages shall be limited to direct losses up to fees paid in the preceding 12 months.\n4. The parties shall cooperate in good faith and maintain written records for compliance and audit purposes.\n5. Any amendment must be in writing and signed by authorized representatives of both parties.\n6. Notices under this agreement shall be sent by email and registered post to official addresses.\n7. If any provision is held invalid, remaining provisions shall continue in full force and effect.",
+    "expected": {
+      "risk_level": "medium",
+      "missing_clauses": [
+        "Payment Terms",
+        "Termination",
+        "Governing Law"
+      ],
+      "key_clauses_found": [
+        "Parties",
+        "Confidentiality",
+        "Liability"
+      ]
+    }
+  },
+  {
+    "id": "medium-015",
+    "contract_text": "1. Consideration and payment obligations are due within 30 days of valid invoice submission.\n2. This contract may be terminated on expiry or earlier with mutual written consent.\n3. Governing law shall be laws of India and dispute resolution shall be seated in New Delhi.\n4. The parties shall cooperate in good faith and maintain written records for compliance and audit purposes.\n5. Any amendment must be in writing and signed by authorized representatives of both parties.\n6. Notices under this agreement shall be sent by email and registered post to official addresses.\n7. If any provision is held invalid, remaining provisions shall continue in full force and effect.",
+    "expected": {
+      "risk_level": "medium",
+      "missing_clauses": [
+        "Parties",
+        "Confidentiality",
+        "Liability"
+      ],
+      "key_clauses_found": [
+        "Payment Terms",
+        "Termination",
+        "Governing Law"
+      ]
+    }
+  },
+  {
+    "id": "medium-016",
+    "contract_text": "1. This agreement is made between Alpha Technologies Private Limited and Beta Services LLP (each a party and together the parties).\n2. Payment of professional fee shall be made against invoice within 15 days from receipt of invoice.\n3. Each party's liability and damages shall be limited to direct losses up to fees paid in the preceding 12 months.\n4. The parties shall cooperate in good faith and maintain written records for compliance and audit purposes.\n5. Any amendment must be in writing and signed by authorized representatives of both parties.\n6. Notices under this agreement shall be sent by email and registered post to official addresses.\n7. If any provision is held invalid, remaining provisions shall continue in full force and effect.",
+    "expected": {
+      "risk_level": "medium",
+      "missing_clauses": [
+        "Termination",
+        "Confidentiality",
+        "Governing Law"
+      ],
+      "key_clauses_found": [
+        "Parties",
+        "Payment Terms",
+        "Liability"
+      ]
+    }
+  },
+  {
+    "id": "medium-017",
+    "contract_text": "1. The parties to this contract are Orion Consulting Pvt Ltd and Nimbus Retail Pvt Ltd.\n2. Consideration and payment obligations are due within 30 days of valid invoice submission.\n3. This contract may be terminated on expiry or earlier with mutual written consent.\n4. The parties shall cooperate in good faith and maintain written records for compliance and audit purposes.\n5. Any amendment must be in writing and signed by authorized representatives of both parties.\n6. Notices under this agreement shall be sent by email and registered post to official addresses.\n7. If any provision is held invalid, remaining provisions shall continue in full force and effect.",
+    "expected": {
+      "risk_level": "medium",
+      "missing_clauses": [
+        "Confidentiality",
+        "Liability",
+        "Governing Law"
+      ],
+      "key_clauses_found": [
+        "Parties",
+        "Payment Terms",
+        "Termination"
+      ]
+    }
+  },
+  {
+    "id": "medium-018",
+    "contract_text": "1. This agreement is made between Alpha Technologies Private Limited and Beta Services LLP (each a party and together the parties).\n2. Each party shall keep all confidential information strictly confidential and use it only for contract performance.\n3. Each party's liability and damages shall be limited to direct losses up to fees paid in the preceding 12 months.\n4. The parties shall cooperate in good faith and maintain written records for compliance and audit purposes.\n5. Any amendment must be in writing and signed by authorized representatives of both parties.\n6. Notices under this agreement shall be sent by email and registered post to official addresses.\n7. If any provision is held invalid, remaining provisions shall continue in full force and effect.",
+    "expected": {
+      "risk_level": "medium",
+      "missing_clauses": [
+        "Payment Terms",
+        "Termination",
+        "Governing Law"
+      ],
+      "key_clauses_found": [
+        "Parties",
+        "Confidentiality",
+        "Liability"
+      ]
+    }
+  },
+  {
+    "id": "medium-019",
+    "contract_text": "1. Consideration and payment obligations are due within 30 days of valid invoice submission.\n2. This contract may be terminated on expiry or earlier with mutual written consent.\n3. Governing law shall be laws of India and dispute resolution shall be seated in New Delhi.\n4. The parties shall cooperate in good faith and maintain written records for compliance and audit purposes.\n5. Any amendment must be in writing and signed by authorized representatives of both parties.\n6. Notices under this agreement shall be sent by email and registered post to official addresses.\n7. If any provision is held invalid, remaining provisions shall continue in full force and effect.",
+    "expected": {
+      "risk_level": "medium",
+      "missing_clauses": [
+        "Parties",
+        "Confidentiality",
+        "Liability"
+      ],
+      "key_clauses_found": [
+        "Payment Terms",
+        "Termination",
+        "Governing Law"
+      ]
+    }
+  },
+  {
+    "id": "medium-020",
+    "contract_text": "1. This agreement is made between Alpha Technologies Private Limited and Beta Services LLP (each a party and together the parties).\n2. Payment of professional fee shall be made against invoice within 15 days from receipt of invoice.\n3. Each party's liability and damages shall be limited to direct losses up to fees paid in the preceding 12 months.\n4. The parties shall cooperate in good faith and maintain written records for compliance and audit purposes.\n5. Any amendment must be in writing and signed by authorized representatives of both parties.\n6. Notices under this agreement shall be sent by email and registered post to official addresses.\n7. If any provision is held invalid, remaining provisions shall continue in full force and effect.",
+    "expected": {
+      "risk_level": "medium",
+      "missing_clauses": [
+        "Termination",
+        "Confidentiality",
+        "Governing Law"
+      ],
+      "key_clauses_found": [
+        "Parties",
+        "Payment Terms",
+        "Liability"
+      ]
+    }
+  },
+  {
+    "id": "medium-021",
+    "contract_text": "1. The parties to this contract are Orion Consulting Pvt Ltd and Nimbus Retail Pvt Ltd.\n2. Consideration and payment obligations are due within 30 days of valid invoice submission.\n3. This contract may be terminated on expiry or earlier with mutual written consent.\n4. The parties shall cooperate in good faith and maintain written records for compliance and audit purposes.\n5. Any amendment must be in writing and signed by authorized representatives of both parties.\n6. Notices under this agreement shall be sent by email and registered post to official addresses.\n7. If any provision is held invalid, remaining provisions shall continue in full force and effect.",
+    "expected": {
+      "risk_level": "medium",
+      "missing_clauses": [
+        "Confidentiality",
+        "Liability",
+        "Governing Law"
+      ],
+      "key_clauses_found": [
+        "Parties",
+        "Payment Terms",
+        "Termination"
+      ]
+    }
+  },
+  {
+    "id": "medium-022",
+    "contract_text": "1. This agreement is made between Alpha Technologies Private Limited and Beta Services LLP (each a party and together the parties).\n2. Each party shall keep all confidential information strictly confidential and use it only for contract performance.\n3. Each party's liability and damages shall be limited to direct losses up to fees paid in the preceding 12 months.\n4. The parties shall cooperate in good faith and maintain written records for compliance and audit purposes.\n5. Any amendment must be in writing and signed by authorized representatives of both parties.\n6. Notices under this agreement shall be sent by email and registered post to official addresses.\n7. If any provision is held invalid, remaining provisions shall continue in full force and effect.",
+    "expected": {
+      "risk_level": "medium",
+      "missing_clauses": [
+        "Payment Terms",
+        "Termination",
+        "Governing Law"
+      ],
+      "key_clauses_found": [
+        "Parties",
+        "Confidentiality",
+        "Liability"
+      ]
+    }
+  },
+  {
+    "id": "medium-023",
+    "contract_text": "1. Consideration and payment obligations are due within 30 days of valid invoice submission.\n2. This contract may be terminated on expiry or earlier with mutual written consent.\n3. Governing law shall be laws of India and dispute resolution shall be seated in New Delhi.\n4. The parties shall cooperate in good faith and maintain written records for compliance and audit purposes.\n5. Any amendment must be in writing and signed by authorized representatives of both parties.\n6. Notices under this agreement shall be sent by email and registered post to official addresses.\n7. If any provision is held invalid, remaining provisions shall continue in full force and effect.",
+    "expected": {
+      "risk_level": "medium",
+      "missing_clauses": [
+        "Parties",
+        "Confidentiality",
+        "Liability"
+      ],
+      "key_clauses_found": [
+        "Payment Terms",
+        "Termination",
+        "Governing Law"
+      ]
+    }
+  },
+  {
+    "id": "medium-024",
+    "contract_text": "1. This agreement is made between Alpha Technologies Private Limited and Beta Services LLP (each a party and together the parties).\n2. Payment of professional fee shall be made against invoice within 15 days from receipt of invoice.\n3. Each party's liability and damages shall be limited to direct losses up to fees paid in the preceding 12 months.\n4. The parties shall cooperate in good faith and maintain written records for compliance and audit purposes.\n5. Any amendment must be in writing and signed by authorized representatives of both parties.\n6. Notices under this agreement shall be sent by email and registered post to official addresses.\n7. If any provision is held invalid, remaining provisions shall continue in full force and effect.",
+    "expected": {
+      "risk_level": "medium",
+      "missing_clauses": [
+        "Termination",
+        "Confidentiality",
+        "Governing Law"
+      ],
+      "key_clauses_found": [
+        "Parties",
+        "Payment Terms",
+        "Liability"
+      ]
+    }
+  },
+  {
+    "id": "medium-025",
+    "contract_text": "1. The parties to this contract are Orion Consulting Pvt Ltd and Nimbus Retail Pvt Ltd.\n2. Consideration and payment obligations are due within 30 days of valid invoice submission.\n3. This contract may be terminated on expiry or earlier with mutual written consent.\n4. The parties shall cooperate in good faith and maintain written records for compliance and audit purposes.\n5. Any amendment must be in writing and signed by authorized representatives of both parties.\n6. Notices under this agreement shall be sent by email and registered post to official addresses.\n7. If any provision is held invalid, remaining provisions shall continue in full force and effect.",
+    "expected": {
+      "risk_level": "medium",
+      "missing_clauses": [
+        "Confidentiality",
+        "Liability",
+        "Governing Law"
+      ],
+      "key_clauses_found": [
+        "Parties",
+        "Payment Terms",
+        "Termination"
+      ]
+    }
+  },
+  {
+    "id": "medium-026",
+    "contract_text": "1. This agreement is made between Alpha Technologies Private Limited and Beta Services LLP (each a party and together the parties).\n2. Each party shall keep all confidential information strictly confidential and use it only for contract performance.\n3. Each party's liability and damages shall be limited to direct losses up to fees paid in the preceding 12 months.\n4. The parties shall cooperate in good faith and maintain written records for compliance and audit purposes.\n5. Any amendment must be in writing and signed by authorized representatives of both parties.\n6. Notices under this agreement shall be sent by email and registered post to official addresses.\n7. If any provision is held invalid, remaining provisions shall continue in full force and effect.",
+    "expected": {
+      "risk_level": "medium",
+      "missing_clauses": [
+        "Payment Terms",
+        "Termination",
+        "Governing Law"
+      ],
+      "key_clauses_found": [
+        "Parties",
+        "Confidentiality",
+        "Liability"
+      ]
+    }
+  },
+  {
+    "id": "medium-027",
+    "contract_text": "1. Consideration and payment obligations are due within 30 days of valid invoice submission.\n2. This contract may be terminated on expiry or earlier with mutual written consent.\n3. Governing law shall be laws of India and dispute resolution shall be seated in New Delhi.\n4. The parties shall cooperate in good faith and maintain written records for compliance and audit purposes.\n5. Any amendment must be in writing and signed by authorized representatives of both parties.\n6. Notices under this agreement shall be sent by email and registered post to official addresses.\n7. If any provision is held invalid, remaining provisions shall continue in full force and effect.",
+    "expected": {
+      "risk_level": "medium",
+      "missing_clauses": [
+        "Parties",
+        "Confidentiality",
+        "Liability"
+      ],
+      "key_clauses_found": [
+        "Payment Terms",
+        "Termination",
+        "Governing Law"
+      ]
+    }
+  },
+  {
+    "id": "medium-028",
+    "contract_text": "1. This agreement is made between Alpha Technologies Private Limited and Beta Services LLP (each a party and together the parties).\n2. Payment of professional fee shall be made against invoice within 15 days from receipt of invoice.\n3. Each party's liability and damages shall be limited to direct losses up to fees paid in the preceding 12 months.\n4. The parties shall cooperate in good faith and maintain written records for compliance and audit purposes.\n5. Any amendment must be in writing and signed by authorized representatives of both parties.\n6. Notices under this agreement shall be sent by email and registered post to official addresses.\n7. If any provision is held invalid, remaining provisions shall continue in full force and effect.",
+    "expected": {
+      "risk_level": "medium",
+      "missing_clauses": [
+        "Termination",
+        "Confidentiality",
+        "Governing Law"
+      ],
+      "key_clauses_found": [
+        "Parties",
+        "Payment Terms",
+        "Liability"
+      ]
+    }
+  },
+  {
+    "id": "medium-029",
+    "contract_text": "1. The parties to this contract are Orion Consulting Pvt Ltd and Nimbus Retail Pvt Ltd.\n2. Consideration and payment obligations are due within 30 days of valid invoice submission.\n3. This contract may be terminated on expiry or earlier with mutual written consent.\n4. The parties shall cooperate in good faith and maintain written records for compliance and audit purposes.\n5. Any amendment must be in writing and signed by authorized representatives of both parties.\n6. Notices under this agreement shall be sent by email and registered post to official addresses.\n7. If any provision is held invalid, remaining provisions shall continue in full force and effect.",
+    "expected": {
+      "risk_level": "medium",
+      "missing_clauses": [
+        "Confidentiality",
+        "Liability",
+        "Governing Law"
+      ],
+      "key_clauses_found": [
+        "Parties",
+        "Payment Terms",
+        "Termination"
+      ]
+    }
+  },
+  {
+    "id": "medium-030",
+    "contract_text": "1. This agreement is made between Alpha Technologies Private Limited and Beta Services LLP (each a party and together the parties).\n2. Each party shall keep all confidential information strictly confidential and use it only for contract performance.\n3. Each party's liability and damages shall be limited to direct losses up to fees paid in the preceding 12 months.\n4. The parties shall cooperate in good faith and maintain written records for compliance and audit purposes.\n5. Any amendment must be in writing and signed by authorized representatives of both parties.\n6. Notices under this agreement shall be sent by email and registered post to official addresses.\n7. If any provision is held invalid, remaining provisions shall continue in full force and effect.",
+    "expected": {
+      "risk_level": "medium",
+      "missing_clauses": [
+        "Payment Terms",
+        "Termination",
+        "Governing Law"
+      ],
+      "key_clauses_found": [
+        "Parties",
+        "Confidentiality",
+        "Liability"
+      ]
+    }
+  },
+  {
+    "id": "medium-031",
+    "contract_text": "1. Consideration and payment obligations are due within 30 days of valid invoice submission.\n2. This contract may be terminated on expiry or earlier with mutual written consent.\n3. Governing law shall be laws of India and dispute resolution shall be seated in New Delhi.\n4. The parties shall cooperate in good faith and maintain written records for compliance and audit purposes.\n5. Any amendment must be in writing and signed by authorized representatives of both parties.\n6. Notices under this agreement shall be sent by email and registered post to official addresses.\n7. If any provision is held invalid, remaining provisions shall continue in full force and effect.",
+    "expected": {
+      "risk_level": "medium",
+      "missing_clauses": [
+        "Parties",
+        "Confidentiality",
+        "Liability"
+      ],
+      "key_clauses_found": [
+        "Payment Terms",
+        "Termination",
+        "Governing Law"
+      ]
+    }
+  },
+  {
+    "id": "medium-032",
+    "contract_text": "1. This agreement is made between Alpha Technologies Private Limited and Beta Services LLP (each a party and together the parties).\n2. Payment of professional fee shall be made against invoice within 15 days from receipt of invoice.\n3. Each party's liability and damages shall be limited to direct losses up to fees paid in the preceding 12 months.\n4. The parties shall cooperate in good faith and maintain written records for compliance and audit purposes.\n5. Any amendment must be in writing and signed by authorized representatives of both parties.\n6. Notices under this agreement shall be sent by email and registered post to official addresses.\n7. If any provision is held invalid, remaining provisions shall continue in full force and effect.",
+    "expected": {
+      "risk_level": "medium",
+      "missing_clauses": [
+        "Termination",
+        "Confidentiality",
+        "Governing Law"
+      ],
+      "key_clauses_found": [
+        "Parties",
+        "Payment Terms",
+        "Liability"
+      ]
+    }
+  },
+  {
+    "id": "medium-033",
+    "contract_text": "1. The parties to this contract are Orion Consulting Pvt Ltd and Nimbus Retail Pvt Ltd.\n2. Consideration and payment obligations are due within 30 days of valid invoice submission.\n3. This contract may be terminated on expiry or earlier with mutual written consent.\n4. The parties shall cooperate in good faith and maintain written records for compliance and audit purposes.\n5. Any amendment must be in writing and signed by authorized representatives of both parties.\n6. Notices under this agreement shall be sent by email and registered post to official addresses.\n7. If any provision is held invalid, remaining provisions shall continue in full force and effect.",
+    "expected": {
+      "risk_level": "medium",
+      "missing_clauses": [
+        "Confidentiality",
+        "Liability",
+        "Governing Law"
+      ],
+      "key_clauses_found": [
+        "Parties",
+        "Payment Terms",
+        "Termination"
+      ]
+    }
+  },
+  {
+    "id": "medium-034",
+    "contract_text": "1. This agreement is made between Alpha Technologies Private Limited and Beta Services LLP (each a party and together the parties).\n2. Each party shall keep all confidential information strictly confidential and use it only for contract performance.\n3. Each party's liability and damages shall be limited to direct losses up to fees paid in the preceding 12 months.\n4. The parties shall cooperate in good faith and maintain written records for compliance and audit purposes.\n5. Any amendment must be in writing and signed by authorized representatives of both parties.\n6. Notices under this agreement shall be sent by email and registered post to official addresses.\n7. If any provision is held invalid, remaining provisions shall continue in full force and effect.",
+    "expected": {
+      "risk_level": "medium",
+      "missing_clauses": [
+        "Payment Terms",
+        "Termination",
+        "Governing Law"
+      ],
+      "key_clauses_found": [
+        "Parties",
+        "Confidentiality",
+        "Liability"
+      ]
+    }
+  },
+  {
+    "id": "medium-035",
+    "contract_text": "1. Consideration and payment obligations are due within 30 days of valid invoice submission.\n2. This contract may be terminated on expiry or earlier with mutual written consent.\n3. Governing law shall be laws of India and dispute resolution shall be seated in New Delhi.\n4. The parties shall cooperate in good faith and maintain written records for compliance and audit purposes.\n5. Any amendment must be in writing and signed by authorized representatives of both parties.\n6. Notices under this agreement shall be sent by email and registered post to official addresses.\n7. If any provision is held invalid, remaining provisions shall continue in full force and effect.",
+    "expected": {
+      "risk_level": "medium",
+      "missing_clauses": [
+        "Parties",
+        "Confidentiality",
+        "Liability"
+      ],
+      "key_clauses_found": [
+        "Payment Terms",
+        "Termination",
+        "Governing Law"
+      ]
+    }
+  },
+  {
+    "id": "medium-036",
+    "contract_text": "1. This agreement is made between Alpha Technologies Private Limited and Beta Services LLP (each a party and together the parties).\n2. Payment of professional fee shall be made against invoice within 15 days from receipt of invoice.\n3. Each party's liability and damages shall be limited to direct losses up to fees paid in the preceding 12 months.\n4. The parties shall cooperate in good faith and maintain written records for compliance and audit purposes.\n5. Any amendment must be in writing and signed by authorized representatives of both parties.\n6. Notices under this agreement shall be sent by email and registered post to official addresses.\n7. If any provision is held invalid, remaining provisions shall continue in full force and effect.",
+    "expected": {
+      "risk_level": "medium",
+      "missing_clauses": [
+        "Termination",
+        "Confidentiality",
+        "Governing Law"
+      ],
+      "key_clauses_found": [
+        "Parties",
+        "Payment Terms",
+        "Liability"
+      ]
+    }
+  },
+  {
+    "id": "medium-037",
+    "contract_text": "1. The parties to this contract are Orion Consulting Pvt Ltd and Nimbus Retail Pvt Ltd.\n2. Consideration and payment obligations are due within 30 days of valid invoice submission.\n3. This contract may be terminated on expiry or earlier with mutual written consent.\n4. The parties shall cooperate in good faith and maintain written records for compliance and audit purposes.\n5. Any amendment must be in writing and signed by authorized representatives of both parties.\n6. Notices under this agreement shall be sent by email and registered post to official addresses.\n7. If any provision is held invalid, remaining provisions shall continue in full force and effect.",
+    "expected": {
+      "risk_level": "medium",
+      "missing_clauses": [
+        "Confidentiality",
+        "Liability",
+        "Governing Law"
+      ],
+      "key_clauses_found": [
+        "Parties",
+        "Payment Terms",
+        "Termination"
+      ]
+    }
+  },
+  {
+    "id": "medium-038",
+    "contract_text": "1. This agreement is made between Alpha Technologies Private Limited and Beta Services LLP (each a party and together the parties).\n2. Each party shall keep all confidential information strictly confidential and use it only for contract performance.\n3. Each party's liability and damages shall be limited to direct losses up to fees paid in the preceding 12 months.\n4. The parties shall cooperate in good faith and maintain written records for compliance and audit purposes.\n5. Any amendment must be in writing and signed by authorized representatives of both parties.\n6. Notices under this agreement shall be sent by email and registered post to official addresses.\n7. If any provision is held invalid, remaining provisions shall continue in full force and effect.",
+    "expected": {
+      "risk_level": "medium",
+      "missing_clauses": [
+        "Payment Terms",
+        "Termination",
+        "Governing Law"
+      ],
+      "key_clauses_found": [
+        "Parties",
+        "Confidentiality",
+        "Liability"
+      ]
+    }
+  },
+  {
+    "id": "medium-039",
+    "contract_text": "1. Consideration and payment obligations are due within 30 days of valid invoice submission.\n2. This contract may be terminated on expiry or earlier with mutual written consent.\n3. Governing law shall be laws of India and dispute resolution shall be seated in New Delhi.\n4. The parties shall cooperate in good faith and maintain written records for compliance and audit purposes.\n5. Any amendment must be in writing and signed by authorized representatives of both parties.\n6. Notices under this agreement shall be sent by email and registered post to official addresses.\n7. If any provision is held invalid, remaining provisions shall continue in full force and effect.",
+    "expected": {
+      "risk_level": "medium",
+      "missing_clauses": [
+        "Parties",
+        "Confidentiality",
+        "Liability"
+      ],
+      "key_clauses_found": [
+        "Payment Terms",
+        "Termination",
+        "Governing Law"
+      ]
+    }
+  },
+  {
+    "id": "medium-040",
+    "contract_text": "1. This agreement is made between Alpha Technologies Private Limited and Beta Services LLP (each a party and together the parties).\n2. Payment of professional fee shall be made against invoice within 15 days from receipt of invoice.\n3. Each party's liability and damages shall be limited to direct losses up to fees paid in the preceding 12 months.\n4. The parties shall cooperate in good faith and maintain written records for compliance and audit purposes.\n5. Any amendment must be in writing and signed by authorized representatives of both parties.\n6. Notices under this agreement shall be sent by email and registered post to official addresses.\n7. If any provision is held invalid, remaining provisions shall continue in full force and effect.",
+    "expected": {
+      "risk_level": "medium",
+      "missing_clauses": [
+        "Termination",
+        "Confidentiality",
+        "Governing Law"
+      ],
+      "key_clauses_found": [
+        "Parties",
+        "Payment Terms",
+        "Liability"
+      ]
+    }
+  },
+  {
+    "id": "high-001",
+    "contract_text": "1. The parties to this contract are Orion Consulting Pvt Ltd and Nimbus Retail Pvt Ltd.\n2. Consideration and payment obligations are due within 30 days of valid invoice submission.\n3. The parties shall cooperate in good faith and maintain written records for compliance and audit purposes.\n4. Any amendment must be in writing and signed by authorized representatives of both parties.\n5. Notices under this agreement shall be sent by email and registered post to official addresses.\n6. If any provision is held invalid, remaining provisions shall continue in full force and effect.\n7. The Company may terminate immediately without notice at its sole discretion for any reason.\n8. Consultant accepts unlimited liability and irrevocable indemnity for all direct, indirect, and consequential damages.\n9. All disputes shall be finally resolved by arbitration seated in London under rules chosen solely by the Company.\n10. For 3 years after termination, consultant shall not work with any competitor across India.",
+    "expected": {
+      "risk_level": "high",
+      "missing_clauses": [
+        "Confidentiality",
+        "Governing Law",
+        "Liability",
+        "Termination"
+      ],
+      "key_clauses_found": [
+        "Parties",
+        "Payment Terms"
+      ]
+    }
+  },
+  {
+    "id": "high-002",
+    "contract_text": "1. Either party may terminate this agreement by giving 30 days prior written termination notice.\n2. Each party shall keep all confidential information strictly confidential and use it only for contract performance.\n3. The parties shall cooperate in good faith and maintain written records for compliance and audit purposes.\n4. Any amendment must be in writing and signed by authorized representatives of both parties.\n5. Notices under this agreement shall be sent by email and registered post to official addresses.\n6. If any provision is held invalid, remaining provisions shall continue in full force and effect.\n7. The Company may terminate immediately without notice at its sole discretion for any reason.\n8. Consultant accepts unlimited liability and irrevocable indemnity for all direct, indirect, and consequential damages.\n9. All disputes shall be finally resolved by arbitration seated in London under rules chosen solely by the Company.\n10. For 3 years after termination, consultant shall not work with any competitor across India.",
+    "expected": {
+      "risk_level": "high",
+      "missing_clauses": [
+        "Payment Terms",
+        "Governing Law",
+        "Liability",
+        "Parties"
+      ],
+      "key_clauses_found": [
+        "Termination",
+        "Confidentiality"
+      ]
+    }
+  },
+  {
+    "id": "high-003",
+    "contract_text": "1. Indemnity applies only for proven third-party claims arising from negligence or wilful misconduct.\n2. Governing law shall be laws of India and dispute resolution shall be seated in New Delhi.\n3. The parties shall cooperate in good faith and maintain written records for compliance and audit purposes.\n4. Any amendment must be in writing and signed by authorized representatives of both parties.\n5. Notices under this agreement shall be sent by email and registered post to official addresses.\n6. If any provision is held invalid, remaining provisions shall continue in full force and effect.\n7. The Company may terminate immediately without notice at its sole discretion for any reason.\n8. Consultant accepts unlimited liability and irrevocable indemnity for all direct, indirect, and consequential damages.\n9. All disputes shall be finally resolved by arbitration seated in London under rules chosen solely by the Company.\n10. For 3 years after termination, consultant shall not work with any competitor across India.",
+    "expected": {
+      "risk_level": "high",
+      "missing_clauses": [
+        "Parties",
+        "Payment Terms",
+        "Confidentiality",
+        "Termination"
+      ],
+      "key_clauses_found": [
+        "Liability",
+        "Governing Law"
+      ]
+    }
+  },
+  {
+    "id": "high-004",
+    "contract_text": "1. Payment of professional fee shall be made against invoice within 15 days from receipt of invoice.\n2. Each party shall keep all confidential information strictly confidential and use it only for contract performance.\n3. The parties shall cooperate in good faith and maintain written records for compliance and audit purposes.\n4. Any amendment must be in writing and signed by authorized representatives of both parties.\n5. Notices under this agreement shall be sent by email and registered post to official addresses.\n6. If any provision is held invalid, remaining provisions shall continue in full force and effect.\n7. The Company may terminate immediately without notice at its sole discretion for any reason.\n8. Consultant accepts unlimited liability and irrevocable indemnity for all direct, indirect, and consequential damages.\n9. All disputes shall be finally resolved by arbitration seated in London under rules chosen solely by the Company.\n10. For 3 years after termination, consultant shall not work with any competitor across India.",
+    "expected": {
+      "risk_level": "high",
+      "missing_clauses": [
+        "Parties",
+        "Liability",
+        "Termination",
+        "Governing Law"
+      ],
+      "key_clauses_found": [
+        "Payment Terms",
+        "Confidentiality"
+      ]
+    }
+  },
+  {
+    "id": "high-005",
+    "contract_text": "1. The parties to this contract are Orion Consulting Pvt Ltd and Nimbus Retail Pvt Ltd.\n2. Consideration and payment obligations are due within 30 days of valid invoice submission.\n3. The parties shall cooperate in good faith and maintain written records for compliance and audit purposes.\n4. Any amendment must be in writing and signed by authorized representatives of both parties.\n5. Notices under this agreement shall be sent by email and registered post to official addresses.\n6. If any provision is held invalid, remaining provisions shall continue in full force and effect.\n7. The Company may terminate immediately without notice at its sole discretion for any reason.\n8. Consultant accepts unlimited liability and irrevocable indemnity for all direct, indirect, and consequential damages.\n9. All disputes shall be finally resolved by arbitration seated in London under rules chosen solely by the Company.\n10. For 3 years after termination, consultant shall not work with any competitor across India.",
+    "expected": {
+      "risk_level": "high",
+      "missing_clauses": [
+        "Confidentiality",
+        "Governing Law",
+        "Liability",
+        "Termination"
+      ],
+      "key_clauses_found": [
+        "Parties",
+        "Payment Terms"
+      ]
+    }
+  },
+  {
+    "id": "high-006",
+    "contract_text": "1. Either party may terminate this agreement by giving 30 days prior written termination notice.\n2. Each party shall keep all confidential information strictly confidential and use it only for contract performance.\n3. The parties shall cooperate in good faith and maintain written records for compliance and audit purposes.\n4. Any amendment must be in writing and signed by authorized representatives of both parties.\n5. Notices under this agreement shall be sent by email and registered post to official addresses.\n6. If any provision is held invalid, remaining provisions shall continue in full force and effect.\n7. The Company may terminate immediately without notice at its sole discretion for any reason.\n8. Consultant accepts unlimited liability and irrevocable indemnity for all direct, indirect, and consequential damages.\n9. All disputes shall be finally resolved by arbitration seated in London under rules chosen solely by the Company.\n10. For 3 years after termination, consultant shall not work with any competitor across India.",
+    "expected": {
+      "risk_level": "high",
+      "missing_clauses": [
+        "Payment Terms",
+        "Governing Law",
+        "Liability",
+        "Parties"
+      ],
+      "key_clauses_found": [
+        "Termination",
+        "Confidentiality"
+      ]
+    }
+  },
+  {
+    "id": "high-007",
+    "contract_text": "1. Indemnity applies only for proven third-party claims arising from negligence or wilful misconduct.\n2. Governing law shall be laws of India and dispute resolution shall be seated in New Delhi.\n3. The parties shall cooperate in good faith and maintain written records for compliance and audit purposes.\n4. Any amendment must be in writing and signed by authorized representatives of both parties.\n5. Notices under this agreement shall be sent by email and registered post to official addresses.\n6. If any provision is held invalid, remaining provisions shall continue in full force and effect.\n7. The Company may terminate immediately without notice at its sole discretion for any reason.\n8. Consultant accepts unlimited liability and irrevocable indemnity for all direct, indirect, and consequential damages.\n9. All disputes shall be finally resolved by arbitration seated in London under rules chosen solely by the Company.\n10. For 3 years after termination, consultant shall not work with any competitor across India.",
+    "expected": {
+      "risk_level": "high",
+      "missing_clauses": [
+        "Parties",
+        "Payment Terms",
+        "Confidentiality",
+        "Termination"
+      ],
+      "key_clauses_found": [
+        "Liability",
+        "Governing Law"
+      ]
+    }
+  },
+  {
+    "id": "high-008",
+    "contract_text": "1. Payment of professional fee shall be made against invoice within 15 days from receipt of invoice.\n2. Each party shall keep all confidential information strictly confidential and use it only for contract performance.\n3. The parties shall cooperate in good faith and maintain written records for compliance and audit purposes.\n4. Any amendment must be in writing and signed by authorized representatives of both parties.\n5. Notices under this agreement shall be sent by email and registered post to official addresses.\n6. If any provision is held invalid, remaining provisions shall continue in full force and effect.\n7. The Company may terminate immediately without notice at its sole discretion for any reason.\n8. Consultant accepts unlimited liability and irrevocable indemnity for all direct, indirect, and consequential damages.\n9. All disputes shall be finally resolved by arbitration seated in London under rules chosen solely by the Company.\n10. For 3 years after termination, consultant shall not work with any competitor across India.",
+    "expected": {
+      "risk_level": "high",
+      "missing_clauses": [
+        "Parties",
+        "Liability",
+        "Termination",
+        "Governing Law"
+      ],
+      "key_clauses_found": [
+        "Payment Terms",
+        "Confidentiality"
+      ]
+    }
+  },
+  {
+    "id": "high-009",
+    "contract_text": "1. The parties to this contract are Orion Consulting Pvt Ltd and Nimbus Retail Pvt Ltd.\n2. Consideration and payment obligations are due within 30 days of valid invoice submission.\n3. The parties shall cooperate in good faith and maintain written records for compliance and audit purposes.\n4. Any amendment must be in writing and signed by authorized representatives of both parties.\n5. Notices under this agreement shall be sent by email and registered post to official addresses.\n6. If any provision is held invalid, remaining provisions shall continue in full force and effect.\n7. The Company may terminate immediately without notice at its sole discretion for any reason.\n8. Consultant accepts unlimited liability and irrevocable indemnity for all direct, indirect, and consequential damages.\n9. All disputes shall be finally resolved by arbitration seated in London under rules chosen solely by the Company.\n10. For 3 years after termination, consultant shall not work with any competitor across India.",
+    "expected": {
+      "risk_level": "high",
+      "missing_clauses": [
+        "Confidentiality",
+        "Governing Law",
+        "Liability",
+        "Termination"
+      ],
+      "key_clauses_found": [
+        "Parties",
+        "Payment Terms"
+      ]
+    }
+  },
+  {
+    "id": "high-010",
+    "contract_text": "1. Either party may terminate this agreement by giving 30 days prior written termination notice.\n2. Each party shall keep all confidential information strictly confidential and use it only for contract performance.\n3. The parties shall cooperate in good faith and maintain written records for compliance and audit purposes.\n4. Any amendment must be in writing and signed by authorized representatives of both parties.\n5. Notices under this agreement shall be sent by email and registered post to official addresses.\n6. If any provision is held invalid, remaining provisions shall continue in full force and effect.\n7. The Company may terminate immediately without notice at its sole discretion for any reason.\n8. Consultant accepts unlimited liability and irrevocable indemnity for all direct, indirect, and consequential damages.\n9. All disputes shall be finally resolved by arbitration seated in London under rules chosen solely by the Company.\n10. For 3 years after termination, consultant shall not work with any competitor across India.",
+    "expected": {
+      "risk_level": "high",
+      "missing_clauses": [
+        "Payment Terms",
+        "Governing Law",
+        "Liability",
+        "Parties"
+      ],
+      "key_clauses_found": [
+        "Termination",
+        "Confidentiality"
+      ]
+    }
+  },
+  {
+    "id": "high-011",
+    "contract_text": "1. Indemnity applies only for proven third-party claims arising from negligence or wilful misconduct.\n2. Governing law shall be laws of India and dispute resolution shall be seated in New Delhi.\n3. The parties shall cooperate in good faith and maintain written records for compliance and audit purposes.\n4. Any amendment must be in writing and signed by authorized representatives of both parties.\n5. Notices under this agreement shall be sent by email and registered post to official addresses.\n6. If any provision is held invalid, remaining provisions shall continue in full force and effect.\n7. The Company may terminate immediately without notice at its sole discretion for any reason.\n8. Consultant accepts unlimited liability and irrevocable indemnity for all direct, indirect, and consequential damages.\n9. All disputes shall be finally resolved by arbitration seated in London under rules chosen solely by the Company.\n10. For 3 years after termination, consultant shall not work with any competitor across India.",
+    "expected": {
+      "risk_level": "high",
+      "missing_clauses": [
+        "Parties",
+        "Payment Terms",
+        "Confidentiality",
+        "Termination"
+      ],
+      "key_clauses_found": [
+        "Liability",
+        "Governing Law"
+      ]
+    }
+  },
+  {
+    "id": "high-012",
+    "contract_text": "1. Payment of professional fee shall be made against invoice within 15 days from receipt of invoice.\n2. Each party shall keep all confidential information strictly confidential and use it only for contract performance.\n3. The parties shall cooperate in good faith and maintain written records for compliance and audit purposes.\n4. Any amendment must be in writing and signed by authorized representatives of both parties.\n5. Notices under this agreement shall be sent by email and registered post to official addresses.\n6. If any provision is held invalid, remaining provisions shall continue in full force and effect.\n7. The Company may terminate immediately without notice at its sole discretion for any reason.\n8. Consultant accepts unlimited liability and irrevocable indemnity for all direct, indirect, and consequential damages.\n9. All disputes shall be finally resolved by arbitration seated in London under rules chosen solely by the Company.\n10. For 3 years after termination, consultant shall not work with any competitor across India.",
+    "expected": {
+      "risk_level": "high",
+      "missing_clauses": [
+        "Parties",
+        "Liability",
+        "Termination",
+        "Governing Law"
+      ],
+      "key_clauses_found": [
+        "Payment Terms",
+        "Confidentiality"
+      ]
+    }
+  },
+  {
+    "id": "high-013",
+    "contract_text": "1. The parties to this contract are Orion Consulting Pvt Ltd and Nimbus Retail Pvt Ltd.\n2. Consideration and payment obligations are due within 30 days of valid invoice submission.\n3. The parties shall cooperate in good faith and maintain written records for compliance and audit purposes.\n4. Any amendment must be in writing and signed by authorized representatives of both parties.\n5. Notices under this agreement shall be sent by email and registered post to official addresses.\n6. If any provision is held invalid, remaining provisions shall continue in full force and effect.\n7. The Company may terminate immediately without notice at its sole discretion for any reason.\n8. Consultant accepts unlimited liability and irrevocable indemnity for all direct, indirect, and consequential damages.\n9. All disputes shall be finally resolved by arbitration seated in London under rules chosen solely by the Company.\n10. For 3 years after termination, consultant shall not work with any competitor across India.",
+    "expected": {
+      "risk_level": "high",
+      "missing_clauses": [
+        "Confidentiality",
+        "Governing Law",
+        "Liability",
+        "Termination"
+      ],
+      "key_clauses_found": [
+        "Parties",
+        "Payment Terms"
+      ]
+    }
+  },
+  {
+    "id": "high-014",
+    "contract_text": "1. Either party may terminate this agreement by giving 30 days prior written termination notice.\n2. Each party shall keep all confidential information strictly confidential and use it only for contract performance.\n3. The parties shall cooperate in good faith and maintain written records for compliance and audit purposes.\n4. Any amendment must be in writing and signed by authorized representatives of both parties.\n5. Notices under this agreement shall be sent by email and registered post to official addresses.\n6. If any provision is held invalid, remaining provisions shall continue in full force and effect.\n7. The Company may terminate immediately without notice at its sole discretion for any reason.\n8. Consultant accepts unlimited liability and irrevocable indemnity for all direct, indirect, and consequential damages.\n9. All disputes shall be finally resolved by arbitration seated in London under rules chosen solely by the Company.\n10. For 3 years after termination, consultant shall not work with any competitor across India.",
+    "expected": {
+      "risk_level": "high",
+      "missing_clauses": [
+        "Payment Terms",
+        "Governing Law",
+        "Liability",
+        "Parties"
+      ],
+      "key_clauses_found": [
+        "Termination",
+        "Confidentiality"
+      ]
+    }
+  },
+  {
+    "id": "high-015",
+    "contract_text": "1. Indemnity applies only for proven third-party claims arising from negligence or wilful misconduct.\n2. Governing law shall be laws of India and dispute resolution shall be seated in New Delhi.\n3. The parties shall cooperate in good faith and maintain written records for compliance and audit purposes.\n4. Any amendment must be in writing and signed by authorized representatives of both parties.\n5. Notices under this agreement shall be sent by email and registered post to official addresses.\n6. If any provision is held invalid, remaining provisions shall continue in full force and effect.\n7. The Company may terminate immediately without notice at its sole discretion for any reason.\n8. Consultant accepts unlimited liability and irrevocable indemnity for all direct, indirect, and consequential damages.\n9. All disputes shall be finally resolved by arbitration seated in London under rules chosen solely by the Company.\n10. For 3 years after termination, consultant shall not work with any competitor across India.",
+    "expected": {
+      "risk_level": "high",
+      "missing_clauses": [
+        "Parties",
+        "Payment Terms",
+        "Confidentiality",
+        "Termination"
+      ],
+      "key_clauses_found": [
+        "Liability",
+        "Governing Law"
+      ]
+    }
+  },
+  {
+    "id": "high-016",
+    "contract_text": "1. Payment of professional fee shall be made against invoice within 15 days from receipt of invoice.\n2. Each party shall keep all confidential information strictly confidential and use it only for contract performance.\n3. The parties shall cooperate in good faith and maintain written records for compliance and audit purposes.\n4. Any amendment must be in writing and signed by authorized representatives of both parties.\n5. Notices under this agreement shall be sent by email and registered post to official addresses.\n6. If any provision is held invalid, remaining provisions shall continue in full force and effect.\n7. The Company may terminate immediately without notice at its sole discretion for any reason.\n8. Consultant accepts unlimited liability and irrevocable indemnity for all direct, indirect, and consequential damages.\n9. All disputes shall be finally resolved by arbitration seated in London under rules chosen solely by the Company.\n10. For 3 years after termination, consultant shall not work with any competitor across India.",
+    "expected": {
+      "risk_level": "high",
+      "missing_clauses": [
+        "Parties",
+        "Liability",
+        "Termination",
+        "Governing Law"
+      ],
+      "key_clauses_found": [
+        "Payment Terms",
+        "Confidentiality"
+      ]
+    }
+  },
+  {
+    "id": "high-017",
+    "contract_text": "1. The parties to this contract are Orion Consulting Pvt Ltd and Nimbus Retail Pvt Ltd.\n2. Consideration and payment obligations are due within 30 days of valid invoice submission.\n3. The parties shall cooperate in good faith and maintain written records for compliance and audit purposes.\n4. Any amendment must be in writing and signed by authorized representatives of both parties.\n5. Notices under this agreement shall be sent by email and registered post to official addresses.\n6. If any provision is held invalid, remaining provisions shall continue in full force and effect.\n7. The Company may terminate immediately without notice at its sole discretion for any reason.\n8. Consultant accepts unlimited liability and irrevocable indemnity for all direct, indirect, and consequential damages.\n9. All disputes shall be finally resolved by arbitration seated in London under rules chosen solely by the Company.\n10. For 3 years after termination, consultant shall not work with any competitor across India.",
+    "expected": {
+      "risk_level": "high",
+      "missing_clauses": [
+        "Confidentiality",
+        "Governing Law",
+        "Liability",
+        "Termination"
+      ],
+      "key_clauses_found": [
+        "Parties",
+        "Payment Terms"
+      ]
+    }
+  },
+  {
+    "id": "high-018",
+    "contract_text": "1. Either party may terminate this agreement by giving 30 days prior written termination notice.\n2. Each party shall keep all confidential information strictly confidential and use it only for contract performance.\n3. The parties shall cooperate in good faith and maintain written records for compliance and audit purposes.\n4. Any amendment must be in writing and signed by authorized representatives of both parties.\n5. Notices under this agreement shall be sent by email and registered post to official addresses.\n6. If any provision is held invalid, remaining provisions shall continue in full force and effect.\n7. The Company may terminate immediately without notice at its sole discretion for any reason.\n8. Consultant accepts unlimited liability and irrevocable indemnity for all direct, indirect, and consequential damages.\n9. All disputes shall be finally resolved by arbitration seated in London under rules chosen solely by the Company.\n10. For 3 years after termination, consultant shall not work with any competitor across India.",
+    "expected": {
+      "risk_level": "high",
+      "missing_clauses": [
+        "Payment Terms",
+        "Governing Law",
+        "Liability",
+        "Parties"
+      ],
+      "key_clauses_found": [
+        "Termination",
+        "Confidentiality"
+      ]
+    }
+  },
+  {
+    "id": "high-019",
+    "contract_text": "1. Indemnity applies only for proven third-party claims arising from negligence or wilful misconduct.\n2. Governing law shall be laws of India and dispute resolution shall be seated in New Delhi.\n3. The parties shall cooperate in good faith and maintain written records for compliance and audit purposes.\n4. Any amendment must be in writing and signed by authorized representatives of both parties.\n5. Notices under this agreement shall be sent by email and registered post to official addresses.\n6. If any provision is held invalid, remaining provisions shall continue in full force and effect.\n7. The Company may terminate immediately without notice at its sole discretion for any reason.\n8. Consultant accepts unlimited liability and irrevocable indemnity for all direct, indirect, and consequential damages.\n9. All disputes shall be finally resolved by arbitration seated in London under rules chosen solely by the Company.\n10. For 3 years after termination, consultant shall not work with any competitor across India.",
+    "expected": {
+      "risk_level": "high",
+      "missing_clauses": [
+        "Parties",
+        "Payment Terms",
+        "Confidentiality",
+        "Termination"
+      ],
+      "key_clauses_found": [
+        "Liability",
+        "Governing Law"
+      ]
+    }
+  },
+  {
+    "id": "high-020",
+    "contract_text": "1. Payment of professional fee shall be made against invoice within 15 days from receipt of invoice.\n2. Each party shall keep all confidential information strictly confidential and use it only for contract performance.\n3. The parties shall cooperate in good faith and maintain written records for compliance and audit purposes.\n4. Any amendment must be in writing and signed by authorized representatives of both parties.\n5. Notices under this agreement shall be sent by email and registered post to official addresses.\n6. If any provision is held invalid, remaining provisions shall continue in full force and effect.\n7. The Company may terminate immediately without notice at its sole discretion for any reason.\n8. Consultant accepts unlimited liability and irrevocable indemnity for all direct, indirect, and consequential damages.\n9. All disputes shall be finally resolved by arbitration seated in London under rules chosen solely by the Company.\n10. For 3 years after termination, consultant shall not work with any competitor across India.",
+    "expected": {
+      "risk_level": "high",
+      "missing_clauses": [
+        "Parties",
+        "Liability",
+        "Termination",
+        "Governing Law"
+      ],
+      "key_clauses_found": [
+        "Payment Terms",
+        "Confidentiality"
+      ]
+    }
+  },
+  {
+    "id": "high-021",
+    "contract_text": "1. The parties to this contract are Orion Consulting Pvt Ltd and Nimbus Retail Pvt Ltd.\n2. Consideration and payment obligations are due within 30 days of valid invoice submission.\n3. The parties shall cooperate in good faith and maintain written records for compliance and audit purposes.\n4. Any amendment must be in writing and signed by authorized representatives of both parties.\n5. Notices under this agreement shall be sent by email and registered post to official addresses.\n6. If any provision is held invalid, remaining provisions shall continue in full force and effect.\n7. The Company may terminate immediately without notice at its sole discretion for any reason.\n8. Consultant accepts unlimited liability and irrevocable indemnity for all direct, indirect, and consequential damages.\n9. All disputes shall be finally resolved by arbitration seated in London under rules chosen solely by the Company.\n10. For 3 years after termination, consultant shall not work with any competitor across India.",
+    "expected": {
+      "risk_level": "high",
+      "missing_clauses": [
+        "Confidentiality",
+        "Governing Law",
+        "Liability",
+        "Termination"
+      ],
+      "key_clauses_found": [
+        "Parties",
+        "Payment Terms"
+      ]
+    }
+  },
+  {
+    "id": "high-022",
+    "contract_text": "1. Either party may terminate this agreement by giving 30 days prior written termination notice.\n2. Each party shall keep all confidential information strictly confidential and use it only for contract performance.\n3. The parties shall cooperate in good faith and maintain written records for compliance and audit purposes.\n4. Any amendment must be in writing and signed by authorized representatives of both parties.\n5. Notices under this agreement shall be sent by email and registered post to official addresses.\n6. If any provision is held invalid, remaining provisions shall continue in full force and effect.\n7. The Company may terminate immediately without notice at its sole discretion for any reason.\n8. Consultant accepts unlimited liability and irrevocable indemnity for all direct, indirect, and consequential damages.\n9. All disputes shall be finally resolved by arbitration seated in London under rules chosen solely by the Company.\n10. For 3 years after termination, consultant shall not work with any competitor across India.",
+    "expected": {
+      "risk_level": "high",
+      "missing_clauses": [
+        "Payment Terms",
+        "Governing Law",
+        "Liability",
+        "Parties"
+      ],
+      "key_clauses_found": [
+        "Termination",
+        "Confidentiality"
+      ]
+    }
+  },
+  {
+    "id": "high-023",
+    "contract_text": "1. Indemnity applies only for proven third-party claims arising from negligence or wilful misconduct.\n2. Governing law shall be laws of India and dispute resolution shall be seated in New Delhi.\n3. The parties shall cooperate in good faith and maintain written records for compliance and audit purposes.\n4. Any amendment must be in writing and signed by authorized representatives of both parties.\n5. Notices under this agreement shall be sent by email and registered post to official addresses.\n6. If any provision is held invalid, remaining provisions shall continue in full force and effect.\n7. The Company may terminate immediately without notice at its sole discretion for any reason.\n8. Consultant accepts unlimited liability and irrevocable indemnity for all direct, indirect, and consequential damages.\n9. All disputes shall be finally resolved by arbitration seated in London under rules chosen solely by the Company.\n10. For 3 years after termination, consultant shall not work with any competitor across India.",
+    "expected": {
+      "risk_level": "high",
+      "missing_clauses": [
+        "Parties",
+        "Payment Terms",
+        "Confidentiality",
+        "Termination"
+      ],
+      "key_clauses_found": [
+        "Liability",
+        "Governing Law"
+      ]
+    }
+  },
+  {
+    "id": "high-024",
+    "contract_text": "1. Payment of professional fee shall be made against invoice within 15 days from receipt of invoice.\n2. Each party shall keep all confidential information strictly confidential and use it only for contract performance.\n3. The parties shall cooperate in good faith and maintain written records for compliance and audit purposes.\n4. Any amendment must be in writing and signed by authorized representatives of both parties.\n5. Notices under this agreement shall be sent by email and registered post to official addresses.\n6. If any provision is held invalid, remaining provisions shall continue in full force and effect.\n7. The Company may terminate immediately without notice at its sole discretion for any reason.\n8. Consultant accepts unlimited liability and irrevocable indemnity for all direct, indirect, and consequential damages.\n9. All disputes shall be finally resolved by arbitration seated in London under rules chosen solely by the Company.\n10. For 3 years after termination, consultant shall not work with any competitor across India.",
+    "expected": {
+      "risk_level": "high",
+      "missing_clauses": [
+        "Parties",
+        "Liability",
+        "Termination",
+        "Governing Law"
+      ],
+      "key_clauses_found": [
+        "Payment Terms",
+        "Confidentiality"
+      ]
+    }
+  },
+  {
+    "id": "high-025",
+    "contract_text": "1. The parties to this contract are Orion Consulting Pvt Ltd and Nimbus Retail Pvt Ltd.\n2. Consideration and payment obligations are due within 30 days of valid invoice submission.\n3. The parties shall cooperate in good faith and maintain written records for compliance and audit purposes.\n4. Any amendment must be in writing and signed by authorized representatives of both parties.\n5. Notices under this agreement shall be sent by email and registered post to official addresses.\n6. If any provision is held invalid, remaining provisions shall continue in full force and effect.\n7. The Company may terminate immediately without notice at its sole discretion for any reason.\n8. Consultant accepts unlimited liability and irrevocable indemnity for all direct, indirect, and consequential damages.\n9. All disputes shall be finally resolved by arbitration seated in London under rules chosen solely by the Company.\n10. For 3 years after termination, consultant shall not work with any competitor across India.",
+    "expected": {
+      "risk_level": "high",
+      "missing_clauses": [
+        "Confidentiality",
+        "Governing Law",
+        "Liability",
+        "Termination"
+      ],
+      "key_clauses_found": [
+        "Parties",
+        "Payment Terms"
+      ]
+    }
+  },
+  {
+    "id": "high-026",
+    "contract_text": "1. Either party may terminate this agreement by giving 30 days prior written termination notice.\n2. Each party shall keep all confidential information strictly confidential and use it only for contract performance.\n3. The parties shall cooperate in good faith and maintain written records for compliance and audit purposes.\n4. Any amendment must be in writing and signed by authorized representatives of both parties.\n5. Notices under this agreement shall be sent by email and registered post to official addresses.\n6. If any provision is held invalid, remaining provisions shall continue in full force and effect.\n7. The Company may terminate immediately without notice at its sole discretion for any reason.\n8. Consultant accepts unlimited liability and irrevocable indemnity for all direct, indirect, and consequential damages.\n9. All disputes shall be finally resolved by arbitration seated in London under rules chosen solely by the Company.\n10. For 3 years after termination, consultant shall not work with any competitor across India.",
+    "expected": {
+      "risk_level": "high",
+      "missing_clauses": [
+        "Payment Terms",
+        "Governing Law",
+        "Liability",
+        "Parties"
+      ],
+      "key_clauses_found": [
+        "Termination",
+        "Confidentiality"
+      ]
+    }
+  },
+  {
+    "id": "high-027",
+    "contract_text": "1. Indemnity applies only for proven third-party claims arising from negligence or wilful misconduct.\n2. Governing law shall be laws of India and dispute resolution shall be seated in New Delhi.\n3. The parties shall cooperate in good faith and maintain written records for compliance and audit purposes.\n4. Any amendment must be in writing and signed by authorized representatives of both parties.\n5. Notices under this agreement shall be sent by email and registered post to official addresses.\n6. If any provision is held invalid, remaining provisions shall continue in full force and effect.\n7. The Company may terminate immediately without notice at its sole discretion for any reason.\n8. Consultant accepts unlimited liability and irrevocable indemnity for all direct, indirect, and consequential damages.\n9. All disputes shall be finally resolved by arbitration seated in London under rules chosen solely by the Company.\n10. For 3 years after termination, consultant shall not work with any competitor across India.",
+    "expected": {
+      "risk_level": "high",
+      "missing_clauses": [
+        "Parties",
+        "Payment Terms",
+        "Confidentiality",
+        "Termination"
+      ],
+      "key_clauses_found": [
+        "Liability",
+        "Governing Law"
+      ]
+    }
+  },
+  {
+    "id": "high-028",
+    "contract_text": "1. Payment of professional fee shall be made against invoice within 15 days from receipt of invoice.\n2. Each party shall keep all confidential information strictly confidential and use it only for contract performance.\n3. The parties shall cooperate in good faith and maintain written records for compliance and audit purposes.\n4. Any amendment must be in writing and signed by authorized representatives of both parties.\n5. Notices under this agreement shall be sent by email and registered post to official addresses.\n6. If any provision is held invalid, remaining provisions shall continue in full force and effect.\n7. The Company may terminate immediately without notice at its sole discretion for any reason.\n8. Consultant accepts unlimited liability and irrevocable indemnity for all direct, indirect, and consequential damages.\n9. All disputes shall be finally resolved by arbitration seated in London under rules chosen solely by the Company.\n10. For 3 years after termination, consultant shall not work with any competitor across India.",
+    "expected": {
+      "risk_level": "high",
+      "missing_clauses": [
+        "Parties",
+        "Liability",
+        "Termination",
+        "Governing Law"
+      ],
+      "key_clauses_found": [
+        "Payment Terms",
+        "Confidentiality"
+      ]
+    }
+  },
+  {
+    "id": "high-029",
+    "contract_text": "1. The parties to this contract are Orion Consulting Pvt Ltd and Nimbus Retail Pvt Ltd.\n2. Consideration and payment obligations are due within 30 days of valid invoice submission.\n3. The parties shall cooperate in good faith and maintain written records for compliance and audit purposes.\n4. Any amendment must be in writing and signed by authorized representatives of both parties.\n5. Notices under this agreement shall be sent by email and registered post to official addresses.\n6. If any provision is held invalid, remaining provisions shall continue in full force and effect.\n7. The Company may terminate immediately without notice at its sole discretion for any reason.\n8. Consultant accepts unlimited liability and irrevocable indemnity for all direct, indirect, and consequential damages.\n9. All disputes shall be finally resolved by arbitration seated in London under rules chosen solely by the Company.\n10. For 3 years after termination, consultant shall not work with any competitor across India.",
+    "expected": {
+      "risk_level": "high",
+      "missing_clauses": [
+        "Confidentiality",
+        "Governing Law",
+        "Liability",
+        "Termination"
+      ],
+      "key_clauses_found": [
+        "Parties",
+        "Payment Terms"
+      ]
+    }
+  },
+  {
+    "id": "high-030",
+    "contract_text": "1. Either party may terminate this agreement by giving 30 days prior written termination notice.\n2. Each party shall keep all confidential information strictly confidential and use it only for contract performance.\n3. The parties shall cooperate in good faith and maintain written records for compliance and audit purposes.\n4. Any amendment must be in writing and signed by authorized representatives of both parties.\n5. Notices under this agreement shall be sent by email and registered post to official addresses.\n6. If any provision is held invalid, remaining provisions shall continue in full force and effect.\n7. The Company may terminate immediately without notice at its sole discretion for any reason.\n8. Consultant accepts unlimited liability and irrevocable indemnity for all direct, indirect, and consequential damages.\n9. All disputes shall be finally resolved by arbitration seated in London under rules chosen solely by the Company.\n10. For 3 years after termination, consultant shall not work with any competitor across India.",
+    "expected": {
+      "risk_level": "high",
+      "missing_clauses": [
+        "Payment Terms",
+        "Governing Law",
+        "Liability",
+        "Parties"
+      ],
+      "key_clauses_found": [
+        "Termination",
+        "Confidentiality"
+      ]
+    }
+  },
+  {
+    "id": "high-031",
+    "contract_text": "1. Indemnity applies only for proven third-party claims arising from negligence or wilful misconduct.\n2. Governing law shall be laws of India and dispute resolution shall be seated in New Delhi.\n3. The parties shall cooperate in good faith and maintain written records for compliance and audit purposes.\n4. Any amendment must be in writing and signed by authorized representatives of both parties.\n5. Notices under this agreement shall be sent by email and registered post to official addresses.\n6. If any provision is held invalid, remaining provisions shall continue in full force and effect.\n7. The Company may terminate immediately without notice at its sole discretion for any reason.\n8. Consultant accepts unlimited liability and irrevocable indemnity for all direct, indirect, and consequential damages.\n9. All disputes shall be finally resolved by arbitration seated in London under rules chosen solely by the Company.\n10. For 3 years after termination, consultant shall not work with any competitor across India.",
+    "expected": {
+      "risk_level": "high",
+      "missing_clauses": [
+        "Parties",
+        "Payment Terms",
+        "Confidentiality",
+        "Termination"
+      ],
+      "key_clauses_found": [
+        "Liability",
+        "Governing Law"
+      ]
+    }
+  },
+  {
+    "id": "high-032",
+    "contract_text": "1. Payment of professional fee shall be made against invoice within 15 days from receipt of invoice.\n2. Each party shall keep all confidential information strictly confidential and use it only for contract performance.\n3. The parties shall cooperate in good faith and maintain written records for compliance and audit purposes.\n4. Any amendment must be in writing and signed by authorized representatives of both parties.\n5. Notices under this agreement shall be sent by email and registered post to official addresses.\n6. If any provision is held invalid, remaining provisions shall continue in full force and effect.\n7. The Company may terminate immediately without notice at its sole discretion for any reason.\n8. Consultant accepts unlimited liability and irrevocable indemnity for all direct, indirect, and consequential damages.\n9. All disputes shall be finally resolved by arbitration seated in London under rules chosen solely by the Company.\n10. For 3 years after termination, consultant shall not work with any competitor across India.",
+    "expected": {
+      "risk_level": "high",
+      "missing_clauses": [
+        "Parties",
+        "Liability",
+        "Termination",
+        "Governing Law"
+      ],
+      "key_clauses_found": [
+        "Payment Terms",
+        "Confidentiality"
+      ]
+    }
+  },
+  {
+    "id": "high-033",
+    "contract_text": "1. The parties to this contract are Orion Consulting Pvt Ltd and Nimbus Retail Pvt Ltd.\n2. Consideration and payment obligations are due within 30 days of valid invoice submission.\n3. The parties shall cooperate in good faith and maintain written records for compliance and audit purposes.\n4. Any amendment must be in writing and signed by authorized representatives of both parties.\n5. Notices under this agreement shall be sent by email and registered post to official addresses.\n6. If any provision is held invalid, remaining provisions shall continue in full force and effect.\n7. The Company may terminate immediately without notice at its sole discretion for any reason.\n8. Consultant accepts unlimited liability and irrevocable indemnity for all direct, indirect, and consequential damages.\n9. All disputes shall be finally resolved by arbitration seated in London under rules chosen solely by the Company.\n10. For 3 years after termination, consultant shall not work with any competitor across India.",
+    "expected": {
+      "risk_level": "high",
+      "missing_clauses": [
+        "Confidentiality",
+        "Governing Law",
+        "Liability",
+        "Termination"
+      ],
+      "key_clauses_found": [
+        "Parties",
+        "Payment Terms"
+      ]
+    }
+  },
+  {
+    "id": "high-034",
+    "contract_text": "1. Either party may terminate this agreement by giving 30 days prior written termination notice.\n2. Each party shall keep all confidential information strictly confidential and use it only for contract performance.\n3. The parties shall cooperate in good faith and maintain written records for compliance and audit purposes.\n4. Any amendment must be in writing and signed by authorized representatives of both parties.\n5. Notices under this agreement shall be sent by email and registered post to official addresses.\n6. If any provision is held invalid, remaining provisions shall continue in full force and effect.\n7. The Company may terminate immediately without notice at its sole discretion for any reason.\n8. Consultant accepts unlimited liability and irrevocable indemnity for all direct, indirect, and consequential damages.\n9. All disputes shall be finally resolved by arbitration seated in London under rules chosen solely by the Company.\n10. For 3 years after termination, consultant shall not work with any competitor across India.",
+    "expected": {
+      "risk_level": "high",
+      "missing_clauses": [
+        "Payment Terms",
+        "Governing Law",
+        "Liability",
+        "Parties"
+      ],
+      "key_clauses_found": [
+        "Termination",
+        "Confidentiality"
+      ]
+    }
+  },
+  {
+    "id": "high-035",
+    "contract_text": "1. Indemnity applies only for proven third-party claims arising from negligence or wilful misconduct.\n2. Governing law shall be laws of India and dispute resolution shall be seated in New Delhi.\n3. The parties shall cooperate in good faith and maintain written records for compliance and audit purposes.\n4. Any amendment must be in writing and signed by authorized representatives of both parties.\n5. Notices under this agreement shall be sent by email and registered post to official addresses.\n6. If any provision is held invalid, remaining provisions shall continue in full force and effect.\n7. The Company may terminate immediately without notice at its sole discretion for any reason.\n8. Consultant accepts unlimited liability and irrevocable indemnity for all direct, indirect, and consequential damages.\n9. All disputes shall be finally resolved by arbitration seated in London under rules chosen solely by the Company.\n10. For 3 years after termination, consultant shall not work with any competitor across India.",
+    "expected": {
+      "risk_level": "high",
+      "missing_clauses": [
+        "Parties",
+        "Payment Terms",
+        "Confidentiality",
+        "Termination"
+      ],
+      "key_clauses_found": [
+        "Liability",
+        "Governing Law"
+      ]
+    }
+  },
+  {
+    "id": "high-036",
+    "contract_text": "1. Payment of professional fee shall be made against invoice within 15 days from receipt of invoice.\n2. Each party shall keep all confidential information strictly confidential and use it only for contract performance.\n3. The parties shall cooperate in good faith and maintain written records for compliance and audit purposes.\n4. Any amendment must be in writing and signed by authorized representatives of both parties.\n5. Notices under this agreement shall be sent by email and registered post to official addresses.\n6. If any provision is held invalid, remaining provisions shall continue in full force and effect.\n7. The Company may terminate immediately without notice at its sole discretion for any reason.\n8. Consultant accepts unlimited liability and irrevocable indemnity for all direct, indirect, and consequential damages.\n9. All disputes shall be finally resolved by arbitration seated in London under rules chosen solely by the Company.\n10. For 3 years after termination, consultant shall not work with any competitor across India.",
+    "expected": {
+      "risk_level": "high",
+      "missing_clauses": [
+        "Parties",
+        "Liability",
+        "Termination",
+        "Governing Law"
+      ],
+      "key_clauses_found": [
+        "Payment Terms",
+        "Confidentiality"
+      ]
+    }
+  },
+  {
+    "id": "high-037",
+    "contract_text": "1. The parties to this contract are Orion Consulting Pvt Ltd and Nimbus Retail Pvt Ltd.\n2. Consideration and payment obligations are due within 30 days of valid invoice submission.\n3. The parties shall cooperate in good faith and maintain written records for compliance and audit purposes.\n4. Any amendment must be in writing and signed by authorized representatives of both parties.\n5. Notices under this agreement shall be sent by email and registered post to official addresses.\n6. If any provision is held invalid, remaining provisions shall continue in full force and effect.\n7. The Company may terminate immediately without notice at its sole discretion for any reason.\n8. Consultant accepts unlimited liability and irrevocable indemnity for all direct, indirect, and consequential damages.\n9. All disputes shall be finally resolved by arbitration seated in London under rules chosen solely by the Company.\n10. For 3 years after termination, consultant shall not work with any competitor across India.",
+    "expected": {
+      "risk_level": "high",
+      "missing_clauses": [
+        "Confidentiality",
+        "Governing Law",
+        "Liability",
+        "Termination"
+      ],
+      "key_clauses_found": [
+        "Parties",
+        "Payment Terms"
+      ]
+    }
+  },
+  {
+    "id": "high-038",
+    "contract_text": "1. Either party may terminate this agreement by giving 30 days prior written termination notice.\n2. Each party shall keep all confidential information strictly confidential and use it only for contract performance.\n3. The parties shall cooperate in good faith and maintain written records for compliance and audit purposes.\n4. Any amendment must be in writing and signed by authorized representatives of both parties.\n5. Notices under this agreement shall be sent by email and registered post to official addresses.\n6. If any provision is held invalid, remaining provisions shall continue in full force and effect.\n7. The Company may terminate immediately without notice at its sole discretion for any reason.\n8. Consultant accepts unlimited liability and irrevocable indemnity for all direct, indirect, and consequential damages.\n9. All disputes shall be finally resolved by arbitration seated in London under rules chosen solely by the Company.\n10. For 3 years after termination, consultant shall not work with any competitor across India.",
+    "expected": {
+      "risk_level": "high",
+      "missing_clauses": [
+        "Payment Terms",
+        "Governing Law",
+        "Liability",
+        "Parties"
+      ],
+      "key_clauses_found": [
+        "Termination",
+        "Confidentiality"
+      ]
+    }
+  },
+  {
+    "id": "high-039",
+    "contract_text": "1. Indemnity applies only for proven third-party claims arising from negligence or wilful misconduct.\n2. Governing law shall be laws of India and dispute resolution shall be seated in New Delhi.\n3. The parties shall cooperate in good faith and maintain written records for compliance and audit purposes.\n4. Any amendment must be in writing and signed by authorized representatives of both parties.\n5. Notices under this agreement shall be sent by email and registered post to official addresses.\n6. If any provision is held invalid, remaining provisions shall continue in full force and effect.\n7. The Company may terminate immediately without notice at its sole discretion for any reason.\n8. Consultant accepts unlimited liability and irrevocable indemnity for all direct, indirect, and consequential damages.\n9. All disputes shall be finally resolved by arbitration seated in London under rules chosen solely by the Company.\n10. For 3 years after termination, consultant shall not work with any competitor across India.",
+    "expected": {
+      "risk_level": "high",
+      "missing_clauses": [
+        "Parties",
+        "Payment Terms",
+        "Confidentiality",
+        "Termination"
+      ],
+      "key_clauses_found": [
+        "Liability",
+        "Governing Law"
+      ]
+    }
+  },
+  {
+    "id": "high-040",
+    "contract_text": "1. Payment of professional fee shall be made against invoice within 15 days from receipt of invoice.\n2. Each party shall keep all confidential information strictly confidential and use it only for contract performance.\n3. The parties shall cooperate in good faith and maintain written records for compliance and audit purposes.\n4. Any amendment must be in writing and signed by authorized representatives of both parties.\n5. Notices under this agreement shall be sent by email and registered post to official addresses.\n6. If any provision is held invalid, remaining provisions shall continue in full force and effect.\n7. The Company may terminate immediately without notice at its sole discretion for any reason.\n8. Consultant accepts unlimited liability and irrevocable indemnity for all direct, indirect, and consequential damages.\n9. All disputes shall be finally resolved by arbitration seated in London under rules chosen solely by the Company.\n10. For 3 years after termination, consultant shall not work with any competitor across India.",
+    "expected": {
+      "risk_level": "high",
+      "missing_clauses": [
+        "Parties",
+        "Liability",
+        "Termination",
+        "Governing Law"
+      ],
+      "key_clauses_found": [
+        "Payment Terms",
+        "Confidentiality"
+      ]
+    }
+  }
+]

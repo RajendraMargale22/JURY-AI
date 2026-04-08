@@ -47,9 +47,18 @@ cd /home/aditya/Downloads/JURY-AI-main/contract-review-backend
 make eval
 ```
 
+Generate and evaluate a larger 120-case dataset:
+
+```bash
+cd /home/aditya/Downloads/JURY-AI-main/contract-review-backend
+make eval-large
+```
+
 Default inputs/outputs:
 - dataset: `scripts/eval_dataset.sample.json`
 - report: `scripts/eval_report.json`
+- large generated dataset: `scripts/eval_dataset.120.json`
+- large report: `scripts/eval_report.120.json`
 
 Override at runtime:
 
