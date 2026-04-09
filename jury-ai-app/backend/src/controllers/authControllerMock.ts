@@ -63,7 +63,7 @@ export const updateProfile = async (req: Request, res: Response) => {
 export const getPublicAuthSettings = async (_req: Request, res: Response) => {
   res.json({
     registrationEnabled: true,
-    socialLoginEnabled: false,
+    socialLoginEnabled: true,
     twoFactorEnabled: false,
     chatEnabled: true,
     templatesEnabled: true,
@@ -72,5 +72,39 @@ export const getPublicAuthSettings = async (_req: Request, res: Response) => {
     passwordRequireUppercase: true,
     passwordRequireNumbers: true,
     passwordRequireSpecialChars: false,
+  });
+};
+
+export const forgotPassword = async (req: Request, res: Response) => {
+  const email = String(req.body?.email || '').trim().toLowerCase();
+  if (!email) {
+    return res.status(400).json({
+      success: false,
+      message: 'Please provide your email address'
+    });
+  }
+
+  const resetUrl = 'http://localhost:3000/reset-password?token=mock-reset-token';
+  return res.json({
+    success: true,
+    message: 'Password reset link sent to your email',
+    resetUrl,
+  });
+};
+
+export const resetPassword = async (req: Request, res: Response) => {
+  const token = String(req.body?.token || '').trim();
+  const password = String(req.body?.password || '').trim();
+
+  if (!token || !password) {
+    return res.status(400).json({
+      success: false,
+      message: 'Reset token and new password are required'
+    });
+  }
+
+  return res.json({
+    success: true,
+    message: 'Password reset successful. Please sign in with your new password.'
   });
 };

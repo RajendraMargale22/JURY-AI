@@ -66,6 +66,16 @@ export const templateService = {
     const response = await axios.get(`${API_URL}/templates/categories`);
     const payload = response.data as any;
 
+    const fromIndexedObject = (value: any): string[] => {
+      if (!value || typeof value !== 'object' || Array.isArray(value)) return [];
+      const keys = Object.keys(value).filter((key) => /^\d+$/.test(key));
+      if (!keys.length) return [];
+      return keys
+        .sort((a, b) => Number(a) - Number(b))
+        .map((key) => value[key])
+        .filter((item) => typeof item === 'string');
+    };
+
     if (Array.isArray(payload)) {
       return payload;
     }
@@ -74,8 +84,18 @@ export const templateService = {
       return payload.data;
     }
 
+    const dataIndexed = fromIndexedObject(payload?.data);
+    if (dataIndexed.length) {
+      return dataIndexed;
+    }
+
     if (Array.isArray(payload?.categories)) {
       return payload.categories;
+    }
+
+    const rootIndexed = fromIndexedObject(payload);
+    if (rootIndexed.length) {
+      return rootIndexed;
     }
 
     return [];

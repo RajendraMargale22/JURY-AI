@@ -35,7 +35,7 @@ const AuthModal: React.FC<AuthModalProps> = ({ isOpen, onClose, initialMode = 'l
   const [settingsLoading, setSettingsLoading] = useState(false);
   const [authSettings, setAuthSettings] = useState<AuthPolicySettings>({
     registrationEnabled: true,
-    socialLoginEnabled: false,
+    socialLoginEnabled: true,
     twoFactorEnabled: false,
     passwordMinLength: 8,
     passwordRequireUppercase: true,
@@ -289,6 +289,26 @@ const AuthModal: React.FC<AuthModalProps> = ({ isOpen, onClose, initialMode = 'l
     }
   };
 
+  const handleGoogleButtonClick = async () => {
+    console.info('[AuthModal] Google button clicked', {
+      settingsLoading,
+      socialLoginEnabled: authSettings.socialLoginEnabled,
+      firebaseEnabled,
+    });
+
+    if (settingsLoading) {
+      toast.info('Loading authentication settings. Please try again in a moment.');
+      return;
+    }
+
+    if (!authSettings.socialLoginEnabled) {
+      toast.error('Social login is currently disabled by admin settings');
+      return;
+    }
+
+    await handleGoogleAuth();
+  };
+
   if (!isOpen && !isClosing) return null;
 
   const verifyTwoFactorCode = async () => {
@@ -452,7 +472,16 @@ const AuthModal: React.FC<AuthModalProps> = ({ isOpen, onClose, initialMode = 'l
                   <span className="checkmark"></span>
                   Remember me
                 </label>
-                <button type="button" className="auth-link-btn">Forgot password?</button>
+                <button
+                  type="button"
+                  className="auth-link-btn"
+                  onClick={() => {
+                    handleClose();
+                    setTimeout(() => navigate('/forgot-password'), 220);
+                  }}
+                >
+                  Forgot password?
+                </button>
               </div>
 
               <button type="submit" className="auth-submit-btn" disabled={isLoading}>
@@ -473,7 +502,7 @@ const AuthModal: React.FC<AuthModalProps> = ({ isOpen, onClose, initialMode = 'l
               </div>
 
               <div className="auth-social-row">
-                <button type="button" className="auth-social-btn" onClick={handleGoogleAuth} disabled={isLoading || settingsLoading || !authSettings.socialLoginEnabled} title="Continue with Google">
+                <button type="button" className="auth-social-btn" onClick={handleGoogleButtonClick} disabled={isLoading} title="Continue with Google">
                   <i className="fab fa-google"></i>
                 </button>
                 <button type="button" className="auth-social-btn">
@@ -608,10 +637,16 @@ const AuthModal: React.FC<AuthModalProps> = ({ isOpen, onClose, initialMode = 'l
               </div>
 
               <div className="auth-social-row">
-                <button type="button" className="auth-social-btn" onClick={handleGoogleAuth} disabled={isLoading || settingsLoading || !authSettings.socialLoginEnabled} title="Continue with Google">
+                <button type="button" className="auth-social-btn" onClick={handleGoogleButtonClick} disabled={isLoading} title="Continue with Google">
                   <i className="fab fa-google"></i>
                 </button>
               </div>
+
+              {!authSettings.socialLoginEnabled && (
+                <p className="auth-switch-text" style={{ color: '#f87171' }}>
+                  Social login is disabled by admin settings.
+                </p>
+              )}
 
               {!authSettings.registrationEnabled && (
                 <p className="auth-switch-text" style={{ color: '#f87171' }}>

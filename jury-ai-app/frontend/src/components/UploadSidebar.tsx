@@ -1,6 +1,9 @@
 import React, { useState } from 'react';
+import { useAuth } from '../contexts/AuthContext';
 
 const UploadSidebar: React.FC = () => {
+  const { user } = useAuth();
+  const canUploadKnowledgeBase = user?.role === 'admin' || user?.role === 'lawyer';
   const [selectedFile, setSelectedFile] = useState<File | null>(null);
   const [uploading, setUploading] = useState(false);
   const [uploadMessage, setUploadMessage] = useState<string | null>(null);
@@ -13,14 +16,28 @@ const UploadSidebar: React.FC = () => {
   };
 
   const handleUpload = async () => {
+    if (!canUploadKnowledgeBase) {
+      setUploadMessage('Only lawyer or admin can upload to knowledge base.');
+      return;
+    }
+
     if (!selectedFile) return;
     setUploading(true);
     setUploadMessage(null);
     const formData = new FormData();
     formData.append('file', selectedFile);
     try {
+      const token = localStorage.getItem('token');
+      if (!token) {
+        setUploadMessage('Please login as admin or lawyer.');
+        return;
+      }
+
       const response = await fetch('http://localhost:8000/upload_pdfs/', {
         method: 'POST',
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
         body: formData,
       });
       const data = await response.json();
@@ -43,6 +60,7 @@ const UploadSidebar: React.FC = () => {
       <button className="btn btn-primary mt-2" onClick={handleUpload} disabled={!selectedFile || uploading}>
         {uploading ? 'Uploading...' : 'Upload'}
       </button>
+      {!canUploadKnowledgeBase && <div className="mt-2 text-warning">Only lawyer/admin can upload.</div>}
       {uploadMessage && <div className="mt-2 text-info">{uploadMessage}</div>}
     </div>
   );

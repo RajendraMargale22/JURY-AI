@@ -5,6 +5,7 @@ import admin from 'firebase-admin';
 import User from '../models/User';
 import { getMergedSystemSettings } from '../utils/systemSettings';
 import { AuthRequest } from '../types/interfaces';
+import { sendEmail } from '../utils/emailService';
 
 let firebaseInitialized = false;
 const TWO_FACTOR_TTL_MS = 10 * 60 * 1000;
@@ -552,6 +553,124 @@ export const getPublicAuthSettings = async (req: Request, res: Response) => {
     res.status(500).json({
       success: false,
       message: 'Failed to fetch authentication settings'
+    });
+  }
+};
+
+export const forgotPassword = async (req: Request, res: Response) => {
+  try {
+    const email = asString(req.body?.email, 200).toLowerCase();
+
+    if (!email) {
+      return res.status(400).json({
+        success: false,
+        message: 'Please provide your email address'
+      });
+    }
+
+    const user = await User.findOne({ email });
+
+    // Avoid account enumeration
+    if (!user) {
+      return res.json({
+        success: true,
+        message: 'If this email exists, a reset link has been sent'
+      });
+    }
+
+    const resetToken = crypto.randomBytes(32).toString('hex');
+    const hashedToken = crypto.createHash('sha256').update(resetToken).digest('hex');
+
+    user.resetPasswordToken = hashedToken;
+    user.resetPasswordExpire = new Date(Date.now() + 60 * 60 * 1000); // 1 hour
+    await user.save();
+
+    const frontendUrl = process.env.FRONTEND_URL || 'http://localhost:3000';
+    const resetUrl = `${frontendUrl.replace(/\/$/, '')}/reset-password?token=${resetToken}`;
+
+    try {
+      await sendEmail({
+        to: user.email,
+        subject: 'Jury AI Password Reset',
+        template: 'password-reset',
+        data: {
+          name: user.name,
+          resetUrl,
+        }
+      });
+    } catch (emailError) {
+      console.error('Password reset email send failed:', emailError);
+      if (process.env.NODE_ENV === 'production') {
+        return res.status(500).json({
+          success: false,
+          message: 'Unable to send reset email right now. Please try again later.'
+        });
+      }
+    }
+
+    return res.json({
+      success: true,
+      message: 'Password reset link sent to your email',
+      ...(process.env.NODE_ENV !== 'production' ? { resetUrl } : {})
+    });
+  } catch (error: any) {
+    console.error('Forgot password error:', error);
+    return res.status(500).json({
+      success: false,
+      message: error?.message || 'Server error during password reset request'
+    });
+  }
+};
+
+export const resetPassword = async (req: Request, res: Response) => {
+  try {
+    const token = asString(req.body?.token, 500);
+    const password = asString(req.body?.password, 200);
+
+    if (!token || !password) {
+      return res.status(400).json({
+        success: false,
+        message: 'Reset token and new password are required'
+      });
+    }
+
+    const hashedToken = crypto.createHash('sha256').update(token).digest('hex');
+
+    const user = await User.findOne({
+      resetPasswordToken: hashedToken,
+      resetPasswordExpire: { $gt: new Date() }
+    });
+
+    if (!user) {
+      return res.status(400).json({
+        success: false,
+        message: 'Invalid or expired reset token'
+      });
+    }
+
+    const authSettings = await getAuthSettings();
+    const passwordError = validatePasswordWithSettings(password, authSettings);
+    if (passwordError) {
+      return res.status(400).json({
+        success: false,
+        message: passwordError
+      });
+    }
+
+    user.password = password;
+    user.resetPasswordToken = undefined;
+    user.resetPasswordExpire = undefined;
+    await user.save();
+
+    return res.json({
+      success: true,
+      message: 'Password reset successful. Please sign in with your new password.'
+    });
+  } catch (error: any) {
+    console.error('Reset password error:', error);
+    return res.status(500).json({
+      success: false,
+      message: error?.message || 'Server error during password reset'
     });
   }
 };

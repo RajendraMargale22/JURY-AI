@@ -21,6 +21,27 @@ interface Template {
   fileSize?: number;
 }
 
+const DEFAULT_TEMPLATE_CATEGORIES: string[] = [
+  'all',
+  'Sales Documents and Forms',
+  'Policy and Compliance Documents',
+  'Letters and Notices Templates',
+  'Web & Technology Agreements',
+  'Proposal Templates',
+  'Financial Agreements',
+  'Family Law',
+  'Employment Legal Templates',
+  'Real Estate',
+  'B2B Legal Documents',
+  'Business Document',
+  'Last Will and Testament',
+  'Bill of Sale',
+  'Power of Attorney (POA)',
+  'Eviction Notice',
+  'NDA (Non-Disclosure Agreements)',
+  'Lease Agreement'
+];
+
 const TemplatesPage: React.FC = () => {
   const { user } = useAuth();
   const [selectedCategory, setSelectedCategory] = useState('all');
@@ -37,26 +58,7 @@ const TemplatesPage: React.FC = () => {
   const [templates, setTemplates] = useState<Template[]>([]);
   const [isLoadingTemplates, setIsLoadingTemplates] = useState(true);
   const [templatesEnabled, setTemplatesEnabled] = useState(true);
-  const [categories, setCategories] = useState<string[]>([
-    'all',
-    'Sales Documents and Forms',
-    'Policy and Compliance Documents',
-    'Letters and Notices Templates',
-    'Web & Technology Agreements',
-    'Proposal Templates',
-    'Financial Agreements',
-    'Family Law',
-    'Employment Legal Templates',
-    'Real Estate',
-    'B2B Legal Documents',
-    'Business Document',
-    'Last Will and Testament',
-    'Bill of Sale',
-    'Power of Attorney (POA)',
-    'Eviction Notice',
-    'NDA (Non-Disclosure Agreements)',
-    'Lease Agreement'
-  ]);
+  const [categories, setCategories] = useState<string[]>(DEFAULT_TEMPLATE_CATEGORIES);
 
   useEffect(() => {
     fetchFeatureSettings();
@@ -126,9 +128,21 @@ const TemplatesPage: React.FC = () => {
 
     try {
       const apiCategories = await templateService.getCategories();
-      setCategories(['all', ...apiCategories]);
+      const apiCategoryList = Array.isArray(apiCategories)
+        ? apiCategories.filter((item): item is string => typeof item === 'string' && item.trim().length > 0)
+        : [];
+
+      const merged = Array.from(
+        new Set([
+          ...DEFAULT_TEMPLATE_CATEGORIES,
+          ...apiCategoryList,
+        ])
+      );
+
+      setCategories(merged);
     } catch (error) {
       console.error('Error fetching categories:', error);
+      setCategories(DEFAULT_TEMPLATE_CATEGORIES);
     }
   };
 

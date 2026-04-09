@@ -5,6 +5,7 @@ from modules.async_processor import queue_documents_for_processing, get_processi
 from logger import logger
 from datetime import datetime
 import os
+import requests
 from utils.response_envelope import success_payload, error_response
 
 # Import MongoDB functions
@@ -26,6 +27,50 @@ ALLOWED_UPLOAD_TYPES = {
     "text/plain"
 }
 
+AUTH_PROFILE_URL = os.getenv("AUTH_PROFILE_URL", "http://localhost:5000/api/auth/profile")
+UPLOAD_ALLOWED_ROLES = {"admin", "lawyer"}
+
+
+def _extract_bearer_token(request: Request) -> str:
+    auth_header = request.headers.get("Authorization", "").strip()
+    if auth_header.lower().startswith("bearer "):
+        return auth_header[7:].strip()
+    return ""
+
+
+def _get_role_from_auth_service(token: str) -> str:
+    if not token:
+        return ""
+
+    try:
+        response = requests.get(
+            AUTH_PROFILE_URL,
+            headers={"Authorization": f"Bearer {token}"},
+            timeout=8,
+        )
+        if response.status_code != 200:
+            return ""
+
+        payload = response.json() if response.content else {}
+        user_data = payload.get("user") or payload.get("data", {}).get("user") or {}
+        role = str(user_data.get("role") or "").strip().lower()
+        return role
+    except Exception as auth_error:
+        logger.warning(f"Upload authorization check failed: {auth_error}")
+        return ""
+
+
+def _enforce_upload_access(request: Request):
+    token = _extract_bearer_token(request)
+    if not token:
+        return error_response("Authentication required for knowledge base upload", 401, request)
+
+    role = _get_role_from_auth_service(token)
+    if role not in UPLOAD_ALLOWED_ROLES:
+        return error_response("Only admin or lawyer can upload documents to knowledge base", 403, request)
+
+    return None
+
 @router.post("/upload/")
 async def upload_to_database(request: Request, files: List[UploadFile] = File(...)):
     """
@@ -33,6 +78,10 @@ async def upload_to_database(request: Request, files: List[UploadFile] = File(..
     NOW WITH ASYNC PROCESSING - Returns immediately, processes in background
     """
     try:
+        access_error = _enforce_upload_access(request)
+        if access_error:
+            return access_error
+
         if not files:
             return error_response("No files provided", 400, request)
 
@@ -126,6 +175,10 @@ async def upload_pdfs(request: Request, files:List[UploadFile] = File(...)):
     Consider using /upload/ instead for faster response
     """
     try:
+        access_error = _enforce_upload_access(request)
+        if access_error:
+            return access_error
+
         logger.info("Received uploaded files (synchronous processing)")
         load_vectorstore(files)
         logger.info("Document added to vector store")

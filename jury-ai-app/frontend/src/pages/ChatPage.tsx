@@ -36,6 +36,7 @@ const renderAiMessage = (content: string): React.ReactNode => {
 
 const ChatPage: React.FC = () => {
   const { user } = useAuth();
+  const canUploadKnowledgeBase = user?.role === 'admin' || user?.role === 'lawyer';
   const [message, setMessage] = useState('');
   const [isTyping, setIsTyping] = useState(false);
   const [sidebarOpen, setSidebarOpen] = useState(false);
@@ -266,6 +267,14 @@ const ChatPage: React.FC = () => {
   };
 
   const handleDatabaseUpload = async (e: React.ChangeEvent<HTMLInputElement>) => {
+    if (!canUploadKnowledgeBase) {
+      alert('Only lawyer or admin can upload documents to the knowledge base.');
+      if (dbFileInputRef.current) {
+        dbFileInputRef.current.value = '';
+      }
+      return;
+    }
+
     const files = e.target.files;
     if (!files || files.length === 0) return;
 
@@ -278,8 +287,16 @@ const ChatPage: React.FC = () => {
     });
 
     try {
+      const token = localStorage.getItem('token');
+      if (!token) {
+        throw new Error('Please login as admin or lawyer to upload documents');
+      }
+
       const response = await fetch('http://localhost:8000/upload/', {
         method: 'POST',
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
         body: formData,
       });
 
@@ -354,35 +371,44 @@ const ChatPage: React.FC = () => {
               <i className="fas fa-database me-2" style={{ color: '#7c5dff' }}></i>
               Knowledge Base
             </h6>
-            <input
-              type="file"
-              ref={dbFileInputRef}
-              onChange={handleDatabaseUpload}
-              accept=".pdf,.doc,.docx,.txt"
-              multiple
-              style={{ display: 'none' }}
-            />
-            <button
-              className="btn btn-sm w-100"
-              onClick={() => dbFileInputRef.current?.click()}
-              disabled={uploadingDB}
-              style={{ border: '1px solid rgba(124,93,255,0.3)', color: '#7c5dff', borderRadius: 8, fontSize: 13, background: 'rgba(124,93,255,0.06)' }}
-            >
-              {uploadingDB ? (
-                <>
-                  <span className="spinner-border spinner-border-sm me-2" />
-                  Uploading...
-                </>
-              ) : (
-                <>
-                  <i className="fas fa-upload me-2"></i>
-                  Upload Documents
-                </>
-              )}
-            </button>
-            <small className="d-block mt-2" style={{ color: 'rgba(255,255,255,0.3)', fontSize: 11 }}>
-              Upload legal documents to expand the AI's knowledge base
-            </small>
+
+            {canUploadKnowledgeBase ? (
+              <>
+                <input
+                  type="file"
+                  ref={dbFileInputRef}
+                  onChange={handleDatabaseUpload}
+                  accept=".pdf,.doc,.docx,.txt"
+                  multiple
+                  style={{ display: 'none' }}
+                />
+                <button
+                  className="btn btn-sm w-100"
+                  onClick={() => dbFileInputRef.current?.click()}
+                  disabled={uploadingDB}
+                  style={{ border: '1px solid rgba(124,93,255,0.3)', color: '#7c5dff', borderRadius: 8, fontSize: 13, background: 'rgba(124,93,255,0.06)' }}
+                >
+                  {uploadingDB ? (
+                    <>
+                      <span className="spinner-border spinner-border-sm me-2" />
+                      Uploading...
+                    </>
+                  ) : (
+                    <>
+                      <i className="fas fa-upload me-2"></i>
+                      Upload Documents
+                    </>
+                  )}
+                </button>
+                <small className="d-block mt-2" style={{ color: 'rgba(255,255,255,0.3)', fontSize: 11 }}>
+                  Upload legal documents to expand the AI's knowledge base
+                </small>
+              </>
+            ) : (
+              <small className="d-block" style={{ color: 'rgba(255,255,255,0.45)', fontSize: 11 }}>
+                Knowledge base uploads are restricted to lawyer and admin accounts.
+              </small>
+            )}
           </div>
           
           <div className="p-3">

@@ -12,6 +12,8 @@ import ChatPage from './pages/ChatPage';
 import ContractReviewPage from './pages/ContractReviewPage';
 import TemplatesPage from './pages/TemplatesPage';
 import LawyerNetworkPage from './pages/LawyerNetworkPage';
+import ForgotPasswordPage from './pages/ForgotPasswordPage';
+import ResetPasswordPage from './pages/ResetPasswordPage';
 import { AuthProvider } from './contexts/AuthContext';
 import ProtectedRoute from './components/ProtectedRoute';
 import AuthModal from './components/AuthModal';
@@ -42,6 +44,8 @@ function App() {
             {/* Legacy routes — show homepage and auto-open auth modal */}
             <Route path="/login" element={<HomePage openAuthModal={openAuthModal} autoOpenAuth="login" />} />
             <Route path="/register" element={<HomePage openAuthModal={openAuthModal} autoOpenAuth="register" />} />
+            <Route path="/forgot-password" element={<ForgotPasswordPage />} />
+            <Route path="/reset-password" element={<ResetPasswordPage />} />
             <Route
               path="/chat"
               element={

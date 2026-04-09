@@ -8,6 +8,8 @@ import {
 	googleAuth,
 	verifyTwoFactor,
 	getPublicAuthSettings,
+	forgotPassword,
+	resetPassword,
 } from '../controllers/authController';
 import { auth } from '../middleware/auth';
 
@@ -18,6 +20,8 @@ router.post('/register', register);
 router.post('/login', login);
 router.post('/google', googleAuth);
 router.post('/verify-2fa', verifyTwoFactor);
+router.post('/forgot-password', forgotPassword);
+router.post('/reset-password', resetPassword);
 router.get('/settings', getPublicAuthSettings);
 router.post('/logout', logout);
 

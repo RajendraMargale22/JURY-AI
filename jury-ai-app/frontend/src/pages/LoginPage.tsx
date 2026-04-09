@@ -2,7 +2,9 @@ import React, { useState, useEffect } from 'react';
 import { useNavigate, Link } from 'react-router-dom';
 import { toast } from 'react-toastify';
 import axios from 'axios';
+import { signInWithPopup } from 'firebase/auth';
 import { useAuth } from '../contexts/AuthContext';
+import { firebaseAuth, firebaseEnabled, googleProvider } from '../config/firebase';
 import './AuthPage.css';
 
 const LoginPage: React.FC = () => {
@@ -66,6 +68,56 @@ const LoginPage: React.FC = () => {
       console.error('Login error:', error);
       const message = error.response?.data?.message || 'Login failed. Please try again.';
       toast.error(message);
+    } finally {
+      setIsLoading(false);
+    }
+  };
+
+  const getGoogleErrorMessage = (error: any): string => {
+    const code = error?.code || '';
+
+    if (code.includes('auth/popup-closed-by-user')) return 'Google sign-in was cancelled.';
+    if (code.includes('auth/popup-blocked')) return 'Popup was blocked. Please allow popups and try again.';
+    if (code.includes('auth/unauthorized-domain')) {
+      return 'This domain is not authorized in Firebase. Add localhost to Firebase authorized domains.';
+    }
+    if (code.includes('auth/network-request-failed')) {
+      return 'Network issue during Google sign-in. Please check your connection.';
+    }
+
+    return error?.response?.data?.message || error?.message || 'Google authentication failed';
+  };
+
+  const handleGoogleAuth = async () => {
+    if (!firebaseEnabled || !firebaseAuth) {
+      toast.error('Google auth is not configured yet. Add Firebase env variables.');
+      return;
+    }
+
+    setIsLoading(true);
+    try {
+      const result = await signInWithPopup(firebaseAuth, googleProvider);
+      const idToken = await result.user.getIdToken();
+
+      const response = await axios.post('/auth/google', { idToken });
+      const data = response.data as any;
+
+      if (data.success) {
+        localStorage.setItem('token', data.token);
+        updateUser(data.user);
+        toast.success('Google authentication successful');
+
+        setTimeout(() => {
+          if (data.user.role === 'admin') {
+            navigate('/admin', { replace: true });
+          } else {
+            navigate(postLoginPath, { replace: true });
+          }
+        }, 100);
+      }
+    } catch (error: any) {
+      console.error('Google auth error:', error);
+      toast.error(getGoogleErrorMessage(error));
     } finally {
       setIsLoading(false);
     }
@@ -148,7 +200,7 @@ const LoginPage: React.FC = () => {
           </div>
 
           <div className="social-login">
-            <button className="btn btn-social btn-google">
+            <button className="btn btn-social btn-google" onClick={handleGoogleAuth} disabled={isLoading} type="button">
               <i className="fab fa-google"></i> Continue with Google
             </button>
             <button className="btn btn-social btn-facebook">
