@@ -29,11 +29,23 @@ const app = express();
 // Connect to MongoDB
 connectDB();
 
-const allowedOrigins = [
-  'http://localhost:3000',
-  'http://localhost:3001',
-  process.env.CLIENT_URL || 'http://localhost:3000'
-];
+const normalizeOrigin = (value: string) => value.trim().replace(/\/$/, '');
+
+const envOrigins = (process.env.CORS_ORIGINS || '')
+  .split(',')
+  .map((origin) => origin.trim())
+  .filter(Boolean);
+
+const allowedOrigins = Array.from(
+  new Set(
+    [
+      'http://localhost:3000',
+      'http://localhost:3001',
+      process.env.CLIENT_URL || 'http://localhost:3000',
+      ...envOrigins,
+    ].map(normalizeOrigin)
+  )
+);
 
 const isUnsafeMethod = (method: string) => ['POST', 'PUT', 'PATCH', 'DELETE'].includes(method.toUpperCase());
 
@@ -76,7 +88,19 @@ app.use(responseEnvelope);
 
 // CORS configuration - must be before routes
 app.use(cors({
-  origin: allowedOrigins,
+  origin: (origin, callback) => {
+    // Allow server-to-server calls and health checks with no Origin header
+    if (!origin) {
+      return callback(null, true);
+    }
+
+    const normalized = normalizeOrigin(origin);
+    if (allowedOrigins.includes(normalized)) {
+      return callback(null, true);
+    }
+
+    return callback(new Error(`CORS origin not allowed: ${origin}`));
+  },
   credentials: true,
   methods: ['GET', 'POST', 'PUT', 'DELETE', 'PATCH', 'OPTIONS'],
   allowedHeaders: ['Content-Type', 'Authorization', 'X-Requested-With'],
