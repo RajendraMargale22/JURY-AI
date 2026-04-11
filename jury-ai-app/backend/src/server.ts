@@ -36,12 +36,17 @@ const envOrigins = (process.env.CORS_ORIGINS || '')
   .map((origin) => origin.trim())
   .filter(Boolean);
 
+const primaryClientOrigin =
+  process.env.CLIENT_URL ||
+  process.env.FRONTEND_URL ||
+  'http://localhost:3000';
+
 const allowedOrigins = Array.from(
   new Set(
     [
       'http://localhost:3000',
       'http://localhost:3001',
-      process.env.CLIENT_URL || 'http://localhost:3000',
+      primaryClientOrigin,
       ...envOrigins,
     ].map(normalizeOrigin)
   )
@@ -179,7 +184,7 @@ const server = app.listen(PORT, () => {
 
 const io = new SocketServer(server, {
   cors: {
-    origin: process.env.CLIENT_URL || 'http://localhost:3000',
+    origin: primaryClientOrigin,
     methods: ['GET', 'POST']
   }
 });
