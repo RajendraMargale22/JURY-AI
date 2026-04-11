@@ -27,14 +27,14 @@ async def process_document_async(file_path: str, file_id: str):
         # Import heavy libraries only when needed
         from langchain_community.document_loaders import PyPDFLoader
         from langchain_text_splitters import RecursiveCharacterTextSplitter
-        from langchain_huggingface import HuggingFaceEmbeddings
         from pinecone import Pinecone
         from itertools import islice
+        from modules.model_cache import get_cached_embedding_model
         
         logger.info(f"Background processing started: {file_path}")
         
         # Initialize (cached after first use)
-        embed_model = HuggingFaceEmbeddings(model_name='sentence-transformers/all-mpnet-base-v2')
+        embed_model = get_cached_embedding_model()
         pc = Pinecone(api_key=os.environ.get("PINECONE_API_KEY"))
         if "PINECONE_INDEX_NAME" not in os.environ:
             raise ValueError("PINECONE_INDEX_NAME is not set")

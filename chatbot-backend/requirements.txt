@@ -6,13 +6,11 @@ langchain
 langchain-community
 langchain-core
 langchain-groq
-langchain-huggingface
 langchain-classic
 
 pinecone-client==3.2.2
 
 langchain-google-genai
-sentence-transformers
 
 PyPDF
 

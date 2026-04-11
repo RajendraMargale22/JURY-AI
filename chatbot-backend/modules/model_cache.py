@@ -4,9 +4,23 @@ Keeps embedding model in memory to avoid reloading
 """
 from functools import lru_cache
 from logger import logger
+import os
 
 _embedding_model = None
 _llm_model = None
+
+
+def _build_embedding_model():
+    provider = os.getenv("EMBEDDING_PROVIDER", "google").lower()
+    if provider in {"google", "gemini"}:
+        from langchain_google_genai import GoogleGenerativeAIEmbeddings
+        model_name = os.getenv("GOOGLE_EMBEDDING_MODEL", "models/embedding-001")
+        return GoogleGenerativeAIEmbeddings(model=model_name)
+    if provider in {"huggingface", "hf"}:
+        from langchain_huggingface import HuggingFaceEmbeddings
+        model_name = os.getenv("HF_EMBEDDING_MODEL", "sentence-transformers/all-mpnet-base-v2")
+        return HuggingFaceEmbeddings(model_name=model_name)
+    raise ValueError(f"Unsupported EMBEDDING_PROVIDER: {provider}")
 
 
 @lru_cache(maxsize=1)
@@ -19,10 +33,7 @@ def get_cached_embedding_model():
     
     if _embedding_model is None:
         logger.info("Loading embedding model (first time)...")
-        from langchain_huggingface import HuggingFaceEmbeddings
-        _embedding_model = HuggingFaceEmbeddings(
-            model_name='sentence-transformers/all-mpnet-base-v2'
-        )
+        _embedding_model = _build_embedding_model()
         logger.info("✅ Embedding model loaded and cached")
     
     return _embedding_model

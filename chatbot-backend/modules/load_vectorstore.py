@@ -7,8 +7,7 @@ from itertools import islice
 from pinecone import Pinecone, ServerlessSpec
 from langchain_community.document_loaders import PyPDFLoader
 from langchain_text_splitters import RecursiveCharacterTextSplitter
-from langchain_huggingface import HuggingFaceEmbeddings
-# from langchain_google_genai import GoogleGenerativeAIEmbeddings  # Optional alternative
+from modules.model_cache import get_cached_embedding_model
 
 load_dotenv()
 
@@ -61,8 +60,7 @@ def batch_iterable(iterable, batch_size):
 def load_vectorstore(uploaded_files):
     try:
         print("\n🔹 Initializing embedding model...")
-        embed_model = HuggingFaceEmbeddings(model_name='sentence-transformers/all-mpnet-base-v2')
-        # embed_model = GoogleGenerativeAIEmbeddings(model="models/embedding-001")
+        embed_model = get_cached_embedding_model()
 
         file_paths = []
 

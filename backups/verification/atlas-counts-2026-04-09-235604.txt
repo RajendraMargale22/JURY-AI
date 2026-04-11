@@ -1,0 +1,5 @@
+analytics=34
+legal_queries=17
+systemsettings=1
+templates=41
+users=5

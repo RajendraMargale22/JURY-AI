@@ -1,6 +1,8 @@
 import React, { useState } from 'react';
 import { useAuth } from '../contexts/AuthContext';
 
+const CHATBOT_API_URL = process.env.REACT_APP_CHATBOT_API_URL || 'http://localhost:8000';
+
 const UploadSidebar: React.FC = () => {
   const { user } = useAuth();
   const canUploadKnowledgeBase = user?.role === 'admin' || user?.role === 'lawyer';
@@ -33,7 +35,7 @@ const UploadSidebar: React.FC = () => {
         return;
       }
 
-      const response = await fetch('http://localhost:8000/upload_pdfs/', {
+      const response = await fetch(`${CHATBOT_API_URL}/upload_pdfs/`, {
         method: 'POST',
         headers: {
           Authorization: `Bearer ${token}`,

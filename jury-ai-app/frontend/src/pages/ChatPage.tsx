@@ -16,6 +16,8 @@ interface ChatSession {
   createdAt: Date;
 }
 
+const CHATBOT_API_URL = process.env.REACT_APP_CHATBOT_API_URL || 'http://localhost:8000';
+
 const renderAiMessage = (content: string): React.ReactNode => {
   const lines = content.split('\n');
   return lines.map((line, lineIdx) => {
@@ -181,7 +183,7 @@ const ChatPage: React.FC = () => {
         formData.append('file', attachedFile);
       }
       
-      const response = await fetch('http://localhost:8000/ask/', {
+      const response = await fetch(`${CHATBOT_API_URL}/ask/`, {
         method: 'POST',
         body: formData,
       });
@@ -292,7 +294,7 @@ const ChatPage: React.FC = () => {
         throw new Error('Please login as admin or lawyer to upload documents');
       }
 
-      const response = await fetch('http://localhost:8000/upload/', {
+      const response = await fetch(`${CHATBOT_API_URL}/upload/`, {
         method: 'POST',
         headers: {
           Authorization: `Bearer ${token}`,

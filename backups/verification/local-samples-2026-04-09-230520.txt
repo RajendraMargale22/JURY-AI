@@ -1,0 +1,57 @@
+USERS_SAMPLE
+{
+  _id: ObjectId('6985a1dfb87ddedfc52e6620'),
+  email: 'adityajare2004@gmail.com',
+  role: 'admin'
+}
+{
+  _id: ObjectId('6985aa45b87ddedfc52e669e'),
+  email: 'faizalmistry5@gmail.com',
+  role: 'lawyer'
+}
+{
+  _id: ObjectId('69a717c66d4c7c6ebbd64701'),
+  email: 'mayurpatil5204@gmail.com',
+  role: 'user'
+}
+{
+  _id: ObjectId('69d7c7149d9a1125034d757d'),
+  email: 'shaikhashpak2004@gmail.com',
+  role: 'user'
+}
+{
+  _id: ObjectId('69d7c8449d9a1125034d75c5'),
+  email: 'rajendramargale2004@gmail.com',
+  role: 'lawyer'
+}
+TEMPLATES_SAMPLE
+{
+  _id: ObjectId('6985adedb87ddedfc52e66bd'),
+  title: 'Rental Application Form',
+  category: 'Sales Documents and Forms',
+  fileName: 'Rental Application Form-1770368493032-617896691.docx'
+}
+{
+  _id: ObjectId('69b547db39f38e2219d4f87b'),
+  title: 'Order Form',
+  category: 'Sales Documents and Forms',
+  fileName: 'Order Form-1773488091934-798800229.docx'
+}
+{
+  _id: ObjectId('69b5487739f38e2219d4f882'),
+  title: 'Client agreements',
+  category: 'Sales Documents and Forms',
+  fileName: 'Client Agreement Template-1773488247436-866045828.docx'
+}
+{
+  _id: ObjectId('69b548bf39f38e2219d4f889'),
+  title: 'Sales Contract',
+  category: 'Sales Documents and Forms',
+  fileName: 'Sales Contract (Goods Sales Agreement)-1773488319159-52171124.docx'
+}
+{
+  _id: ObjectId('69b5493e39f38e2219d4f890'),
+  title: 'Receipt Template',
+  category: 'Sales Documents and Forms',
+  fileName: 'Receipt Template-1773488446773-175701140.docx'
+}

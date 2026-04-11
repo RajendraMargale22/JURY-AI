@@ -1,0 +1,7 @@
+analytics=34
+chats=0
+documents=0
+legal_queries=17
+systemsettings=1
+templates=41
+users=5

@@ -4,7 +4,11 @@ const connectDB = async () => {
   try {
     const mongoURI = process.env.MONGODB_URI || 'mongodb://localhost:27017/jury-ai';
     
-    const conn = await mongoose.connect(mongoURI);
+    const conn = await mongoose.connect(mongoURI, {
+      family: 4,
+      serverSelectionTimeoutMS: 30000,
+      socketTimeoutMS: 45000,
+    });
     
     console.log(`✅ MongoDB Connected: ${conn.connection.host}`);
     
