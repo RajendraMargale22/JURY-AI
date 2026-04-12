@@ -42,6 +42,10 @@ use_legacy_analyzer = os.getenv("USE_LEGACY_CONTRACT_REVIEW", "false").lower() =
 runtime_state.legacy_analyzer = load_legacy_analyzer(legacy_path) if use_legacy_analyzer else None
 
 
+@app.get("/")
+async def root():
+    return {"status": "ok", "message": "JURY AI Contract Review Backend is running"}
+
 @app.get("/health", response_model=HealthResponse)
 async def health_check(request: Request):
     request_id = getattr(request.state, "request_id", None)

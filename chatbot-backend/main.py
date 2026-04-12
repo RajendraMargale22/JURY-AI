@@ -52,6 +52,10 @@ app.include_router(upload_router)
 app.include_router(ask_router)
 
 
+@app.get("/")
+async def root():
+    return {"status": "ok", "message": "JURY AI Chatbot Backend is running"}
+
 @app.get("/health")
 async def health_check(request: Request):
     return success_payload(
