@@ -27,19 +27,27 @@ app.add_middleware(
     allow_headers=["*"]
 )
 
+import asyncio
+
 # Startup event to preload models
 @app.on_event("startup")
 async def startup_event():
     """Preload models on startup for faster first query"""
-    logger.info("🚀 Starting up - preloading models...")
-    try:
-        from modules.model_cache import get_cached_embedding_model, get_cached_pinecone_index
-        # Trigger model loading
-        get_cached_embedding_model()
-        get_cached_pinecone_index()
-        logger.info("✅ Models preloaded - ready for fast queries!")
-    except Exception as e:
-        logger.warning(f"⚠️ Could not preload models: {e}")
+    logger.info("🚀 Starting up - scheduling model preloading in background...")
+    
+    def load_models():
+        try:
+            from modules.model_cache import get_cached_embedding_model, get_cached_pinecone_index
+            # Trigger model loading
+            get_cached_embedding_model()
+            get_cached_pinecone_index()
+            logger.info("✅ Models preloaded - ready for fast queries!")
+        except Exception as e:
+            logger.warning(f"⚠️ Could not preload models: {e}")
+
+    # Run in background executor so FastAPI can start and answer health checks immediately
+    loop = asyncio.get_event_loop()
+    loop.run_in_executor(None, load_models)
 
 # middleware exception handlers
 app.middleware("http")(catch_exception_middleware)
