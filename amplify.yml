@@ -6,6 +6,7 @@ applications:
         preBuild:
           commands:
             - npm install
+            - env | grep -E '^REACT_APP_' >> .env
         build:
           commands:
             - npm run build
