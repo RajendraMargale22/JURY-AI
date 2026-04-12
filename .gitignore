@@ -85,3 +85,4 @@ coverage/
 
 # MongoDB
 mongo-data/
+*.json

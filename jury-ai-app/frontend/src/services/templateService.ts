@@ -1,6 +1,8 @@
 import axios from 'axios';
 
-const API_URL = process.env.REACT_APP_API_URL || 'http://localhost:5000/api';
+// Note: axios.defaults.baseURL is already set to REACT_APP_API_URL (/api) in AuthContext.tsx
+// So we use relative paths here to avoid double-prefixing (e.g. /api/api/templates)
+const API_URL = '';
 
 export interface Template {
   _id: string;
