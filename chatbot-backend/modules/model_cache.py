@@ -10,12 +10,29 @@ _embedding_model = None
 _llm_model = None
 
 
+class _DimensionReducedEmbeddings:
+    """Wrapper that delegates to GoogleGenerativeAIEmbeddings with reduced output dims."""
+
+    def __init__(self, model_name, target_dim):
+        from langchain_google_genai import GoogleGenerativeAIEmbeddings
+        self._inner = GoogleGenerativeAIEmbeddings(model=model_name)
+        self._dim = target_dim
+
+    def embed_documents(self, texts, **kwargs):
+        kwargs.setdefault("output_dimensionality", self._dim)
+        return self._inner.embed_documents(texts, **kwargs)
+
+    def embed_query(self, text, **kwargs):
+        kwargs.setdefault("output_dimensionality", self._dim)
+        return self._inner.embed_query(text, **kwargs)
+
+
 def _build_embedding_model():
     provider = os.getenv("EMBEDDING_PROVIDER", "google").lower()
     if provider in {"google", "gemini"}:
-        from langchain_google_genai import GoogleGenerativeAIEmbeddings
-        model_name = os.getenv("GOOGLE_EMBEDDING_MODEL", "models/embedding-001")
-        return GoogleGenerativeAIEmbeddings(model=model_name)
+        model_name = os.getenv("GOOGLE_EMBEDDING_MODEL", "models/gemini-embedding-001")
+        target_dim = int(os.getenv("EMBEDDING_DIMENSIONS", "768"))
+        return _DimensionReducedEmbeddings(model_name, target_dim)
     if provider in {"huggingface", "hf"}:
         from langchain_huggingface import HuggingFaceEmbeddings
         model_name = os.getenv("HF_EMBEDDING_MODEL", "sentence-transformers/all-mpnet-base-v2")
