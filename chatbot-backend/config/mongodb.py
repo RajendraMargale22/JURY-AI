@@ -12,30 +12,44 @@ from logger import logger
 
 load_dotenv()
 
-# MongoDB Connection
-MONGO_URI = os.getenv("MONGODB_URI", "mongodb://localhost:27017/")
+# ---------------------------------------------------------------------------
+# Lazy MongoDB connection – avoids blocking the process at import time so
+# that the /health endpoint can respond immediately while the DB connects
+# in the background.
+# ---------------------------------------------------------------------------
+_client = None
+_db = None
+_initialised = False
 
-try:
-    client = MongoClient(MONGO_URI)
-    # Test connection
-    client.admin.command('ping')
-    logger.info("✅ MongoDB connection successful")
-except Exception as e:
-    logger.error(f"❌ MongoDB connection failed: {e}")
-    client = None
 
-# Database
-db = client["jury-ai"] if client is not None else None
-
-# Collections
-legal_queries_collection = db["legal_queries"] if db is not None else None
-chatbot_sessions_collection = db["chatbot_sessions"] if db is not None else None
-analytics_collection = db["analytics"] if db is not None else None
+def _init_mongo():
+    """One-time lazy MongoDB initialisation with a short timeout."""
+    global _client, _db, _initialised
+    if _initialised:
+        return
+    _initialised = True
+    uri = os.getenv("MONGODB_URI", "mongodb://localhost:27017/")
+    try:
+        _client = MongoClient(uri, serverSelectionTimeoutMS=5000)
+        _client.admin.command("ping")
+        _db = _client["jury-ai"]
+        logger.info("✅ MongoDB connection successful")
+    except Exception as e:
+        logger.error(f"❌ MongoDB connection failed: {e}")
+        _client = None
+        _db = None
 
 
 def get_db():
-    """Get MongoDB database instance"""
-    return db
+    """Get MongoDB database instance (lazily connects on first call)."""
+    _init_mongo()
+    return _db
+
+
+def _col(name: str):
+    """Return a collection handle or None if DB is unavailable."""
+    db = get_db()
+    return db[name] if db is not None else None
 
 
 def store_legal_query(
@@ -60,7 +74,8 @@ def store_legal_query(
     Returns:
         The inserted document ID as string, or None if failed
     """
-    if legal_queries_collection is None:
+    col = _col("legal_queries")
+    if col is None:
         logger.warning("MongoDB not connected, skipping query storage")
         return None
     
@@ -75,7 +90,7 @@ def store_legal_query(
             "sources": sources or [],
             "feedback": None
         }
-        result = legal_queries_collection.insert_one(document)
+        result = col.insert_one(document)
         logger.info(f"✅ Stored query with ID: {result.inserted_id}")
         return str(result.inserted_id)
     except Exception as e:
@@ -94,7 +109,8 @@ def create_chatbot_session(user_id: str, session_id: str) -> Optional[str]:
     Returns:
         The inserted document ID or None
     """
-    if chatbot_sessions_collection is None:
+    col = _col("chatbot_sessions")
+    if col is None:
         return None
     
     try:
@@ -106,7 +122,7 @@ def create_chatbot_session(user_id: str, session_id: str) -> Optional[str]:
             "queries": [],
             "satisfaction_rating": None
         }
-        result = chatbot_sessions_collection.insert_one(session)
+        result = col.insert_one(session)
         logger.info(f"✅ Created session: {session_id}")
         return str(result.inserted_id)
     except Exception as e:
@@ -125,11 +141,12 @@ def add_query_to_session(session_id: str, query_id: str) -> bool:
     Returns:
         True if successful, False otherwise
     """
-    if chatbot_sessions_collection is None:
+    col = _col("chatbot_sessions")
+    if col is None:
         return False
     
     try:
-        result = chatbot_sessions_collection.update_one(
+        result = col.update_one(
             {"sessionId": session_id},
             {"$push": {"queries": query_id}}
         )
@@ -150,7 +167,8 @@ def end_chatbot_session(session_id: str, rating: Optional[int] = None) -> bool:
     Returns:
         True if successful, False otherwise
     """
-    if chatbot_sessions_collection is None:
+    col = _col("chatbot_sessions")
+    if col is None:
         return False
     
     try:
@@ -158,7 +176,7 @@ def end_chatbot_session(session_id: str, rating: Optional[int] = None) -> bool:
         if rating and 1 <= rating <= 5:
             update_data["satisfaction_rating"] = rating
         
-        result = chatbot_sessions_collection.update_one(
+        result = col.update_one(
             {"sessionId": session_id},
             {"$set": update_data}
         )
@@ -179,11 +197,12 @@ def get_user_query_history(user_id: str, limit: int = 10) -> List[Dict]:
     Returns:
         List of query documents
     """
-    if legal_queries_collection is None:
+    col = _col("legal_queries")
+    if col is None:
         return []
     
     try:
-        queries = list(legal_queries_collection.find(
+        queries = list(col.find(
             {"userId": user_id}
         ).sort("timestamp", -1).limit(limit))
         
@@ -208,7 +227,8 @@ def update_query_feedback(query_id: str, feedback: str) -> bool:
     Returns:
         True if successful, False otherwise
     """
-    if legal_queries_collection is None:
+    col = _col("legal_queries")
+    if col is None:
         return False
     
     valid_feedback = ["helpful", "not_helpful", "partially_helpful"]
@@ -218,7 +238,7 @@ def update_query_feedback(query_id: str, feedback: str) -> bool:
     
     try:
         from bson.objectid import ObjectId
-        result = legal_queries_collection.update_one(
+        result = col.update_one(
             {"_id": ObjectId(query_id)},
             {"$set": {"feedback": feedback}}
         )
@@ -239,11 +259,12 @@ def track_analytics(event_type: str, data: Dict) -> bool:
     Returns:
         True if successful, False otherwise
     """
-    if analytics_collection is None:
+    col = _col("analytics")
+    if col is None:
         return False
     
     try:
-        analytics_collection.insert_one({
+        col.insert_one({
             "eventType": event_type,
             "timestamp": datetime.utcnow(),
             "data": data
@@ -264,7 +285,9 @@ def get_analytics_summary(days: int = 7) -> Dict:
     Returns:
         Dictionary with analytics data
     """
-    if analytics_collection is None or legal_queries_collection is None:
+    analytics_col = _col("analytics")
+    legal_col = _col("legal_queries")
+    if analytics_col is None or legal_col is None:
         return {}
     
     try:
@@ -272,7 +295,7 @@ def get_analytics_summary(days: int = 7) -> Dict:
         start_date = datetime.utcnow() - timedelta(days=days)
         
         # Total queries
-        total_queries = legal_queries_collection.count_documents({
+        total_queries = legal_col.count_documents({
             "timestamp": {"$gte": start_date}
         })
         
@@ -284,7 +307,7 @@ def get_analytics_summary(days: int = 7) -> Dict:
                 "avg_confidence": {"$avg": "$confidence_score"}
             }}
         ]
-        confidence_result = list(legal_queries_collection.aggregate(pipeline))
+        confidence_result = list(legal_col.aggregate(pipeline))
         avg_confidence = confidence_result[0]["avg_confidence"] if confidence_result else 0
         
         # Feedback distribution
@@ -297,7 +320,7 @@ def get_analytics_summary(days: int = 7) -> Dict:
         ]
         feedback_dist = {
             item["_id"]: item["count"]
-            for item in legal_queries_collection.aggregate(feedback_pipeline)
+            for item in legal_col.aggregate(feedback_pipeline)
         }
         
         return {
@@ -314,10 +337,11 @@ def get_analytics_summary(days: int = 7) -> Dict:
 # Utility function to check MongoDB health
 def check_mongodb_health() -> bool:
     """Check if MongoDB connection is healthy"""
-    if not client:
+    _init_mongo()
+    if not _client:
         return False
     try:
-        client.admin.command('ping')
+        _client.admin.command('ping')
         return True
     except Exception:
         return False

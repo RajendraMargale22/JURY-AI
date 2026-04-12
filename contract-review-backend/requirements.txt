@@ -5,6 +5,7 @@ python-multipart
 pydantic
 loguru
 prometheus-client
+python-dotenv
 
 pypdf
 python-docx
