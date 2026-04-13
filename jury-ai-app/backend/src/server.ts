@@ -52,6 +52,12 @@ const allowedOrigins = Array.from(
   )
 );
 
+const isAllowedOrigin = (originToTest: string) => {
+  if (!originToTest) return false;
+  if (originToTest.includes('.amplifyapp.com')) return true;
+  return allowedOrigins.some((allowed) => originToTest.startsWith(allowed));
+};
+
 const isUnsafeMethod = (method: string) => ['POST', 'PUT', 'PATCH', 'DELETE'].includes(method.toUpperCase());
 
 const csrfOriginGuard: express.RequestHandler = (req, res, next) => {
@@ -62,8 +68,8 @@ const csrfOriginGuard: express.RequestHandler = (req, res, next) => {
   const origin = req.headers.origin;
   const referer = req.headers.referer;
 
-  const hasValidOrigin = !!origin && allowedOrigins.some((allowed) => origin.startsWith(allowed));
-  const hasValidReferer = !!referer && allowedOrigins.some((allowed) => referer.startsWith(allowed));
+  const hasValidOrigin = !!origin && isAllowedOrigin(origin);
+  const hasValidReferer = !!referer && isAllowedOrigin(referer);
 
   if (!hasValidOrigin && !hasValidReferer) {
     return res.status(403).json({ message: 'CSRF validation failed' });
@@ -100,7 +106,7 @@ app.use(cors({
     }
 
     const normalized = normalizeOrigin(origin);
-    if (allowedOrigins.includes(normalized)) {
+    if (isAllowedOrigin(normalized)) {
       return callback(null, true);
     }
 

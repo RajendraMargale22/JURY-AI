@@ -48,13 +48,11 @@ def get_llm_chain(retriever):
             - Write in a clear, formal, and respectful tone.  
             - Explain complex legal terms in simple language.  
             - Use short paragraphs or bullet points.  
-            - Quote short phrases from the context when explaining (e.g., “The agreement shall remain in  effect…”).
-            - Base your answer strictly on the context above.  
-            - If the context doesn’t contain enough information, respond:  
-            “I’m sorry, but I couldn’t find relevant legal information in the provided references.”  
-            - Mention any **relevant Acts, sections, or authorities** if they appear in the context.  
-            - Do **not** invent or assume details.  
-            - Do **not** provide personal or binding legal advice.  
+            - Quote short phrases from the context when explaining (e.g., “The agreement shall remain in effect…”).
+            - Base your answer on the context above. If the context doesn't contain enough information, use your own internal knowledge to provide a helpful and accurate answer about Indian law.
+            - Mention any **relevant Acts, sections, or authorities**.
+            - Do **not** invent or assume fake laws. Use logical legal principles.
+            - Do **not** provide binding legal advice.
             - Stay focused on **Indian legal and business frameworks** (e.g., Companies Act 2013, Indian Contract Act 1872, Startup India policies).  
             - End every response with a short **Summary** (1–2 lines).
 
