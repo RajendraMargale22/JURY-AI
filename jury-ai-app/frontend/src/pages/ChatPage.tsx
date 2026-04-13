@@ -103,33 +103,28 @@ const ChatPage: React.FC = () => {
 
   // Clean up AI response text
   const cleanAIResponse = (text: string): string => {
-    // Remove dictionary-like formatting
-    if (typeof text === 'string') {
-      // Remove {'response': '...'} wrapper if present
-      if (text.startsWith("{'response':") || text.startsWith('{"response":')) {
-        try {
-          // Try to parse as JSON first
-          const parsed = JSON.parse(text.replace(/'/g, '"'));
-          return parsed.response || parsed.answer || text;
-        } catch {
-          // If parsing fails, use regex to extract response value
-          const match = text.match(/['"]response['"]\s*:\s*['"](.+?)['"]\s*,?\s*['"]sources['"]/);
-          if (match && match[1]) {
-            return match[1]
-              .replace(/\\n\\n/g, '\n\n')
-              .replace(/\\n/g, '\n')
-              .replace(/\*\*/g, '')
-              .trim();
-          }
+    if (!text || typeof text !== 'string') return text || '';
+    
+    // Check if the text looks like a Python dict string representation we got from the backend
+    if (text.startsWith("{'response':") || text.includes("'response':")) {
+      // Very basic dict string parser for the specific format we see
+      try {
+        const match = text.match(/['"]response['"]\s*:\s*['"](.*?)['"]\s*,\s*['"]sources['"]/s);
+        if (match && match[1]) {
+          text = match[1];
         }
+      } catch (e) {
+        // ignore
       }
-      // Clean up escape sequences
-      return text
-        .replace(/\\n\\n/g, '\n\n')
-        .replace(/\\n/g, '\n')
-        .trim();
     }
-    return text;
+    
+    // Clean up escape sequences
+    return text
+      .replace(/\\n/g, '\n')
+      .replace(/\\\\n/g, '\n')
+      .replace(/\\'/g, "'")
+      .replace(/\\"/g, '"')
+      .trim();
   };
 
   const handleSendMessage = async (e: React.FormEvent) => {

@@ -46,12 +46,6 @@
     "test": "echo \"No test runner configured after Vite migration\" && exit 0",
     "preview": "vite preview"
   },
-  "eslintConfig": {
-    "extends": [
-      "react-app",
-      "react-app/jest"
-    ]
-  },
   "proxy": "http://localhost:5000",
   "browserslist": {
     "production": [

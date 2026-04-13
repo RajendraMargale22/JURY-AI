@@ -127,7 +127,10 @@ const csrfProtection = csrf({
 });
 if (process.env.NODE_ENV === 'production') {
   app.use((req, res, next) => {
-    if (req.path.startsWith('/api/auth')) {
+    // Skip CSRF for all API routes – they use JWT Bearer-token auth,
+    // which is not vulnerable to CSRF. CSRF protection is only needed
+    // for cookie/session-based authentication.
+    if (req.path.startsWith('/api/')) {
       return next();
     }
     return csrfProtection(req, res, next);
