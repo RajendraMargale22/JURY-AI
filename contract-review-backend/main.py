@@ -38,8 +38,8 @@ app.middleware("http")(catch_exception_middleware)
 app.middleware("http")(attach_request_id_middleware)
 
 legacy_path = os.getenv("LEGACY_CONTRACT_REVIEW_PATH", "./legacy/copy_of_contract_review.py")
-use_legacy_analyzer = os.getenv("USE_LEGACY_CONTRACT_REVIEW", "false").lower() == "true"
-runtime_state.legacy_analyzer = load_legacy_analyzer(legacy_path) if use_legacy_analyzer else None
+use_legacy_analyzer = False  # Hardcoded to bypass legacy analyzer and use internal ML
+runtime_state.legacy_analyzer = None
 
 
 @app.get("/")

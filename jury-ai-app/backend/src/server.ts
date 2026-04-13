@@ -127,10 +127,14 @@ const csrfProtection = csrf({
 });
 if (process.env.NODE_ENV === 'production') {
   app.use((req, res, next) => {
-    // Skip CSRF for all API routes – they use JWT Bearer-token auth,
-    // which is not vulnerable to CSRF. CSRF protection is only needed
-    // for cookie/session-based authentication.
-    if (req.path.startsWith('/api/')) {
+    const isApiRoute = req.path.startsWith('/api/') ||
+      req.path.startsWith('/auth/') ||
+      req.path.startsWith('/admin/') ||
+      req.path.startsWith('/chat/') ||
+      req.path.startsWith('/templates/') ||
+      req.path.startsWith('/lawyers/');
+      
+    if (isApiRoute) {
       return next();
     }
     return csrfProtection(req, res, next);
@@ -148,15 +152,19 @@ if (process.env.NODE_ENV === 'production') {
 // Static files
 app.use('/uploads', express.static('uploads'));
 
-// Routes
+// Routes mapped for regular access
 app.use('/api/auth', authRoutes);
 app.use('/api/admin', adminRoutes);
 app.use('/api/chat', chatRoutes);
 app.use('/api/templates', templateRoutes);
 app.use('/api/lawyers', lawyerRoutes);
-// app.use('/api/users', userRoutes);
-// app.use('/api/documents', documentRoutes);
-// app.use('/api/analytics', analyticsRoutes);
+
+// Routes mapped for Amplify proxy accesses where /api/ may be stripped
+app.use('/auth', authRoutes);
+app.use('/admin', adminRoutes);
+app.use('/chat', chatRoutes);
+app.use('/templates', templateRoutes);
+app.use('/lawyers', lawyerRoutes);
 
 // Health check
 app.get('/api/health', (req, res) => {

@@ -142,15 +142,6 @@ async def ask_question(
             
         retriever = SimpleRetriever(docs)
         chain = get_llm_chain(retriever)
-        if not docs:
-            fallback_response = {
-                "answer": "I’m sorry, but I couldn’t find relevant legal information in the provided references.",
-                "confidence": 0.0,
-                "sources": [],
-                "queryId": None,
-                "processingMs": round((time.perf_counter() - started_at) * 1000, 2)
-            }
-            return success_payload(fallback_response, message="No relevant sources found", request=request)
 
         result = query_chain(chain, question)
 
