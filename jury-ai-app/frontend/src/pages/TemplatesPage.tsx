@@ -224,6 +224,14 @@ const TemplatesPage: React.FC = () => {
         return;
       }
 
+      // Increment download count first
+      try {
+        await templateService.downloadTemplate(template._id, token);
+      } catch (countError) {
+        // Don't block the download if count increment fails
+        console.warn('Failed to increment download count:', countError);
+      }
+
       // Get the file
       const blob = await templateService.getTemplateFile(template._id, token);
       
@@ -241,9 +249,13 @@ const TemplatesPage: React.FC = () => {
       
       // Refresh to update download count
       fetchTemplates();
-    } catch (error) {
+    } catch (error: any) {
       console.error('Download error:', error);
-      toast.error('Failed to download template');
+      if (error?.response?.status === 404) {
+        toast.error('Template file not found. It may need to be re-uploaded.');
+      } else {
+        toast.error('Failed to download template');
+      }
     }
   };
 

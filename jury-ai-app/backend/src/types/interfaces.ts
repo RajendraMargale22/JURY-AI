@@ -106,6 +106,7 @@ export interface ITemplate extends Document {
   fileName?: string;
   fileSize?: number;
   mimeType?: string;
+  fileData?: Buffer;
   createdAt: Date;
   updatedAt: Date;
 }

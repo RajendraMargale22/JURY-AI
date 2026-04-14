@@ -66,6 +66,11 @@ const templateSchema = new Schema<ITemplate>({
   mimeType: {
     type: String,
     required: false
+  },
+  fileData: {
+    type: Buffer,
+    required: false,
+    select: false // Exclude from default queries to avoid loading large binary data
   }
 }, {
   timestamps: true

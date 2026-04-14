@@ -13,12 +13,9 @@ interface AuthRequest extends express.Request {
 
 const router = express.Router();
 const MAX_TEMPLATE_DOWNLOAD_BYTES = 25 * 1024 * 1024; // 25MB
-const TEMPLATE_UPLOAD_DIR = path.resolve(__dirname, '../../uploads/templates');
 const MAX_CONCURRENT_TEMPLATE_DOWNLOADS = 20;
 const SAFE_TEMPLATE_FILENAME = /^[A-Za-z0-9][A-Za-z0-9._\- ()]*$/;
 let activeTemplateDownloads = 0;
-
-fs.mkdirSync(TEMPLATE_UPLOAD_DIR, { recursive: true });
 
 router.use(async (req, res, next) => {
   try {
@@ -48,19 +45,8 @@ const asPositiveInt = (value: unknown, fallback: number, max = 100): number => {
   return Math.min(parsed, max);
 };
 
-// Configure multer for file uploads
-const storage = multer.diskStorage({
-  destination: (req, file, cb) => {
-    cb(null, TEMPLATE_UPLOAD_DIR);
-  },
-  filename: (req, file, cb) => {
-    // Generate unique filename with timestamp
-    const uniqueSuffix = Date.now() + '-' + Math.round(Math.random() * 1E9);
-    const ext = path.extname(file.originalname);
-    const nameWithoutExt = path.basename(file.originalname, ext);
-    cb(null, nameWithoutExt + '-' + uniqueSuffix + ext);
-  }
-});
+// Configure multer to use memory storage (files stored in MongoDB, not local disk)
+const storage = multer.memoryStorage();
 
 const fileFilter = (req: any, file: Express.Multer.File, cb: multer.FileFilterCallback) => {
   // Accept only PDF and Word documents
@@ -184,7 +170,7 @@ router.post('/:id/download', auth, async (req: AuthRequest, res: Response) => {
   }
 });
 
-// Serve template file
+// Serve template file (from MongoDB)
 router.get('/:id/file', auth, async (req: AuthRequest, res: Response) => {
   if (activeTemplateDownloads >= MAX_CONCURRENT_TEMPLATE_DOWNLOADS) {
     return res.status(429).json({ message: 'Too many concurrent downloads. Please retry shortly.' });
@@ -192,10 +178,11 @@ router.get('/:id/file', auth, async (req: AuthRequest, res: Response) => {
 
   activeTemplateDownloads += 1;
   try {
+    // Use .select('+fileData') to explicitly include the fileData field
     const template = await Template.findOne({
       _id: req.params.id,
       isActive: true
-    });
+    }).select('+fileData');
 
     if (!template) {
       return res.status(404).json({ message: 'Template not found' });
@@ -205,32 +192,44 @@ router.get('/:id/file', auth, async (req: AuthRequest, res: Response) => {
       return res.status(404).json({ message: 'Template file not found' });
     }
 
+    // Serve from MongoDB fileData (primary)
+    if (template.fileData && template.fileData.length > 0) {
+      const safeFileName = (template.fileName || 'template').replace(/[\r\n"]/g, '_');
+      res.setHeader('Content-Type', template.mimeType || 'application/octet-stream');
+      res.setHeader('Content-Disposition', `attachment; filename="${safeFileName}"`);
+      res.setHeader('Content-Length', template.fileData.length);
+      return res.send(template.fileData);
+    }
+
+    // Fallback: try serving from local disk (for backward compatibility)
     const safeTemplateName = normalizeTemplateFileName(template.fileName);
     if (!safeTemplateName) {
       return res.status(400).json({ message: 'Invalid template file path' });
     }
 
-    if ((template.fileSize || 0) > MAX_TEMPLATE_DOWNLOAD_BYTES) {
-      return res.status(413).json({ message: 'Template file is too large to download' });
+    const TEMPLATE_UPLOAD_DIR = path.resolve(__dirname, '../../uploads/templates');
+    const localFilePath = path.join(TEMPLATE_UPLOAD_DIR, safeTemplateName);
+
+    if (fs.existsSync(localFilePath)) {
+      // File exists on disk — serve it and also migrate to MongoDB
+      const fileBuffer = fs.readFileSync(localFilePath);
+      template.fileData = fileBuffer;
+      await template.save();
+      console.log(`Migrated template file to MongoDB: ${template._id}`);
+
+      const safeFileName = safeTemplateName.replace(/[\r\n"]/g, '_');
+      res.setHeader('Content-Type', template.mimeType || 'application/octet-stream');
+      res.setHeader('Content-Disposition', `attachment; filename="${safeFileName}"`);
+      res.setHeader('Content-Length', fileBuffer.length);
+      return res.send(fileBuffer);
     }
 
-    const safeFileName = safeTemplateName.replace(/[\r\n"]/g, '_');
-
-    res.setHeader('Content-Type', template.mimeType || 'application/octet-stream');
-    res.setHeader('Content-Disposition', `attachment; filename="${safeFileName}"`);
-
-    return res.sendFile(safeTemplateName, { root: TEMPLATE_UPLOAD_DIR }, (downloadError) => {
-      if (downloadError && !res.headersSent) {
-        if ((downloadError as any)?.code === 'ENOENT') {
-          return res.status(404).json({ message: 'Template file not found' });
-        }
-        console.error('Error serving template file:', downloadError);
-        return res.status(500).json({ message: 'Error reading template file' });
-      }
-    });
+    return res.status(404).json({ message: 'Template file not found. The file may not have been stored properly.' });
   } catch (error) {
     console.error('Error serving template file:', error);
-    res.status(500).json({ message: 'Server error' });
+    if (!res.headersSent) {
+      res.status(500).json({ message: 'Server error' });
+    }
   } finally {
     activeTemplateDownloads = Math.max(0, activeTemplateDownloads - 1);
   }
@@ -316,7 +315,7 @@ router.post('/', auth, async (req: AuthRequest, res: Response) => {
   }
 });
 
-// Upload template with file (admin/lawyer only)
+// Upload template with file (admin/lawyer only) - stores file in MongoDB
 router.post('/upload', auth, upload.single('file'), async (req: AuthRequest, res: Response) => {
   try {
     // Check if user is admin or lawyer
@@ -340,9 +339,9 @@ router.post('/upload', auth, upload.single('file'), async (req: AuthRequest, res
     }
 
     // Read file content to extract preview text (basic implementation)
-    let content = `Template file: ${req.file.filename}`;
+    let content = `Template file: ${req.file.originalname}`;
     
-    // Create template record
+    // Create template record with file data stored in MongoDB
     const template = new Template({
       title,
       description,
@@ -352,18 +351,23 @@ router.post('/upload', auth, upload.single('file'), async (req: AuthRequest, res
       isActive: true,
       createdBy: req.user?._id || req.user?.id,
       downloads: 0,
-      filePath: req.file.filename,
-      fileName: req.file.filename,
+      filePath: req.file.originalname,
+      fileName: req.file.originalname,
       fileSize: req.file.size,
-      mimeType: req.file.mimetype
+      mimeType: req.file.mimetype,
+      fileData: req.file.buffer  // Store file binary directly in MongoDB
     });
 
     await template.save();
     await template.populate('createdBy', 'name email');
 
+    // Remove fileData from response to avoid sending large binary back
+    const responseTemplate = template.toObject();
+    delete responseTemplate.fileData;
+
     res.status(201).json({
       message: 'Template uploaded successfully',
-      template
+      template: responseTemplate
     });
   } catch (error) {
     console.error('Error uploading template:', error);
