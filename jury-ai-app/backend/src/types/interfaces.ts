@@ -87,7 +87,6 @@ export interface IChat extends Document {
 }
 
 export interface ITemplate extends Document {
-  name: string;
   title: string;
   description: string;
   category: string;
@@ -112,11 +111,9 @@ export interface ITemplate extends Document {
 }
 
 export interface IDocument extends Document {
-  user: Types.ObjectId;
   userId: string;
   filename: string;
   originalName: string;
-  type: string;
   fileType: string;
   fileSize: number;
   filePath: string;

@@ -12,7 +12,6 @@ interface AuthRequest extends express.Request {
 }
 
 const router = express.Router();
-const MAX_TEMPLATE_DOWNLOAD_BYTES = 25 * 1024 * 1024; // 25MB
 const MAX_CONCURRENT_TEMPLATE_DOWNLOADS = 20;
 const SAFE_TEMPLATE_FILENAME = /^[A-Za-z0-9][A-Za-z0-9._\- ()]*$/;
 let activeTemplateDownloads = 0;
@@ -90,7 +89,7 @@ router.get('/', async (req: AuthRequest, res: Response) => {
     }
 
     const templates = await Template.find(query)
-      .populate('createdBy', 'username')
+      .populate('createdBy', ['name', 'email'])
       .sort({ createdAt: -1 })
       .limit(limit * 1)
       .skip((page - 1) * limit);
@@ -131,7 +130,7 @@ router.get('/:id', async (req: AuthRequest, res: Response) => {
     const template = await Template.findOne({
       _id: req.params.id,
       isActive: true
-    }).populate('createdBy', 'username');
+    }).populate('createdBy', ['name', 'email']);
 
     if (!template) {
       return res.status(404).json({ message: 'Template not found' });
@@ -306,7 +305,7 @@ router.post('/', auth, async (req: AuthRequest, res: Response) => {
     });
 
     await template.save();
-    await template.populate('createdBy', 'username');
+    await template.populate('createdBy', ['name', 'email']);
 
     res.status(201).json(template);
   } catch (error) {
@@ -359,7 +358,7 @@ router.post('/upload', auth, upload.single('file'), async (req: AuthRequest, res
     });
 
     await template.save();
-    await template.populate('createdBy', 'name email');
+    await template.populate('createdBy', ['name', 'email']);
 
     // Remove fileData from response to avoid sending large binary back
     const responseTemplate = template.toObject();
@@ -400,7 +399,7 @@ router.put('/:id', auth, async (req: AuthRequest, res: Response) => {
     template.updatedAt = new Date();
 
     await template.save();
-    await template.populate('createdBy', 'username');
+    await template.populate('createdBy', ['name', 'email']);
 
     res.json(template);
   } catch (error) {

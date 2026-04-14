@@ -420,7 +420,7 @@ export const verifyLawyer = async (req: AuthRequest, res: Response) => {
     // Add verification notes
     lawyer.verificationNotes = notes || reason;
     lawyer.verifiedAt = new Date();
-    lawyer.verifiedBy = req.user.id;
+    lawyer.verifiedBy = req.user?.id;
 
     await lawyer.save();
 
@@ -454,7 +454,6 @@ export const getChatSessions = async (req: AuthRequest, res: Response) => {
 
     const [chats, total] = await Promise.all([
       Chat.find(query)
-        .populate('user', 'name email')
         .sort({ updatedAt: -1 })
         .skip(skip)
         .limit(limit),
@@ -497,7 +496,6 @@ export const getDocuments = async (req: AuthRequest, res: Response) => {
 
     const [documents, total] = await Promise.all([
       Document.find(query)
-        .populate('user', 'name email')
         .sort({ createdAt: -1 })
         .skip(skip)
         .limit(limit),
@@ -552,7 +550,7 @@ export const createTemplate = async (req: AuthRequest, res: Response) => {
       category,
       content,
       fields,
-      createdBy: req.user.id
+      createdBy: req.user?.id
     });
 
     await template.save();

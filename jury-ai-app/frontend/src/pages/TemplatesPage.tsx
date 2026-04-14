@@ -109,7 +109,7 @@ const TemplatesPage: React.FC = () => {
         downloads: t.downloads,
         lastUpdated: new Date(t.updatedAt),
         updatedAt: t.updatedAt,
-        preview: t.content.substring(0, 200) + '...',
+        preview: t.content ? t.content.substring(0, 200) + '...' : '',
         fileName: t.fileName,
         fileSize: t.fileSize
       }));
