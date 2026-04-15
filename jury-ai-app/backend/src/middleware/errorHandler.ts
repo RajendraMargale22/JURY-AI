@@ -39,7 +39,7 @@ export const errorHandler = (err: any, req: Request, res: Response, next: NextFu
 
   // CSRF token errors
   if (err.code === 'EBADCSRFTOKEN') {
-    const message = 'Invalid or missing CSRF token';
+    const message = 'Invalid or missing CSRF token. This can happen if your session expired or you have multiple tabs open.';
     error = { message, statusCode: 403 };
   }
 

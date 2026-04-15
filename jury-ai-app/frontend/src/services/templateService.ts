@@ -53,7 +53,7 @@ export const templateService = {
       params.append('search', search);
     }
 
-    const response = await axios.get(`${API_URL}/templates?${params.toString()}`);
+    const response = await axios.get(`${API_URL}templates?${params.toString()}`);
     const payload = response.data as any;
 
     if (payload?.data && typeof payload.data === 'object') {
@@ -65,7 +65,7 @@ export const templateService = {
 
   // Get template categories
   async getCategories(): Promise<string[]> {
-    const response = await axios.get(`${API_URL}/templates/categories`);
+    const response = await axios.get(`${API_URL}templates/categories`);
     const payload = response.data as any;
 
     const fromIndexedObject = (value: any): string[] => {
@@ -105,7 +105,7 @@ export const templateService = {
 
   // Get specific template
   async getTemplate(id: string): Promise<Template> {
-    const response = await axios.get(`${API_URL}/templates/${id}`);
+    const response = await axios.get(`${API_URL}templates/${id}`);
     const payload = response.data as any;
     return (payload?.data || payload) as Template;
   },
@@ -124,7 +124,7 @@ export const templateService = {
     formData.append('category', category);
     formData.append('file', file);
 
-    const response = await axios.post(`${API_URL}/templates/upload`, formData, {
+    const response = await axios.post(`${API_URL}templates/upload`, formData, {
       headers: {
         'Content-Type': 'multipart/form-data',
         Authorization: `Bearer ${token}`,
@@ -138,7 +138,7 @@ export const templateService = {
   // Download template
   async downloadTemplate(id: string, token: string): Promise<string> {
     const response = await axios.post(
-      `${API_URL}/templates/${id}/download`,
+      `${API_URL}templates/${id}/download`,
       {},
       {
         headers: {
@@ -153,7 +153,7 @@ export const templateService = {
 
   // Get template file
   async getTemplateFile(id: string, token: string): Promise<Blob> {
-    const response = await axios.get(`${API_URL}/templates/${id}/file`, {
+    const response = await axios.get(`${API_URL}templates/${id}/file`, {
       headers: {
         Authorization: `Bearer ${token}`,
       },

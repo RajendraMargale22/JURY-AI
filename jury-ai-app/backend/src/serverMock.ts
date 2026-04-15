@@ -21,23 +21,46 @@ import { responseEnvelope } from './middleware/responseEnvelope';
 dotenv.config();
 
 const app = express();
-const allowedOrigins = ['http://localhost:3000'];
+const allowedOrigins = [
+  'http://localhost:3000',
+  'http://localhost:3001',
+  'http://127.0.0.1:3000'
+];
+
+const isAllowedOrigin = (originToTest: string) => {
+  if (!originToTest) return false;
+  const normalized = originToTest.trim().replace(/\/$/, '');
+  
+  // Allow Railway domains
+  if (normalized.includes('.up.railway.app')) return true;
+  
+  // Allow localhost variations
+  return allowedOrigins.some((allowed) => normalized.startsWith(allowed));
+};
 
 const isUnsafeMethod = (method: string) => ['POST', 'PUT', 'PATCH', 'DELETE'].includes(method.toUpperCase());
 
 const csrfOriginGuard: express.RequestHandler = (req, res, next) => {
-  if (!isUnsafeMethod(req.method)) {
+  // Safe methods skip CSRF origin check
+  const method = req.method?.toUpperCase() || 'GET';
+  if (!['POST', 'PUT', 'PATCH', 'DELETE'].includes(method)) {
     return next();
   }
 
   const origin = req.headers.origin;
   const referer = req.headers.referer;
 
-  const hasValidOrigin = !!origin && allowedOrigins.some((allowed) => origin.startsWith(allowed));
-  const hasValidReferer = !!referer && allowedOrigins.some((allowed) => referer.startsWith(allowed));
+  const hasValidOrigin = !!origin && isAllowedOrigin(origin);
+  const hasValidReferer = !!referer && isAllowedOrigin(referer);
 
   if (!hasValidOrigin && !hasValidReferer) {
-    return res.status(403).json({ message: 'CSRF validation failed' });
+    console.warn(`CSRF Origin Protection (Mock): Blocked ${method} request to ${req.path}`);
+    console.warn(`Origin: ${origin}, Referer: ${referer}`);
+    return res.status(403).json({ 
+      success: false,
+      message: 'CSRF validation failed: Origin or Referer not allowed',
+      debug: { origin, referer, method }
+    });
   }
 
   return next();

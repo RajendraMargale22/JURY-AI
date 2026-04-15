@@ -54,8 +54,15 @@ const allowedOrigins = Array.from(
 
 const isAllowedOrigin = (originToTest: string) => {
   if (!originToTest) return false;
-  if (originToTest.includes('.amplifyapp.com')) return true;
-  return allowedOrigins.some((allowed) => originToTest.startsWith(allowed));
+  const normalized = normalizeOrigin(originToTest);
+  
+  // Allow Railway domains
+  if (normalized.includes('.up.railway.app')) return true;
+  
+  // Allow localhost variations
+  if (normalized === 'http://localhost:3000' || normalized === 'http://localhost:3001' || normalized === 'http://127.0.0.1:3000') return true;
+
+  return allowedOrigins.some((allowed) => normalized.startsWith(allowed));
 };
 
 const isUnsafeMethod = (method: string) => ['POST', 'PUT', 'PATCH', 'DELETE'].includes(method.toUpperCase());
@@ -72,7 +79,13 @@ const csrfOriginGuard: express.RequestHandler = (req, res, next) => {
   const hasValidReferer = !!referer && isAllowedOrigin(referer);
 
   if (!hasValidOrigin && !hasValidReferer) {
-    return res.status(403).json({ message: 'CSRF validation failed' });
+    console.warn(`CSRF Origin Protection: Blocked ${req.method} request to ${req.path}`);
+    console.warn(`Origin: ${origin}, Referer: ${referer}`);
+    return res.status(403).json({ 
+      success: false,
+      message: 'CSRF validation failed: Origin or Referer not allowed',
+      debug: process.env.NODE_ENV === 'development' ? { origin, referer } : undefined
+    });
   }
 
   return next();
@@ -165,12 +178,7 @@ app.use('/api/chat', chatRoutes);
 app.use('/api/templates', templateRoutes);
 app.use('/api/lawyers', lawyerRoutes);
 
-// Routes mapped for Amplify proxy accesses where /api/ may be stripped
-app.use('/auth', authRoutes);
-app.use('/admin', adminRoutes);
-app.use('/chat', chatRoutes);
-app.use('/templates', templateRoutes);
-app.use('/lawyers', lawyerRoutes);
+// All routes are served under /api/ prefix
 
 // Health check
 app.get('/api/health', (req, res) => {

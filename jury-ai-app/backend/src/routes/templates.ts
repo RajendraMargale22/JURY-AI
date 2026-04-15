@@ -1,4 +1,5 @@
 import express, { Response } from 'express';
+import mongoose from 'mongoose';
 import { auth } from '../middleware/auth';
 import Template from '../models/Template';
 import multer from 'multer';
@@ -18,13 +19,27 @@ let activeTemplateDownloads = 0;
 
 router.use(async (req, res, next) => {
   try {
-    const settings = await getMergedSystemSettings();
+    // If database is not connected (e.g. mock mode), use default settings
+    const isDbConnected = mongoose.connection.readyState === 1;
+    let settings;
+    
+    if (isDbConnected) {
+      settings = await getMergedSystemSettings();
+    } else {
+      // Default settings if no DB
+      settings = { templatesEnabled: true };
+    }
+
     if (settings.templatesEnabled === false) {
       return res.status(403).json({ message: 'Template feature is currently disabled by admin settings' });
     }
     return next();
   } catch (error) {
     console.error('Template settings check failed:', error);
+    // In dev/mock mode, fail gracefully
+    if (process.env.NODE_ENV !== 'production') {
+      return next();
+    }
     return res.status(500).json({ message: 'Unable to validate template availability' });
   }
 });
@@ -73,6 +88,21 @@ router.get('/', async (req: AuthRequest, res: Response) => {
     const limit = asPositiveInt(req.query.limit, 12, 100);
     const category = asString(req.query.category, 60);
     const search = asString(req.query.search, 120);
+
+    // Check if database is connected before querying
+    if (mongoose.connection.readyState !== 1) {
+      console.warn('Database not connected. Returning empty template list (Mock/Dev mode).');
+      return res.status(200).json({
+        success: true,
+        data: {
+          templates: [],
+          totalPages: 0,
+          currentPage: page,
+          total: 0
+        },
+        message: 'Running in disconnected mode. No templates found.'
+      });
+    }
 
     let query: any = { isActive: true };
 
@@ -177,21 +207,24 @@ router.get('/:id/file', auth, async (req: AuthRequest, res: Response) => {
 
   activeTemplateDownloads += 1;
   try {
-    // Use .select('+fileData') to explicitly include the fileData field
-    const template = await Template.findOne({
-      _id: req.params.id,
-      isActive: true
-    }).select('+fileData');
+    // Admins and Lawyers can access templates even if they are inactive (for debugging/management)
+    const isSpecialRole = req.user?.role === 'admin' || req.user?.role === 'lawyer';
+    const query: any = { _id: req.params.id };
+    if (!isSpecialRole) {
+      query.isActive = true;
+    }
+
+    const template = await Template.findOne(query).select('+fileData');
 
     if (!template) {
-      return res.status(404).json({ message: 'Template not found' });
+      return res.status(404).json({ 
+        success: false,
+        message: 'Template not found',
+        debug: process.env.NODE_ENV === 'development' ? { id: req.params.id, query } : undefined
+      });
     }
 
-    if (!template.fileName) {
-      return res.status(404).json({ message: 'Template file not found' });
-    }
-
-    // Serve from MongoDB fileData (primary)
+    // Check if the file data exists in MongoDB
     if (template.fileData && template.fileData.length > 0) {
       const safeFileName = (template.fileName || 'template').replace(/[\r\n"]/g, '_');
       res.setHeader('Content-Type', template.mimeType || 'application/octet-stream');
@@ -200,21 +233,31 @@ router.get('/:id/file', auth, async (req: AuthRequest, res: Response) => {
       return res.send(template.fileData);
     }
 
+    // If no file data in MongoDB, check for fileName to attempt disk fallback
+    if (!template.fileName) {
+       console.error(`Template ${template._id} has no fileData and no fileName for fallback`);
+       return res.status(404).json({ 
+         success: false, 
+         message: 'Template file data is missing or corrupted. No filename available for fallback.' 
+       });
+    }
+
     // Fallback: try serving from local disk (for backward compatibility)
     const safeTemplateName = normalizeTemplateFileName(template.fileName);
     if (!safeTemplateName) {
-      return res.status(400).json({ message: 'Invalid template file path' });
+      return res.status(400).json({ success: false, message: 'Invalid template file path on disk' });
     }
 
     const TEMPLATE_UPLOAD_DIR = path.resolve(__dirname, '../../uploads/templates');
     const localFilePath = path.join(TEMPLATE_UPLOAD_DIR, safeTemplateName);
 
     if (fs.existsSync(localFilePath)) {
-      // File exists on disk — serve it and also migrate to MongoDB
+      // File exists on disk — serve it and also migrate to MongoDB (background-ish)
       const fileBuffer = fs.readFileSync(localFilePath);
       template.fileData = fileBuffer;
-      await template.save();
-      console.log(`Migrated template file to MongoDB: ${template._id}`);
+      template.save().catch(e => console.error(`Failed to auto-migrate template ${template._id} to DB:`, e));
+      
+      console.log(`Serving and migrating template file from disk: ${template._id} (${safeTemplateName})`);
 
       const safeFileName = safeTemplateName.replace(/[\r\n"]/g, '_');
       res.setHeader('Content-Type', template.mimeType || 'application/octet-stream');
@@ -223,7 +266,11 @@ router.get('/:id/file', auth, async (req: AuthRequest, res: Response) => {
       return res.send(fileBuffer);
     }
 
-    return res.status(404).json({ message: 'Template file not found. The file may not have been stored properly.' });
+    console.error(`Template file not found anywhere for ID ${template._id}. Local path checked: ${localFilePath}`);
+    return res.status(404).json({ 
+      success: false, 
+      message: 'Template file not found on server or database. It may have been deleted or not uploaded correctly.' 
+    });
   } catch (error) {
     console.error('Error serving template file:', error);
     if (!res.headersSent) {

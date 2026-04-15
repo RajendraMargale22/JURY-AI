@@ -23,6 +23,4 @@ COPY --from=build /app/dist ./dist
 
 RUN mkdir -p uploads
 
-EXPOSE 5000
-
 CMD ["node", "--max-http-header-size=16384", "dist/server.js"]
