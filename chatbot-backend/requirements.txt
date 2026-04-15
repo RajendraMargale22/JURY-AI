@@ -6,7 +6,6 @@ langchain
 langchain-community
 langchain-core
 langchain-groq
-langchain-classic
 
 pinecone-client==3.2.2
 
