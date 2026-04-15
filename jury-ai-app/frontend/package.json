@@ -48,7 +48,7 @@
     "start": "vite",
     "build": "vite build",
     "test": "echo \"No test runner configured after Vite migration\" && exit 0",
-    "preview": "vite preview"
+    "preview": "vite preview --host 0.0.0.0"
   },
   "proxy": "http://localhost:5000",
   "browserslist": {
