@@ -11,7 +11,7 @@ module.exports = {
       max_restarts: 10,
       env: {
         CORS_ORIGINS: 'https://your-frontend.example.com',
-        CONTRACT_REVIEW_API_KEYS: 'replace-with-strong-key',
+        CONTRACT_REVIEW_API_KEYS: wnrgargg7ag9e9geergerig8ugy74th384t7w8efbw8f7e4t,
         RATE_LIMIT_WINDOW_SECONDS: '60',
         RATE_LIMIT_MAX_REQUESTS: '120',
         MAX_UPLOAD_BYTES: '10485760',
