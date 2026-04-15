@@ -19,34 +19,34 @@ PINECONE_INDEX_NAME = os.environ.get("PINECONE_INDEX_NAME", "legal-index")
 UPLOAD_DIR = "./uploaded_docs"
 os.makedirs(UPLOAD_DIR, exist_ok=True)
 
-# ✅ Initialize Pinecone
-pc = Pinecone(api_key=PINECONE_API_KEY)
-spec = ServerlessSpec(cloud="aws", region=PINECONE_ENV)
-existing_indexes = []
-for item in pc.list_indexes():
-    if isinstance(item, dict):
-        name = item.get("name")
-    else:
-        name = getattr(item, "name", None)
-    if name:
-        existing_indexes.append(name)
+def _get_pinecone_index():
+    pc = Pinecone(api_key=PINECONE_API_KEY)
+    spec = ServerlessSpec(cloud="aws", region=PINECONE_ENV)
+    existing_indexes = []
+    for item in pc.list_indexes():
+        if isinstance(item, dict):
+            name = item.get("name")
+        else:
+            name = getattr(item, "name", None)
+        if name:
+            existing_indexes.append(name)
 
-if PINECONE_INDEX_NAME not in existing_indexes:
-    print(f"Creating Pinecone index: {PINECONE_INDEX_NAME}")
-    pc.create_index(
-        name=PINECONE_INDEX_NAME,
-        dimension=768,
-        metric="cosine",
-        spec=spec
-    )
-    while True:
-        description = pc.describe_index(PINECONE_INDEX_NAME)
-        status = getattr(description, "status", None)
-        if isinstance(status, dict) and status.get("ready"):
-            break
-        time.sleep(1)
+    if PINECONE_INDEX_NAME not in existing_indexes:
+        print(f"Creating Pinecone index: {PINECONE_INDEX_NAME}")
+        pc.create_index(
+            name=PINECONE_INDEX_NAME,
+            dimension=768,
+            metric="cosine",
+            spec=spec
+        )
+        while True:
+            description = pc.describe_index(PINECONE_INDEX_NAME)
+            status = getattr(description, "status", None)
+            if isinstance(status, dict) and status.get("ready"):
+                break
+            time.sleep(1)
 
-index = pc.Index(PINECONE_INDEX_NAME)
+    return pc.Index(PINECONE_INDEX_NAME)
 
 # ✅ Helper for batching
 def batch_iterable(iterable, batch_size):
@@ -93,8 +93,7 @@ def load_vectorstore(uploaded_files):
 
             # 4️⃣ Safe batched upsert to Pinecone
             print(f"📤 Upserting Embeddings (in safe batches)...")
-            batch_size = 100  # adjust 50–150 depending on your doc size
-
+            batch_size = 100  # adjust 50–150 depending on your doc size            index = _get_pinecone_index()
             for batch in tqdm(batch_iterable(zip(ids, embeddings, metadata), batch_size),
                               total=len(embeddings)//batch_size + 1,
                               desc="Upserting to Pinecone"):
