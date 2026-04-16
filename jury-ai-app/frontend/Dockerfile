@@ -28,7 +28,7 @@ ENV REACT_APP_API_URL=$REACT_APP_API_URL \
     REACT_APP_NEWS_API_KEY=$REACT_APP_NEWS_API_KEY
 
 COPY package*.json ./
-RUN npm ci
+RUN npm install
 
 COPY . .
 RUN npm run build
