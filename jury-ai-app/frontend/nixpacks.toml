@@ -1,3 +1,8 @@
 [phases.setup]
-nixPkgs = ["nodejs_22"]
-NODE_VERSION = "22"
+nixPkgs = ["nodejs-22_x"]
+
+[phases.build]
+cmds = ["npm install && npm run build"]
+
+[start]
+cmd = "npm run preview"
