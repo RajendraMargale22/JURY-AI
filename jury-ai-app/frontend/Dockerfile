@@ -38,13 +38,14 @@ FROM node:22.14-alpine
 
 WORKDIR /app
 
-# Copy only what's needed to serve the built app
+# Install 'serve' — a production-ready static file server
+RUN npm install -g serve@14
+
+# Copy only the built static files
 COPY --from=builder /app/dist ./dist
-COPY --from=builder /app/node_modules ./node_modules
-COPY --from=builder /app/package.json ./
 
-# Railway injects PORT at runtime; vite preview must bind to it
-ENV PORT=4173
-EXPOSE $PORT
+# Railway injects PORT at runtime; default to 8080
+ENV PORT=8080
 
-CMD ["sh", "-c", "npx vite preview --host 0.0.0.0 --port $PORT"]
+# serve: -s enables SPA mode (rewrites to index.html), -l binds to port
+CMD ["sh", "-c", "serve -s dist -l $PORT"]
