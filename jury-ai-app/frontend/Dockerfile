@@ -47,5 +47,5 @@ COPY --from=builder /app/dist ./dist
 # Railway injects PORT at runtime; default to 8080
 ENV PORT=8080
 
-# serve: -s enables SPA mode (rewrites to index.html), -l binds to port
-CMD ["sh", "-c", "serve -s dist -l $PORT"]
+# serve: -s enables SPA mode (rewrites to index.html), -l binds to host:port
+CMD ["sh", "-c", "serve -s dist -l tcp://0.0.0.0:$PORT"]
