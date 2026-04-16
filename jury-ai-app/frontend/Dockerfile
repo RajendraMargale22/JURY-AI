@@ -43,6 +43,8 @@ COPY --from=builder /app/dist ./dist
 COPY --from=builder /app/node_modules ./node_modules
 COPY --from=builder /app/package.json ./
 
-EXPOSE 4173
+# Railway injects PORT at runtime; vite preview must bind to it
+ENV PORT=4173
+EXPOSE $PORT
 
-CMD ["npm", "run", "preview"]
+CMD ["sh", "-c", "npx vite preview --host 0.0.0.0 --port $PORT"]
