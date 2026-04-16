@@ -141,6 +141,9 @@ router.get('/', async (req: AuthRequest, res: Response) => {
 // Get template categories
 router.get('/categories', async (req: AuthRequest, res: Response) => {
   try {
+    if (mongoose.connection.readyState !== 1) {
+      return res.json(TEMPLATE_CATEGORIES);
+    }
     // Return predefined categories + any custom categories from database
     const dbCategories = await Template.distinct('category', { isActive: true });
     

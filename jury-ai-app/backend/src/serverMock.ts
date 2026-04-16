@@ -13,6 +13,7 @@ import authRoutes from './routes/authMock';
 import adminRoutes from './routes/adminMock';
 import chatRoutes from './routes/chat';
 import templateRoutes from './routes/templates';
+import lawyerRoutes from './routes/lawyers';
 
 import { errorHandler } from './middleware/errorHandler';
 import { attachRequestContext } from './middleware/requestContext';
@@ -129,6 +130,7 @@ app.use('/api/auth', authRoutes);
 app.use('/api/admin', adminRoutes);
 app.use('/api/chat', chatRoutes);
 app.use('/api/templates', templateRoutes);
+app.use('/api/lawyers', lawyerRoutes);
 
 // Health check
 app.get('/api/health', (req, res) => {

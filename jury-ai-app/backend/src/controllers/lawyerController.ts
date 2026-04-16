@@ -1,5 +1,6 @@
 import { Response } from 'express';
 import User from '../models/User';
+import mongoose from 'mongoose';
 import { AuthRequest } from '../types/interfaces';
 
 const asString = (value: unknown, maxLength = 200): string =>
@@ -45,6 +46,14 @@ export const getPublicLawyers = async (req: AuthRequest, res: Response) => {
     const search = asString(req.query.search, 120);
     const specialization = asString(req.query.specialization, 80);
     const verifiedOnly = (req.query.verifiedOnly as string) === 'true';
+
+    if (mongoose.connection.readyState !== 1) {
+      return res.json({
+        lawyers: [],
+        filters: { specializations: [] },
+        pagination: { currentPage: 1, totalPages: 0, total: 0, hasNext: false, hasPrev: false }
+      });
+    }
 
     const skip = (page - 1) * limit;
 
@@ -103,6 +112,10 @@ export const getPublicLawyers = async (req: AuthRequest, res: Response) => {
 export const getFeaturedLawyers = async (req: AuthRequest, res: Response) => {
   try {
     const limit = asPositiveInt(req.query.limit, 6, 12);
+
+    if (mongoose.connection.readyState !== 1) {
+      return res.json({ lawyers: [] });
+    }
 
     const lawyers = await User.find({
       role: 'lawyer',

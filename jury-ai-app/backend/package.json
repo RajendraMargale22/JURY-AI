@@ -6,7 +6,7 @@
     "start": "node --max-http-header-size=16384 dist/server.js",
     "start:mock": "node dist/serverMock.js",
     "dev": "nodemon src/server.ts",
-    "dev:mock": "nodemon --exec 'node --max-http-header-size=16384 -r ts-node/register' src/serverMock.ts",
+    "dev:mock": "nodemon --exec \"node --max-http-header-size=16384 -r ts-node/register\" src/serverMock.ts",
     "build": "tsc",
     "seed:admin": "ts-node src/scripts/createAdmin.ts",
     "seed:templates": "ts-node src/scripts/seedTemplateCategories.ts",

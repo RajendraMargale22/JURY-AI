@@ -2,9 +2,52 @@ import { Request, Response } from 'express';
 
 // Logout user
 export const logout = (req: Request, res: Response) => {
+  res.cookie('token', 'mock-jwt-token', {
+    httpOnly: true,
+    expires: new Date(0), // expire immediately
+  });
   res.json({
     success: true,
     message: 'Logged out successfully'
+  });
+};
+
+const dummyUser = {
+  id: 'demo-admin-id',
+  uid: 'demo-admin-id',
+  name: 'Aditya Jare',
+  email: 'aditya@example.com',
+  role: 'admin',
+  isEmailVerified: true,
+  avatar: undefined
+};
+
+// Login user
+export const login = (req: Request, res: Response) => {
+  res.cookie('token', 'mock-jwt-token', { httpOnly: true });
+  res.json({
+    success: true,
+    token: 'mock-jwt-token',
+    user: dummyUser
+  });
+};
+
+// Register user
+export const register = (req: Request, res: Response) => {
+  res.cookie('token', 'mock-jwt-token', { httpOnly: true });
+  res.json({
+    success: true,
+    token: 'mock-jwt-token',
+    user: dummyUser
+  });
+};
+
+export const googleAuth = (req: Request, res: Response) => {
+  res.cookie('token', 'mock-jwt-token', { httpOnly: true });
+  res.json({
+    success: true,
+    token: 'mock-jwt-token',
+    user: dummyUser
   });
 };
 
@@ -13,14 +56,7 @@ export const getProfile = async (req: Request, res: Response) => {
   try {
     res.json({
       success: true,
-      user: {
-        id: 'demo-admin-id',
-        name: 'Aditya Jare',
-        email: 'aditya@example.com',
-        role: 'admin',
-        isEmailVerified: true,
-        avatar: undefined
-      }
+      user: dummyUser
     });
   } catch (error) {
     console.error('Get profile error:', error);

@@ -1,6 +1,7 @@
 import { Request, Response, NextFunction } from 'express';
 import jwt from 'jsonwebtoken';
 import User from '../models/User';
+import mongoose from 'mongoose';
 
 interface AuthRequest extends Request {
   user?: any;
@@ -24,6 +25,12 @@ export const auth = async (req: AuthRequest, res: Response, next: NextFunction) 
     if (!token) {
       console.log('Auth middleware - No token found');
       return res.status(401).json({ message: 'No token, authorization denied' });
+    }
+    
+    // Bypass verify in mock mode if token is our explicit mock token
+    if (mongoose.connection.readyState !== 1 && token === 'mock-jwt-token') {
+       req.user = { _id: 'demo-admin-id', id: 'demo-admin-id', role: 'admin', isActive: true, email: 'aditya@example.com' };
+       return next();
     }
 
     const decoded = jwt.verify(token, getJwtSecret()) as any;
