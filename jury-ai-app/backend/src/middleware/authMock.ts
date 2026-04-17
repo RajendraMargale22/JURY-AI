@@ -22,6 +22,23 @@ export const auth = async (req: AuthRequest, res: Response, next: NextFunction) 
       return res.status(401).json({ message: 'No token, authorization denied' });
     }
 
+    // Accept mock tokens directly (for demo/testing)
+    if (token === 'mock-jwt-token') {
+      req.user = {
+        id: 'demo-admin-id',
+        _id: 'demo-admin-id',
+        username: 'admin',
+        name: 'Aditya Jare',
+        email: 'aditya@example.com',
+        role: 'admin',
+        isVerified: true,
+        isEmailVerified: true,
+        status: 'active',
+        isActive: true,
+      };
+      return next();
+    }
+
     const decoded = jwt.verify(token, getJwtSecret()) as any;
     const user = mockDB.findUserById(decoded.userId);
 

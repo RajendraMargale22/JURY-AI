@@ -30,7 +30,7 @@ const connectDB = async () => {
     
   } catch (error) {
     console.error('❌ Error connecting to MongoDB:', error);
-    process.exit(1);
+    console.warn('⚠️ Server will continue running without database connection.');
   }
 };
 

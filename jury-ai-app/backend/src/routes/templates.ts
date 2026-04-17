@@ -91,17 +91,48 @@ router.get('/', async (req: AuthRequest, res: Response) => {
 
     // Check if database is connected before querying
     if (mongoose.connection.readyState !== 1) {
-      console.warn('Database not connected. Returning empty template list (Mock/Dev mode).');
-      return res.status(200).json({
-        success: true,
-        data: {
-          templates: [],
-          totalPages: 0,
+      console.warn('Database not connected. Returning mock template data (Mock/Dev mode).');
+      // Try to import mock data
+      try {
+        const { mockDB } = require('../utils/mockDatabase');
+        const result = mockDB.getAllTemplates(page, limit, {
+          search,
+          category: category && category !== 'all' ? category : undefined
+        });
+        return res.status(200).json({
+          success: true,
+          templates: result.templates.map((t: any) => ({
+            _id: t.id,
+            title: t.title,
+            description: t.description,
+            category: t.category,
+            content: t.content,
+            fields: t.fields || [],
+            isActive: t.isActive,
+            downloads: t.downloads,
+            createdBy: { name: 'Admin', email: 'admin@juryai.com' },
+            fileName: t.fileName,
+            fileSize: t.fileSize,
+            createdAt: t.createdAt,
+            updatedAt: t.updatedAt
+          })),
+          totalPages: Math.ceil(result.total / limit),
           currentPage: page,
-          total: 0
-        },
-        message: 'Running in disconnected mode. No templates found.'
-      });
+          total: result.total,
+          message: 'Running in mock mode with sample templates.'
+        });
+      } catch (mockErr) {
+        return res.status(200).json({
+          success: true,
+          data: {
+            templates: [],
+            totalPages: 0,
+            currentPage: page,
+            total: 0
+          },
+          message: 'Running in disconnected mode. No templates found.'
+        });
+      }
     }
 
     let query: any = { isActive: true };

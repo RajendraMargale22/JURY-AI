@@ -97,6 +97,31 @@ export const updateProfile = async (req: Request, res: Response) => {
 };
 
 export const getPublicAuthSettings = async (_req: Request, res: Response) => {
+  // Import the actual settings store so toggling features in admin panel takes effect
+  try {
+    const response = await fetch(`http://localhost:${process.env.PORT || 5000}/api/admin/settings`, {
+      headers: { 'Authorization': 'Bearer mock-jwt-token' }
+    });
+    if (response.ok) {
+      const payload = await response.json() as any;
+      const data = payload?.data || payload;
+      res.json({
+        registrationEnabled: data.registrationEnabled ?? true,
+        socialLoginEnabled: data.socialLoginEnabled ?? false,
+        twoFactorEnabled: data.twoFactorEnabled ?? false,
+        chatEnabled: data.chatEnabled ?? true,
+        templatesEnabled: data.templatesEnabled ?? true,
+        documentAnalysisEnabled: data.documentAnalysisEnabled ?? true,
+        passwordMinLength: data.passwordMinLength ?? 8,
+        passwordRequireUppercase: data.passwordRequireUppercase ?? true,
+        passwordRequireNumbers: data.passwordRequireNumbers ?? true,
+        passwordRequireSpecialChars: data.passwordRequireSpecialChars ?? false,
+      });
+      return;
+    }
+  } catch (err) {
+    // Fall through to defaults
+  }
   res.json({
     registrationEnabled: true,
     socialLoginEnabled: true,
