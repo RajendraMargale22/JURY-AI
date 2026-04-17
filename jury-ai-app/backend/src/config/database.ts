@@ -1,7 +1,12 @@
 import mongoose from 'mongoose';
+import dns from 'dns';
 
 const connectDB = async () => {
   try {
+    // Use Google DNS to resolve MongoDB Atlas SRV records
+    // (local network DNS may not support SRV record resolution)
+    dns.setServers(['8.8.8.8', '8.8.4.4', '1.1.1.1']);
+
     const mongoURI = process.env.MONGODB_URI || 'mongodb://localhost:27017/jury-ai';
     
     const conn = await mongoose.connect(mongoURI, {
