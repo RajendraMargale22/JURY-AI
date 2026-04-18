@@ -16,15 +16,25 @@ GROQ_API_KEY=os.environ.get("GROQ_API_KEY")
 GOOGLE_API_KEY=os.environ.get("GOOGLE_API_KEY")
 
 def get_llm_chain(retriever):
-    llm = ChatGroq(
-        model="llama-3.3-70b-versatile",
-        api_key=SecretStr(GROQ_API_KEY) if GROQ_API_KEY else None
-    )
+    # Try Groq first, fall back to Google Gemini if the key is invalid/missing
+    llm = None
+    if GROQ_API_KEY and GROQ_API_KEY.startswith("gsk_"):
+        try:
+            llm = ChatGroq(
+                model="llama-3.3-70b-versatile",
+                api_key=SecretStr(GROQ_API_KEY)
+            )
+        except Exception as e:
+            print(f"⚠️ Groq LLM init failed: {e}")
 
-    # llm=ChatGoogleGenerativeAI(
-    #     api_key=GOOGLE_API_KEY,
-    #     model="gemini-2.5-pro"
-    # )
+    if llm is None and GOOGLE_API_KEY:
+        llm = ChatGoogleGenerativeAI(
+            api_key=GOOGLE_API_KEY,
+            model="gemini-2.0-flash"
+        )
+
+    if llm is None:
+        raise ValueError("No valid LLM API key found. Set GROQ_API_KEY (gsk_...) or GOOGLE_API_KEY.")
 
     prompt=PromptTemplate(
         input_variables=["context","question"],
