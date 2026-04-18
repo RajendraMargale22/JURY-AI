@@ -13,7 +13,8 @@ app=FastAPI(title="Medical Assistant API",description="API for AI Medical Assist
 #CORS setup
 
 def _get_allowed_origins() -> list[str]:
-    raw = os.getenv("CORS_ORIGINS", "http://localhost:3000,http://localhost:5000")
+    default_origins = "http://localhost:3000,http://localhost:5000,https://jury-ai-production.up.railway.app"
+    raw = os.getenv("CORS_ORIGINS", default_origins)
     origins = [origin.strip() for origin in raw.split(",") if origin.strip()]
     return origins or ["http://localhost:3000"]
 
