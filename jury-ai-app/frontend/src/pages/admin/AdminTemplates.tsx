@@ -124,7 +124,7 @@ const AdminTemplates: React.FC = () => {
 
   const handleCreateTemplate = async () => {
     try {
-      const response = await fetch('/api/admin/templates', {
+      const response = await fetch(`${process.env.REACT_APP_API_URL || ''}/api/admin/templates', {
         method: 'POST',
         credentials: 'include',
         headers: {

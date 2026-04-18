@@ -123,7 +123,7 @@ const ContractReviewPage: React.FC = () => {
   useEffect(() => {
     const fetchFeatureSettings = async () => {
       try {
-        const response = await fetch('/api/auth/settings');
+        const response = await fetch(`${process.env.REACT_APP_API_URL || ''}/api/auth/settings');
         if (!response.ok) return;
         const data = await response.json();
         const payload = data?.data || data;

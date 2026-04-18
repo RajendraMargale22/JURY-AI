@@ -88,7 +88,7 @@ const AdminSettings: React.FC = () => {
 
   const fetchSettings = async () => {
     try {
-      const response = await fetch('/api/admin/settings', {
+      const response = await fetch(`${process.env.REACT_APP_API_URL || ''}/api/admin/settings', {
         method: 'GET',
         credentials: 'include',
         headers: {
@@ -111,7 +111,7 @@ const AdminSettings: React.FC = () => {
   const handleSaveSettings = async () => {
     setSaving(true);
     try {
-      const response = await fetch('/api/admin/settings', {
+      const response = await fetch(`${process.env.REACT_APP_API_URL || ''}/api/admin/settings', {
         method: 'PUT',
         credentials: 'include',
         headers: {

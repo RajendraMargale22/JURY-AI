@@ -125,7 +125,7 @@ const LawyerNetworkPage: React.FC = () => {
   useEffect(() => {
     const loadFeaturedLawyers = async () => {
       try {
-        const response = await fetch('/api/lawyers/featured?limit=4');
+        const response = await fetch(`${process.env.REACT_APP_API_URL || ''}/api/lawyers/featured?limit=4');
         if (!response.ok) return;
         const data = await response.json();
         const list = (data?.data?.lawyers || data?.lawyers || []) as Lawyer[];
@@ -284,7 +284,7 @@ const LawyerNetworkPage: React.FC = () => {
         consultationFee: Number(formData.consultationFee || '0')
       };
 
-      const response = await fetch('/api/lawyers/apply', {
+      const response = await fetch(`${process.env.REACT_APP_API_URL || ''}/api/lawyers/apply', {
         method: 'POST',
         credentials: 'include',
         headers: {

@@ -80,7 +80,8 @@ const ChatPage: React.FC = () => {
   useEffect(() => {
     const fetchSettings = async () => {
       try {
-        const response = await fetch('/api/auth/settings');
+        const apiUrl = process.env.REACT_APP_API_URL || '';
+        const response = await fetch(`${apiUrl}/auth/settings`);
         if (!response.ok) return;
         const data = await response.json();
         const payload = data?.data || data;
@@ -109,7 +110,7 @@ const ChatPage: React.FC = () => {
     if (text.startsWith("{'response':") || text.includes("'response':")) {
       // Very basic dict string parser for the specific format we see
       try {
-        const match = text.match(/['"]response['"]\s*:\s*['"](.*?)['"]\s*,\s*['"]sources['"]/s);
+        const match = text.match(/['"]response['"]\s*:\s*['"]([\s\S]*?)['"]\s*,\s*['"]sources['"]/);
         if (match && match[1]) {
           text = match[1];
         }
