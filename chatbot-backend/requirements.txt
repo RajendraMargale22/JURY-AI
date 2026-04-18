@@ -5,6 +5,7 @@ python-multipart
 langchain>=0.3.0
 langchain-community>=0.3.0
 langchain-core>=0.3.0
+langchain-classic
 langchain-groq
 langchain-google-genai>=2.0.0
 langchain-pinecone
