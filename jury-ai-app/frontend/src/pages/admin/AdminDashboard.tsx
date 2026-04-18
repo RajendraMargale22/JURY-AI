@@ -42,7 +42,7 @@ const AdminDashboard: React.FC = () => {
   useEffect(() => {
     const fetchNotifications = async () => {
       try {
-        const response = await fetch(`${process.env.REACT_APP_API_URL || ''}/api/admin/dashboard`, {
+        const response = await fetch(`${process.env.REACT_APP_API_URL || ''}/admin/dashboard`, {
           method: 'GET',
           credentials: 'include',
           headers: {
