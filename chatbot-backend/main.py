@@ -8,7 +8,7 @@ from logger import logger
 import os
 from utils.response_envelope import success_payload
 
-app=FastAPI(title="Medical Assistant API",description="API for AI Medical Assistant chatbot")
+app=FastAPI(title="JURY AI Chatbot API",description="API for JURY AI Legal Assistant chatbot")
 
 #CORS setup
 
