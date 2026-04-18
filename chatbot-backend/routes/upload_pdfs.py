@@ -27,7 +27,7 @@ ALLOWED_UPLOAD_TYPES = {
     "text/plain"
 }
 
-AUTH_PROFILE_URL = os.getenv("AUTH_PROFILE_URL", "http://localhost:5000/api/auth/profile")
+AUTH_PROFILE_URL = os.getenv("AUTH_PROFILE_URL", "https://noble-illumination-production-043e.up.railway.app/api/auth/profile")
 UPLOAD_ALLOWED_ROLES = {"admin", "lawyer"}
 
 
