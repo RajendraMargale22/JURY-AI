@@ -43,7 +43,7 @@ const AdminLawyers: React.FC = () => {
         status: statusFilter
       });
 
-      const response = await fetch(`/api/admin/lawyers?${params}`, {
+      const response = await fetch(`${process.env.REACT_APP_API_URL || ''}/admin/lawyers?${params}`, {
         method: 'GET',
         credentials: 'include',
         headers: {
@@ -70,7 +70,7 @@ const AdminLawyers: React.FC = () => {
 
   const handleVerificationAction = async (lawyerId: string, action: 'approve' | 'reject', reason?: string) => {
     try {
-      const response = await fetch(`/api/admin/lawyers/${lawyerId}/verify`, {
+      const response = await fetch(`${process.env.REACT_APP_API_URL || ''}/admin/lawyers/${lawyerId}/verify`, {
         method: 'PUT',
         credentials: 'include',
         headers: {

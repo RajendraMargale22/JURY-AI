@@ -101,7 +101,7 @@ const LawyerNetworkPage: React.FC = () => {
         verifiedOnly: verifiedOnly ? 'true' : 'false'
       });
 
-      const response = await fetch(`/api/lawyers/public?${params.toString()}`);
+      const response = await fetch(`${process.env.REACT_APP_API_URL || ''}/lawyers/public?${params.toString()}`);
       if (!response.ok) {
         throw new Error('Failed to load lawyers');
       }

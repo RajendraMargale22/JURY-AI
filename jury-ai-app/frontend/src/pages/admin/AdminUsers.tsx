@@ -37,7 +37,7 @@ const AdminUsers: React.FC = () => {
         status: statusFilter
       });
 
-      const response = await fetch(`/api/admin/users?${params}`, {
+      const response = await fetch(`${process.env.REACT_APP_API_URL || ''}/admin/users?${params}`, {
         method: 'GET',
         credentials: 'include',
         headers: {
@@ -64,7 +64,7 @@ const AdminUsers: React.FC = () => {
 
   const handleStatusChange = async (userId: string, newStatus: string) => {
     try {
-      const response = await fetch(`/api/admin/users/${userId}/status`, {
+      const response = await fetch(`${process.env.REACT_APP_API_URL || ''}/admin/users/${userId}/status`, {
         method: 'PUT',
         credentials: 'include',
         headers: {
@@ -89,7 +89,7 @@ const AdminUsers: React.FC = () => {
   const handleDeleteUser = async (userId: string) => {
     if (window.confirm('Are you sure you want to delete this user?')) {
       try {
-        const response = await fetch(`/api/admin/users/${userId}`, {
+        const response = await fetch(`${process.env.REACT_APP_API_URL || ''}/admin/users/${userId}`, {
           method: 'DELETE',
           credentials: 'include',
         });

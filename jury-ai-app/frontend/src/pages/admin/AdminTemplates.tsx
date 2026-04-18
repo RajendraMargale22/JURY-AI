@@ -63,7 +63,7 @@ const AdminTemplates: React.FC = () => {
 
   const fetchTemplates = async () => {
     try {
-      const response = await fetch(`/api/admin/templates`, {
+      const response = await fetch(`${process.env.REACT_APP_API_URL || ''}/admin/templates`, {
         method: 'GET',
         credentials: 'include',
         headers: {
@@ -86,7 +86,7 @@ const AdminTemplates: React.FC = () => {
 
   const handleStatusToggle = async (templateId: string, isActive: boolean) => {
     try {
-      const response = await fetch(`/api/admin/templates/${templateId}/status`, {
+      const response = await fetch(`${process.env.REACT_APP_API_URL || ''}/admin/templates/${templateId}/status`, {
         method: 'PUT',
         credentials: 'include',
         headers: {
@@ -106,7 +106,7 @@ const AdminTemplates: React.FC = () => {
   const handleDeleteTemplate = async (templateId: string) => {
     if (window.confirm('Are you sure you want to delete this template? This action cannot be undone.')) {
       try {
-        const response = await fetch(`/api/admin/templates/${templateId}`, {
+        const response = await fetch(`${process.env.REACT_APP_API_URL || ''}/admin/templates/${templateId}`, {
           method: 'DELETE',
           credentials: 'include',
         });
