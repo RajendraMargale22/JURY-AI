@@ -29,8 +29,8 @@ def get_llm_chain(retriever):
 
     if llm is None and GOOGLE_API_KEY:
         llm = ChatGoogleGenerativeAI(
-            api_key=GOOGLE_API_KEY,
-            model="gemini-1.5-flash"
+            google_api_key=GOOGLE_API_KEY,
+            model="models/gemini-1.5-flash"
         )
 
     if llm is None:
