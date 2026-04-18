@@ -129,18 +129,14 @@ async def ask_question(
             if match.get("metadata", {}).get("text")
         ]
 
-        class SimpleRetriever(BaseRetriever):                          
-            tags: Optional[List[str]] = Field(default_factory=list)
-            metadata: Optional[dict] = Field(default_factory=dict)
-
-            def __init__(self, documents: List[Document]):
-                super().__init__()
-                self._docs = documents
+        class SimpleRetriever(BaseRetriever):
+            """Minimal retriever that returns pre-fetched documents."""
+            docs: List[Document] = Field(default_factory=list)
 
             def _get_relevant_documents(self, query: str) -> List[Document]:
-                return self._docs
+                return self.docs
             
-        retriever = SimpleRetriever(docs)
+        retriever = SimpleRetriever(docs=docs)
         chain = get_llm_chain(retriever)
 
         result = query_chain(chain, question)

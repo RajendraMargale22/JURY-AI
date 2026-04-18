@@ -93,7 +93,8 @@ def load_vectorstore(uploaded_files):
 
             # 4️⃣ Safe batched upsert to Pinecone
             print(f"📤 Upserting Embeddings (in safe batches)...")
-            batch_size = 100  # adjust 50–150 depending on your doc size            index = _get_pinecone_index()
+            batch_size = 100  # adjust 50–150 depending on your doc size
+            index = _get_pinecone_index()
             for batch in tqdm(batch_iterable(zip(ids, embeddings, metadata), batch_size),
                               total=len(embeddings)//batch_size + 1,
                               desc="Upserting to Pinecone"):
