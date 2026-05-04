@@ -9,9 +9,10 @@ python-dotenv
 
 pypdf
 python-docx
+scikit-learn==1.5.1
 
 # Optional ML classifier dependencies (install only if using transformer inference)
-# transformers==4.44.2
-# tokenizers==0.19.1
-# safetensors==0.4.5
-# torch==2.4.1
+transformers==4.44.2
+tokenizers==0.19.1
+safetensors==0.4.5
+torch==2.4.1

@@ -15,15 +15,14 @@ const getJwtSecret = (): string => {
   return secret;
 };
 
+const isDev = process.env.NODE_ENV !== 'production';
+
 export const auth = async (req: AuthRequest, res: Response, next: NextFunction) => {
   try {
     const token = req.header('Authorization')?.replace('Bearer ', '') || req.cookies.token;
 
-    console.log('Auth middleware - Token from header:', req.header('Authorization') ? 'exists' : 'none');
-    console.log('Auth middleware - Token from cookie:', req.cookies.token ? 'exists' : 'none');
-
     if (!token) {
-      console.log('Auth middleware - No token found');
+      if (isDev) console.log('Auth middleware - No token found');
       return res.status(401).json({ message: 'No token, authorization denied' });
     }
     
@@ -37,16 +36,16 @@ export const auth = async (req: AuthRequest, res: Response, next: NextFunction) 
     const user = await User.findById(decoded.userId).select('-password');
 
     if (!user) {
-      console.log('Auth middleware - User not found for token');
+      if (isDev) console.log('Auth middleware - User not found for token');
       return res.status(401).json({ message: 'Token is not valid' });
     }
 
     if (!user.isActive) {
-      console.log('Auth middleware - User account is deactivated');
+      if (isDev) console.log('Auth middleware - User account is deactivated');
       return res.status(401).json({ message: 'Account is deactivated' });
     }
 
-    console.log('Auth middleware - User authenticated:', user.email, 'Role:', user.role);
+    if (isDev) console.log('Auth middleware - User authenticated:', user.email, 'Role:', user.role);
     req.user = user;
     next();
   } catch (error) {

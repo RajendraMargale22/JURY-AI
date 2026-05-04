@@ -1,11 +1,11 @@
 {
   "summary": {
     "cases": 120,
-    "risk_level_accuracy": 0.3333,
-    "missing_clause_precision": 0.5,
-    "missing_clause_recall": 0.4722,
-    "key_clause_precision": 0.4792,
-    "key_clause_recall": 0.5
+    "risk_level_accuracy": 1.0,
+    "missing_clause_precision": 1.0,
+    "missing_clause_recall": 0.875,
+    "key_clause_precision": 0.8611,
+    "key_clause_recall": 1.0
   },
   "details": [
     {
@@ -451,522 +451,882 @@
     {
       "id": "medium-001",
       "risk_expected": "medium",
-      "risk_actual": "low",
-      "risk_match": false,
+      "risk_actual": "medium",
+      "risk_match": true,
       "missing_precision": 1.0,
       "missing_recall": 1.0,
       "key_precision": 1.0,
       "key_recall": 1.0,
-      "risk_score": 15
+      "risk_score": 30
     },
     {
       "id": "medium-002",
       "risk_expected": "medium",
-      "risk_actual": "low",
-      "risk_match": false,
+      "risk_actual": "medium",
+      "risk_match": true,
       "missing_precision": 1.0,
-      "missing_recall": 0.6667,
-      "key_precision": 0.75,
+      "missing_recall": 1.0,
+      "key_precision": 1.0,
       "key_recall": 1.0,
-      "risk_score": 15
+      "risk_score": 30
     },
     {
       "id": "medium-003",
       "risk_expected": "medium",
-      "risk_actual": "low",
-      "risk_match": false,
+      "risk_actual": "medium",
+      "risk_match": true,
       "missing_precision": 1.0,
-      "missing_recall": 0.6667,
-      "key_precision": 0.75,
+      "missing_recall": 1.0,
+      "key_precision": 1.0,
       "key_recall": 1.0,
-      "risk_score": 15
+      "risk_score": 30
     },
     {
       "id": "medium-004",
       "risk_expected": "medium",
-      "risk_actual": "low",
-      "risk_match": false,
+      "risk_actual": "medium",
+      "risk_match": true,
       "missing_precision": 1.0,
       "missing_recall": 1.0,
       "key_precision": 1.0,
       "key_recall": 1.0,
-      "risk_score": 15
+      "risk_score": 30
     },
     {
       "id": "medium-005",
       "risk_expected": "medium",
-      "risk_actual": "low",
-      "risk_match": false,
+      "risk_actual": "medium",
+      "risk_match": true,
       "missing_precision": 1.0,
       "missing_recall": 1.0,
       "key_precision": 1.0,
       "key_recall": 1.0,
-      "risk_score": 15
+      "risk_score": 30
     },
     {
       "id": "medium-006",
       "risk_expected": "medium",
-      "risk_actual": "low",
-      "risk_match": false,
+      "risk_actual": "medium",
+      "risk_match": true,
       "missing_precision": 1.0,
-      "missing_recall": 0.6667,
-      "key_precision": 0.75,
+      "missing_recall": 1.0,
+      "key_precision": 1.0,
       "key_recall": 1.0,
-      "risk_score": 15
+      "risk_score": 30
     },
     {
       "id": "medium-007",
       "risk_expected": "medium",
-      "risk_actual": "low",
-      "risk_match": false,
+      "risk_actual": "medium",
+      "risk_match": true,
       "missing_precision": 1.0,
-      "missing_recall": 0.6667,
-      "key_precision": 0.75,
+      "missing_recall": 1.0,
+      "key_precision": 1.0,
       "key_recall": 1.0,
-      "risk_score": 15
+      "risk_score": 30
     },
     {
       "id": "medium-008",
       "risk_expected": "medium",
-      "risk_actual": "low",
-      "risk_match": false,
+      "risk_actual": "medium",
+      "risk_match": true,
       "missing_precision": 1.0,
       "missing_recall": 1.0,
       "key_precision": 1.0,
       "key_recall": 1.0,
-      "risk_score": 15
+      "risk_score": 30
     },
     {
       "id": "medium-009",
       "risk_expected": "medium",
-      "risk_actual": "low",
-      "risk_match": false,
+      "risk_actual": "medium",
+      "risk_match": true,
       "missing_precision": 1.0,
       "missing_recall": 1.0,
       "key_precision": 1.0,
       "key_recall": 1.0,
-      "risk_score": 15
+      "risk_score": 30
     },
     {
       "id": "medium-010",
       "risk_expected": "medium",
-      "risk_actual": "low",
-      "risk_match": false,
+      "risk_actual": "medium",
+      "risk_match": true,
       "missing_precision": 1.0,
-      "missing_recall": 0.6667,
-      "key_precision": 0.75,
+      "missing_recall": 1.0,
+      "key_precision": 1.0,
       "key_recall": 1.0,
-      "risk_score": 15
+      "risk_score": 30
     },
     {
       "id": "medium-011",
       "risk_expected": "medium",
-      "risk_actual": "low",
-      "risk_match": false,
+      "risk_actual": "medium",
+      "risk_match": true,
       "missing_precision": 1.0,
-      "missing_recall": 0.6667,
-      "key_precision": 0.75,
+      "missing_recall": 1.0,
+      "key_precision": 1.0,
       "key_recall": 1.0,
-      "risk_score": 15
+      "risk_score": 30
     },
     {
       "id": "medium-012",
       "risk_expected": "medium",
-      "risk_actual": "low",
-      "risk_match": false,
+      "risk_actual": "medium",
+      "risk_match": true,
       "missing_precision": 1.0,
       "missing_recall": 1.0,
       "key_precision": 1.0,
       "key_recall": 1.0,
-      "risk_score": 15
+      "risk_score": 30
     },
     {
       "id": "medium-013",
       "risk_expected": "medium",
-      "risk_actual": "low",
-      "risk_match": false,
+      "risk_actual": "medium",
+      "risk_match": true,
       "missing_precision": 1.0,
       "missing_recall": 1.0,
       "key_precision": 1.0,
       "key_recall": 1.0,
-      "risk_score": 15
+      "risk_score": 30
     },
     {
       "id": "medium-014",
       "risk_expected": "medium",
-      "risk_actual": "low",
-      "risk_match": false,
+      "risk_actual": "medium",
+      "risk_match": true,
       "missing_precision": 1.0,
-      "missing_recall": 0.6667,
-      "key_precision": 0.75,
+      "missing_recall": 1.0,
+      "key_precision": 1.0,
       "key_recall": 1.0,
-      "risk_score": 15
+      "risk_score": 30
     },
     {
       "id": "medium-015",
       "risk_expected": "medium",
-      "risk_actual": "low",
-      "risk_match": false,
+      "risk_actual": "medium",
+      "risk_match": true,
       "missing_precision": 1.0,
-      "missing_recall": 0.6667,
-      "key_precision": 0.75,
+      "missing_recall": 1.0,
+      "key_precision": 1.0,
       "key_recall": 1.0,
-      "risk_score": 15
+      "risk_score": 30
     },
     {
       "id": "medium-016",
       "risk_expected": "medium",
-      "risk_actual": "low",
-      "risk_match": false,
+      "risk_actual": "medium",
+      "risk_match": true,
       "missing_precision": 1.0,
       "missing_recall": 1.0,
       "key_precision": 1.0,
       "key_recall": 1.0,
-      "risk_score": 15
+      "risk_score": 30
     },
     {
       "id": "medium-017",
       "risk_expected": "medium",
-      "risk_actual": "low",
-      "risk_match": false,
+      "risk_actual": "medium",
+      "risk_match": true,
       "missing_precision": 1.0,
       "missing_recall": 1.0,
       "key_precision": 1.0,
       "key_recall": 1.0,
-      "risk_score": 15
+      "risk_score": 30
     },
     {
       "id": "medium-018",
       "risk_expected": "medium",
-      "risk_actual": "low",
-      "risk_match": false,
-      "missing_precision": 1.0,
-      "missing_recall": 0.6667,
-      "key_precision": 0.75,
-      "key_recall": 1.0,
-      "risk_score": 15
-    },
-    {
-      "id": "medium-019",
-      "risk_expected": "medium",
-      "risk_actual": "low",
-      "risk_match": false,
-      "missing_precision": 1.0,
-      "missing_recall": 0.6667,
-      "key_precision": 0.75,
-      "key_recall": 1.0,
-      "risk_score": 15
-    },
-    {
-      "id": "medium-020",
-      "risk_expected": "medium",
-      "risk_actual": "low",
-      "risk_match": false,
+      "risk_actual": "medium",
+      "risk_match": true,
       "missing_precision": 1.0,
       "missing_recall": 1.0,
       "key_precision": 1.0,
       "key_recall": 1.0,
-      "risk_score": 15
+      "risk_score": 30
+    },
+    {
+      "id": "medium-019",
+      "risk_expected": "medium",
+      "risk_actual": "medium",
+      "risk_match": true,
+      "missing_precision": 1.0,
+      "missing_recall": 1.0,
+      "key_precision": 1.0,
+      "key_recall": 1.0,
+      "risk_score": 30
+    },
+    {
+      "id": "medium-020",
+      "risk_expected": "medium",
+      "risk_actual": "medium",
+      "risk_match": true,
+      "missing_precision": 1.0,
+      "missing_recall": 1.0,
+      "key_precision": 1.0,
+      "key_recall": 1.0,
+      "risk_score": 30
     },
     {
       "id": "medium-021",
-      "status": 429,
-      "error": "{\"detail\":\"Rate limit exceeded\"}"
+      "risk_expected": "medium",
+      "risk_actual": "medium",
+      "risk_match": true,
+      "missing_precision": 1.0,
+      "missing_recall": 1.0,
+      "key_precision": 1.0,
+      "key_recall": 1.0,
+      "risk_score": 30
     },
     {
       "id": "medium-022",
-      "status": 429,
-      "error": "{\"detail\":\"Rate limit exceeded\"}"
+      "risk_expected": "medium",
+      "risk_actual": "medium",
+      "risk_match": true,
+      "missing_precision": 1.0,
+      "missing_recall": 1.0,
+      "key_precision": 1.0,
+      "key_recall": 1.0,
+      "risk_score": 30
     },
     {
       "id": "medium-023",
-      "status": 429,
-      "error": "{\"detail\":\"Rate limit exceeded\"}"
+      "risk_expected": "medium",
+      "risk_actual": "medium",
+      "risk_match": true,
+      "missing_precision": 1.0,
+      "missing_recall": 1.0,
+      "key_precision": 1.0,
+      "key_recall": 1.0,
+      "risk_score": 30
     },
     {
       "id": "medium-024",
-      "status": 429,
-      "error": "{\"detail\":\"Rate limit exceeded\"}"
+      "risk_expected": "medium",
+      "risk_actual": "medium",
+      "risk_match": true,
+      "missing_precision": 1.0,
+      "missing_recall": 1.0,
+      "key_precision": 1.0,
+      "key_recall": 1.0,
+      "risk_score": 30
     },
     {
       "id": "medium-025",
-      "status": 429,
-      "error": "{\"detail\":\"Rate limit exceeded\"}"
+      "risk_expected": "medium",
+      "risk_actual": "medium",
+      "risk_match": true,
+      "missing_precision": 1.0,
+      "missing_recall": 1.0,
+      "key_precision": 1.0,
+      "key_recall": 1.0,
+      "risk_score": 30
     },
     {
       "id": "medium-026",
-      "status": 429,
-      "error": "{\"detail\":\"Rate limit exceeded\"}"
+      "risk_expected": "medium",
+      "risk_actual": "medium",
+      "risk_match": true,
+      "missing_precision": 1.0,
+      "missing_recall": 1.0,
+      "key_precision": 1.0,
+      "key_recall": 1.0,
+      "risk_score": 30
     },
     {
       "id": "medium-027",
-      "status": 429,
-      "error": "{\"detail\":\"Rate limit exceeded\"}"
+      "risk_expected": "medium",
+      "risk_actual": "medium",
+      "risk_match": true,
+      "missing_precision": 1.0,
+      "missing_recall": 1.0,
+      "key_precision": 1.0,
+      "key_recall": 1.0,
+      "risk_score": 30
     },
     {
       "id": "medium-028",
-      "status": 429,
-      "error": "{\"detail\":\"Rate limit exceeded\"}"
+      "risk_expected": "medium",
+      "risk_actual": "medium",
+      "risk_match": true,
+      "missing_precision": 1.0,
+      "missing_recall": 1.0,
+      "key_precision": 1.0,
+      "key_recall": 1.0,
+      "risk_score": 30
     },
     {
       "id": "medium-029",
-      "status": 429,
-      "error": "{\"detail\":\"Rate limit exceeded\"}"
+      "risk_expected": "medium",
+      "risk_actual": "medium",
+      "risk_match": true,
+      "missing_precision": 1.0,
+      "missing_recall": 1.0,
+      "key_precision": 1.0,
+      "key_recall": 1.0,
+      "risk_score": 30
     },
     {
       "id": "medium-030",
-      "status": 429,
-      "error": "{\"detail\":\"Rate limit exceeded\"}"
+      "risk_expected": "medium",
+      "risk_actual": "medium",
+      "risk_match": true,
+      "missing_precision": 1.0,
+      "missing_recall": 1.0,
+      "key_precision": 1.0,
+      "key_recall": 1.0,
+      "risk_score": 30
     },
     {
       "id": "medium-031",
-      "status": 429,
-      "error": "{\"detail\":\"Rate limit exceeded\"}"
+      "risk_expected": "medium",
+      "risk_actual": "medium",
+      "risk_match": true,
+      "missing_precision": 1.0,
+      "missing_recall": 1.0,
+      "key_precision": 1.0,
+      "key_recall": 1.0,
+      "risk_score": 30
     },
     {
       "id": "medium-032",
-      "status": 429,
-      "error": "{\"detail\":\"Rate limit exceeded\"}"
+      "risk_expected": "medium",
+      "risk_actual": "medium",
+      "risk_match": true,
+      "missing_precision": 1.0,
+      "missing_recall": 1.0,
+      "key_precision": 1.0,
+      "key_recall": 1.0,
+      "risk_score": 30
     },
     {
       "id": "medium-033",
-      "status": 429,
-      "error": "{\"detail\":\"Rate limit exceeded\"}"
+      "risk_expected": "medium",
+      "risk_actual": "medium",
+      "risk_match": true,
+      "missing_precision": 1.0,
+      "missing_recall": 1.0,
+      "key_precision": 1.0,
+      "key_recall": 1.0,
+      "risk_score": 30
     },
     {
       "id": "medium-034",
-      "status": 429,
-      "error": "{\"detail\":\"Rate limit exceeded\"}"
+      "risk_expected": "medium",
+      "risk_actual": "medium",
+      "risk_match": true,
+      "missing_precision": 1.0,
+      "missing_recall": 1.0,
+      "key_precision": 1.0,
+      "key_recall": 1.0,
+      "risk_score": 30
     },
     {
       "id": "medium-035",
-      "status": 429,
-      "error": "{\"detail\":\"Rate limit exceeded\"}"
+      "risk_expected": "medium",
+      "risk_actual": "medium",
+      "risk_match": true,
+      "missing_precision": 1.0,
+      "missing_recall": 1.0,
+      "key_precision": 1.0,
+      "key_recall": 1.0,
+      "risk_score": 30
     },
     {
       "id": "medium-036",
-      "status": 429,
-      "error": "{\"detail\":\"Rate limit exceeded\"}"
+      "risk_expected": "medium",
+      "risk_actual": "medium",
+      "risk_match": true,
+      "missing_precision": 1.0,
+      "missing_recall": 1.0,
+      "key_precision": 1.0,
+      "key_recall": 1.0,
+      "risk_score": 30
     },
     {
       "id": "medium-037",
-      "status": 429,
-      "error": "{\"detail\":\"Rate limit exceeded\"}"
+      "risk_expected": "medium",
+      "risk_actual": "medium",
+      "risk_match": true,
+      "missing_precision": 1.0,
+      "missing_recall": 1.0,
+      "key_precision": 1.0,
+      "key_recall": 1.0,
+      "risk_score": 30
     },
     {
       "id": "medium-038",
-      "status": 429,
-      "error": "{\"detail\":\"Rate limit exceeded\"}"
+      "risk_expected": "medium",
+      "risk_actual": "medium",
+      "risk_match": true,
+      "missing_precision": 1.0,
+      "missing_recall": 1.0,
+      "key_precision": 1.0,
+      "key_recall": 1.0,
+      "risk_score": 30
     },
     {
       "id": "medium-039",
-      "status": 429,
-      "error": "{\"detail\":\"Rate limit exceeded\"}"
+      "risk_expected": "medium",
+      "risk_actual": "medium",
+      "risk_match": true,
+      "missing_precision": 1.0,
+      "missing_recall": 1.0,
+      "key_precision": 1.0,
+      "key_recall": 1.0,
+      "risk_score": 30
     },
     {
       "id": "medium-040",
-      "status": 429,
-      "error": "{\"detail\":\"Rate limit exceeded\"}"
+      "risk_expected": "medium",
+      "risk_actual": "medium",
+      "risk_match": true,
+      "missing_precision": 1.0,
+      "missing_recall": 1.0,
+      "key_precision": 1.0,
+      "key_recall": 1.0,
+      "risk_score": 30
     },
     {
       "id": "high-001",
-      "status": 429,
-      "error": "{\"detail\":\"Rate limit exceeded\"}"
+      "risk_expected": "high",
+      "risk_actual": "high",
+      "risk_match": true,
+      "missing_precision": 1.0,
+      "missing_recall": 0.5,
+      "key_precision": 0.5,
+      "key_recall": 1.0,
+      "risk_score": 56
     },
     {
       "id": "high-002",
-      "status": 429,
-      "error": "{\"detail\":\"Rate limit exceeded\"}"
+      "risk_expected": "high",
+      "risk_actual": "high",
+      "risk_match": true,
+      "missing_precision": 1.0,
+      "missing_recall": 0.75,
+      "key_precision": 0.6667,
+      "key_recall": 1.0,
+      "risk_score": 61
     },
     {
       "id": "high-003",
-      "status": 429,
-      "error": "{\"detail\":\"Rate limit exceeded\"}"
+      "risk_expected": "high",
+      "risk_actual": "high",
+      "risk_match": true,
+      "missing_precision": 1.0,
+      "missing_recall": 0.75,
+      "key_precision": 0.6667,
+      "key_recall": 1.0,
+      "risk_score": 69
     },
     {
       "id": "high-004",
-      "status": 429,
-      "error": "{\"detail\":\"Rate limit exceeded\"}"
+      "risk_expected": "high",
+      "risk_actual": "high",
+      "risk_match": true,
+      "missing_precision": 1.0,
+      "missing_recall": 0.5,
+      "key_precision": 0.5,
+      "key_recall": 1.0,
+      "risk_score": 56
     },
     {
       "id": "high-005",
-      "status": 429,
-      "error": "{\"detail\":\"Rate limit exceeded\"}"
+      "risk_expected": "high",
+      "risk_actual": "high",
+      "risk_match": true,
+      "missing_precision": 1.0,
+      "missing_recall": 0.5,
+      "key_precision": 0.5,
+      "key_recall": 1.0,
+      "risk_score": 56
     },
     {
       "id": "high-006",
-      "status": 429,
-      "error": "{\"detail\":\"Rate limit exceeded\"}"
+      "risk_expected": "high",
+      "risk_actual": "high",
+      "risk_match": true,
+      "missing_precision": 1.0,
+      "missing_recall": 0.75,
+      "key_precision": 0.6667,
+      "key_recall": 1.0,
+      "risk_score": 61
     },
     {
       "id": "high-007",
-      "status": 429,
-      "error": "{\"detail\":\"Rate limit exceeded\"}"
+      "risk_expected": "high",
+      "risk_actual": "high",
+      "risk_match": true,
+      "missing_precision": 1.0,
+      "missing_recall": 0.75,
+      "key_precision": 0.6667,
+      "key_recall": 1.0,
+      "risk_score": 69
     },
     {
       "id": "high-008",
-      "status": 429,
-      "error": "{\"detail\":\"Rate limit exceeded\"}"
+      "risk_expected": "high",
+      "risk_actual": "high",
+      "risk_match": true,
+      "missing_precision": 1.0,
+      "missing_recall": 0.5,
+      "key_precision": 0.5,
+      "key_recall": 1.0,
+      "risk_score": 56
     },
     {
       "id": "high-009",
-      "status": 429,
-      "error": "{\"detail\":\"Rate limit exceeded\"}"
+      "risk_expected": "high",
+      "risk_actual": "high",
+      "risk_match": true,
+      "missing_precision": 1.0,
+      "missing_recall": 0.5,
+      "key_precision": 0.5,
+      "key_recall": 1.0,
+      "risk_score": 56
     },
     {
       "id": "high-010",
-      "status": 429,
-      "error": "{\"detail\":\"Rate limit exceeded\"}"
+      "risk_expected": "high",
+      "risk_actual": "high",
+      "risk_match": true,
+      "missing_precision": 1.0,
+      "missing_recall": 0.75,
+      "key_precision": 0.6667,
+      "key_recall": 1.0,
+      "risk_score": 61
     },
     {
       "id": "high-011",
-      "status": 429,
-      "error": "{\"detail\":\"Rate limit exceeded\"}"
+      "risk_expected": "high",
+      "risk_actual": "high",
+      "risk_match": true,
+      "missing_precision": 1.0,
+      "missing_recall": 0.75,
+      "key_precision": 0.6667,
+      "key_recall": 1.0,
+      "risk_score": 69
     },
     {
       "id": "high-012",
-      "status": 429,
-      "error": "{\"detail\":\"Rate limit exceeded\"}"
+      "risk_expected": "high",
+      "risk_actual": "high",
+      "risk_match": true,
+      "missing_precision": 1.0,
+      "missing_recall": 0.5,
+      "key_precision": 0.5,
+      "key_recall": 1.0,
+      "risk_score": 56
     },
     {
       "id": "high-013",
-      "status": 429,
-      "error": "{\"detail\":\"Rate limit exceeded\"}"
+      "risk_expected": "high",
+      "risk_actual": "high",
+      "risk_match": true,
+      "missing_precision": 1.0,
+      "missing_recall": 0.5,
+      "key_precision": 0.5,
+      "key_recall": 1.0,
+      "risk_score": 56
     },
     {
       "id": "high-014",
-      "status": 429,
-      "error": "{\"detail\":\"Rate limit exceeded\"}"
+      "risk_expected": "high",
+      "risk_actual": "high",
+      "risk_match": true,
+      "missing_precision": 1.0,
+      "missing_recall": 0.75,
+      "key_precision": 0.6667,
+      "key_recall": 1.0,
+      "risk_score": 61
     },
     {
       "id": "high-015",
-      "status": 429,
-      "error": "{\"detail\":\"Rate limit exceeded\"}"
+      "risk_expected": "high",
+      "risk_actual": "high",
+      "risk_match": true,
+      "missing_precision": 1.0,
+      "missing_recall": 0.75,
+      "key_precision": 0.6667,
+      "key_recall": 1.0,
+      "risk_score": 69
     },
     {
       "id": "high-016",
-      "status": 429,
-      "error": "{\"detail\":\"Rate limit exceeded\"}"
+      "risk_expected": "high",
+      "risk_actual": "high",
+      "risk_match": true,
+      "missing_precision": 1.0,
+      "missing_recall": 0.5,
+      "key_precision": 0.5,
+      "key_recall": 1.0,
+      "risk_score": 56
     },
     {
       "id": "high-017",
-      "status": 429,
-      "error": "{\"detail\":\"Rate limit exceeded\"}"
+      "risk_expected": "high",
+      "risk_actual": "high",
+      "risk_match": true,
+      "missing_precision": 1.0,
+      "missing_recall": 0.5,
+      "key_precision": 0.5,
+      "key_recall": 1.0,
+      "risk_score": 56
     },
     {
       "id": "high-018",
-      "status": 429,
-      "error": "{\"detail\":\"Rate limit exceeded\"}"
+      "risk_expected": "high",
+      "risk_actual": "high",
+      "risk_match": true,
+      "missing_precision": 1.0,
+      "missing_recall": 0.75,
+      "key_precision": 0.6667,
+      "key_recall": 1.0,
+      "risk_score": 61
     },
     {
       "id": "high-019",
-      "status": 429,
-      "error": "{\"detail\":\"Rate limit exceeded\"}"
+      "risk_expected": "high",
+      "risk_actual": "high",
+      "risk_match": true,
+      "missing_precision": 1.0,
+      "missing_recall": 0.75,
+      "key_precision": 0.6667,
+      "key_recall": 1.0,
+      "risk_score": 69
     },
     {
       "id": "high-020",
-      "status": 429,
-      "error": "{\"detail\":\"Rate limit exceeded\"}"
+      "risk_expected": "high",
+      "risk_actual": "high",
+      "risk_match": true,
+      "missing_precision": 1.0,
+      "missing_recall": 0.5,
+      "key_precision": 0.5,
+      "key_recall": 1.0,
+      "risk_score": 56
     },
     {
       "id": "high-021",
-      "status": 429,
-      "error": "{\"detail\":\"Rate limit exceeded\"}"
+      "risk_expected": "high",
+      "risk_actual": "high",
+      "risk_match": true,
+      "missing_precision": 1.0,
+      "missing_recall": 0.5,
+      "key_precision": 0.5,
+      "key_recall": 1.0,
+      "risk_score": 56
     },
     {
       "id": "high-022",
-      "status": 429,
-      "error": "{\"detail\":\"Rate limit exceeded\"}"
+      "risk_expected": "high",
+      "risk_actual": "high",
+      "risk_match": true,
+      "missing_precision": 1.0,
+      "missing_recall": 0.75,
+      "key_precision": 0.6667,
+      "key_recall": 1.0,
+      "risk_score": 61
     },
     {
       "id": "high-023",
-      "status": 429,
-      "error": "{\"detail\":\"Rate limit exceeded\"}"
+      "risk_expected": "high",
+      "risk_actual": "high",
+      "risk_match": true,
+      "missing_precision": 1.0,
+      "missing_recall": 0.75,
+      "key_precision": 0.6667,
+      "key_recall": 1.0,
+      "risk_score": 69
     },
     {
       "id": "high-024",
-      "status": 429,
-      "error": "{\"detail\":\"Rate limit exceeded\"}"
+      "risk_expected": "high",
+      "risk_actual": "high",
+      "risk_match": true,
+      "missing_precision": 1.0,
+      "missing_recall": 0.5,
+      "key_precision": 0.5,
+      "key_recall": 1.0,
+      "risk_score": 56
     },
     {
       "id": "high-025",
-      "status": 429,
-      "error": "{\"detail\":\"Rate limit exceeded\"}"
+      "risk_expected": "high",
+      "risk_actual": "high",
+      "risk_match": true,
+      "missing_precision": 1.0,
+      "missing_recall": 0.5,
+      "key_precision": 0.5,
+      "key_recall": 1.0,
+      "risk_score": 56
     },
     {
       "id": "high-026",
-      "status": 429,
-      "error": "{\"detail\":\"Rate limit exceeded\"}"
+      "risk_expected": "high",
+      "risk_actual": "high",
+      "risk_match": true,
+      "missing_precision": 1.0,
+      "missing_recall": 0.75,
+      "key_precision": 0.6667,
+      "key_recall": 1.0,
+      "risk_score": 61
     },
     {
       "id": "high-027",
-      "status": 429,
-      "error": "{\"detail\":\"Rate limit exceeded\"}"
+      "risk_expected": "high",
+      "risk_actual": "high",
+      "risk_match": true,
+      "missing_precision": 1.0,
+      "missing_recall": 0.75,
+      "key_precision": 0.6667,
+      "key_recall": 1.0,
+      "risk_score": 69
     },
     {
       "id": "high-028",
-      "status": 429,
-      "error": "{\"detail\":\"Rate limit exceeded\"}"
+      "risk_expected": "high",
+      "risk_actual": "high",
+      "risk_match": true,
+      "missing_precision": 1.0,
+      "missing_recall": 0.5,
+      "key_precision": 0.5,
+      "key_recall": 1.0,
+      "risk_score": 56
     },
     {
       "id": "high-029",
-      "status": 429,
-      "error": "{\"detail\":\"Rate limit exceeded\"}"
+      "risk_expected": "high",
+      "risk_actual": "high",
+      "risk_match": true,
+      "missing_precision": 1.0,
+      "missing_recall": 0.5,
+      "key_precision": 0.5,
+      "key_recall": 1.0,
+      "risk_score": 56
     },
     {
       "id": "high-030",
-      "status": 429,
-      "error": "{\"detail\":\"Rate limit exceeded\"}"
+      "risk_expected": "high",
+      "risk_actual": "high",
+      "risk_match": true,
+      "missing_precision": 1.0,
+      "missing_recall": 0.75,
+      "key_precision": 0.6667,
+      "key_recall": 1.0,
+      "risk_score": 61
     },
     {
       "id": "high-031",
-      "status": 429,
-      "error": "{\"detail\":\"Rate limit exceeded\"}"
+      "risk_expected": "high",
+      "risk_actual": "high",
+      "risk_match": true,
+      "missing_precision": 1.0,
+      "missing_recall": 0.75,
+      "key_precision": 0.6667,
+      "key_recall": 1.0,
+      "risk_score": 69
     },
     {
       "id": "high-032",
-      "status": 429,
-      "error": "{\"detail\":\"Rate limit exceeded\"}"
+      "risk_expected": "high",
+      "risk_actual": "high",
+      "risk_match": true,
+      "missing_precision": 1.0,
+      "missing_recall": 0.5,
+      "key_precision": 0.5,
+      "key_recall": 1.0,
+      "risk_score": 56
     },
     {
       "id": "high-033",
-      "status": 429,
-      "error": "{\"detail\":\"Rate limit exceeded\"}"
+      "risk_expected": "high",
+      "risk_actual": "high",
+      "risk_match": true,
+      "missing_precision": 1.0,
+      "missing_recall": 0.5,
+      "key_precision": 0.5,
+      "key_recall": 1.0,
+      "risk_score": 56
     },
     {
       "id": "high-034",
-      "status": 429,
-      "error": "{\"detail\":\"Rate limit exceeded\"}"
+      "risk_expected": "high",
+      "risk_actual": "high",
+      "risk_match": true,
+      "missing_precision": 1.0,
+      "missing_recall": 0.75,
+      "key_precision": 0.6667,
+      "key_recall": 1.0,
+      "risk_score": 61
     },
     {
       "id": "high-035",
-      "status": 429,
-      "error": "{\"detail\":\"Rate limit exceeded\"}"
+      "risk_expected": "high",
+      "risk_actual": "high",
+      "risk_match": true,
+      "missing_precision": 1.0,
+      "missing_recall": 0.75,
+      "key_precision": 0.6667,
+      "key_recall": 1.0,
+      "risk_score": 69
     },
     {
       "id": "high-036",
-      "status": 429,
-      "error": "{\"detail\":\"Rate limit exceeded\"}"
+      "risk_expected": "high",
+      "risk_actual": "high",
+      "risk_match": true,
+      "missing_precision": 1.0,
+      "missing_recall": 0.5,
+      "key_precision": 0.5,
+      "key_recall": 1.0,
+      "risk_score": 56
     },
     {
       "id": "high-037",
-      "status": 429,
-      "error": "{\"detail\":\"Rate limit exceeded\"}"
+      "risk_expected": "high",
+      "risk_actual": "high",
+      "risk_match": true,
+      "missing_precision": 1.0,
+      "missing_recall": 0.5,
+      "key_precision": 0.5,
+      "key_recall": 1.0,
+      "risk_score": 56
     },
     {
       "id": "high-038",
-      "status": 429,
-      "error": "{\"detail\":\"Rate limit exceeded\"}"
+      "risk_expected": "high",
+      "risk_actual": "high",
+      "risk_match": true,
+      "missing_precision": 1.0,
+      "missing_recall": 0.75,
+      "key_precision": 0.6667,
+      "key_recall": 1.0,
+      "risk_score": 61
     },
     {
       "id": "high-039",
-      "status": 429,
-      "error": "{\"detail\":\"Rate limit exceeded\"}"
+      "risk_expected": "high",
+      "risk_actual": "high",
+      "risk_match": true,
+      "missing_precision": 1.0,
+      "missing_recall": 0.75,
+      "key_precision": 0.6667,
+      "key_recall": 1.0,
+      "risk_score": 69
     },
     {
       "id": "high-040",
-      "status": 429,
-      "error": "{\"detail\":\"Rate limit exceeded\"}"
+      "risk_expected": "high",
+      "risk_actual": "high",
+      "risk_match": true,
+      "missing_precision": 1.0,
+      "missing_recall": 0.5,
+      "key_precision": 0.5,
+      "key_recall": 1.0,
+      "risk_score": 56
     }
   ]
 }

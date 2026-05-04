@@ -10,7 +10,7 @@ RUN pip install --no-cache-dir -r requirements.txt
 
 COPY . .
 
-ENV CORS_ORIGINS="https://jury-ai-production.up.railway.app"
+ENV CORS_ORIGINS="http://localhost:3000,https://jury-ai-production.up.railway.app"
 ENV RATE_LIMIT_WINDOW_SECONDS=60
 ENV RATE_LIMIT_MAX_REQUESTS=120
 ENV MAX_UPLOAD_BYTES=10485760

@@ -11,21 +11,22 @@ POST http://localhost:8000/ask/ net::ERR_CONNECTION_REFUSED
 
 ## ✅ Solution: Start All Services
 
+Use **Windows PowerShell** in `c:\Users\adity\Downloads\JURY-AI`. MongoDB Atlas is already configured in `jury-ai-app/backend/.env`, so you do **not** need a local MongoDB service.
+
 You need to start **4 services** in **4 separate terminal windows**:
 
 ### **Terminal 1: Python Chatbot Backend (Port 8000)**
 
-```bash
-cd /home/aditya/Downloads/JURY-AI-main/chatbot-backend
-./start.sh
+```powershell
+cd "c:\Users\adity\Downloads\JURY-AI"
+if (-not (Test-Path .venv)) { python -m venv .venv }
+.\.venv\Scripts\python -m pip install --upgrade pip
+.\.venv\Scripts\python -m pip install -r chatbot-backend\requirements.txt -r contract-review-backend\requirements.txt
+Set-Location "c:\Users\adity\Downloads\JURY-AI\chatbot-backend"
+& "c:\Users\adity\Downloads\JURY-AI\.venv\Scripts\python.exe" -m uvicorn main:app --host 0.0.0.0 --port 8000 --reload
 ```
 
-**OR manually:**
-```bash
-cd /home/aditya/Downloads/JURY-AI-main/chatbot-backend
-source venv/bin/activate
-uvicorn main:app --host 0.0.0.0 --port 8000 --reload
-```
+This backend now reads `MONGODB_URI` from `jury-ai-app/backend/.env` automatically.
 
 **You should see:**
 ```
@@ -40,8 +41,9 @@ INFO:     Application startup complete.
 
 ### **Terminal 2: Node.js Backend (Port 5000)**
 
-```bash
-cd /home/aditya/Downloads/JURY-AI-main/jury-ai-app/backend
+```powershell
+Set-Location "c:\Users\adity\Downloads\JURY-AI\jury-ai-app\backend"
+npm run build
 npm start
 ```
 
@@ -49,15 +51,15 @@ npm start
 ```
 🚀 Server running on port 5000
 📱 Environment: development
-✅ MongoDB Connected: localhost
+✅ MongoDB Connected: ac-9nlywco-shard-00-00.jw8jtuu.mongodb.net
 ```
 
 ---
 
 ### **Terminal 3: React Frontend (Port 3000)**
 
-```bash
-cd /home/aditya/Downloads/JURY-AI-main/jury-ai-app/frontend
+```powershell
+Set-Location "c:\Users\adity\Downloads\JURY-AI\jury-ai-app\frontend"
 npm start
 ```
 
@@ -75,18 +77,9 @@ You can now view frontend in the browser.
 
 ### **Terminal 4: Contract Review Backend (Port 8001)**
 
-```bash
-cd /home/aditya/Downloads/JURY-AI-main/contract-review-backend
-/home/aditya/Downloads/JURY-AI-main/.venv/bin/pip install -r requirements.txt
-./start.sh
-```
-
-If `.venv` does not exist yet:
-
-```bash
-cd /home/aditya/Downloads/JURY-AI-main
-python3 -m venv .venv
-/home/aditya/Downloads/JURY-AI-main/.venv/bin/pip install -r contract-review-backend/requirements.txt
+```powershell
+Set-Location "c:\Users\adity\Downloads\JURY-AI\contract-review-backend"
+& "c:\Users\adity\Downloads\JURY-AI\.venv\Scripts\python.exe" -m uvicorn main:app --host 0.0.0.0 --port 8001
 ```
 
 **You should see:**
@@ -99,30 +92,38 @@ INFO:     Uvicorn running on http://0.0.0.0:8001 (Press CTRL+C to quit)
 ## 🧪 Testing Each Service
 
 ### Test Python Backend (Port 8000):
-```bash
-curl http://localhost:8000/health/
+```powershell
+Invoke-WebRequest http://localhost:8000/health/ -UseBasicParsing | Select-Object -ExpandProperty Content
 ```
 
 **Expected response:**
 ```json
 {
-  "status": "healthy",
-  "mongodb": "connected",
-  "mongodb_enabled": true
+  "success": true,
+  "message": "Service health fetched",
+  "data": {
+    "status": "healthy",
+    "mongodb": "connected",
+    "mongodb_enabled": true
+  }
 }
 ```
 
 ### Test Node.js Backend (Port 5000):
-```bash
-curl http://localhost:5000/api/health
+```powershell
+Invoke-WebRequest http://localhost:5000/api/health -UseBasicParsing | Select-Object -ExpandProperty Content
 ```
 
 **Expected response:**
 ```json
 {
+  "success": true,
   "status": "OK",
-  "timestamp": "2025-11-01T...",
-  "environment": "development"
+  "data": {
+    "status": "OK",
+    "timestamp": "2026-05-03T...",
+    "environment": "development"
+  }
 }
 ```
 
@@ -130,13 +131,14 @@ curl http://localhost:5000/api/health
 Open browser: http://localhost:3000
 
 ### Test Contract Review Backend (Port 8001):
-```bash
-curl http://localhost:8001/health
+```powershell
+Invoke-WebRequest http://localhost:8001/health -UseBasicParsing | Select-Object -ExpandProperty Content
 ```
 
 **Expected response:**
 ```json
 {
+  "success": true,
   "status": "healthy",
   "service": "contract-review-backend",
   "legacy_loaded": false,
@@ -151,52 +153,42 @@ curl http://localhost:8001/health
 ### Problem: "Port already in use"
 
 **For port 8000:**
-```bash
-lsof -i :8000
-kill -9 <PID>
+```powershell
+netstat -ano | findstr :8000
+taskkill /PID <PID> /F
 ```
 
 **For port 5000:**
-```bash
-lsof -i :5000
-kill -9 <PID>
+```powershell
+netstat -ano | findstr :5000
+taskkill /PID <PID> /F
 ```
 
 **For port 3000:**
-```bash
-lsof -i :3000
-kill -9 <PID>
+```powershell
+netstat -ano | findstr :3000
+taskkill /PID <PID> /F
 ```
 
 **For port 8001:**
-```bash
-lsof -i :8001
-kill -9 <PID>
+```powershell
+netstat -ano | findstr :8001
+taskkill /PID <PID> /F
 ```
 
 ---
 
-### Problem: "MongoDB not running"
+### Problem: "MongoDB Atlas connection failed"
 
-```bash
-# Start MongoDB
-sudo systemctl start mongod
-
-# Check status
-sudo systemctl status mongod
-
-# If not installed
-sudo apt install mongodb
-```
-
----
+No local MongoDB service is required.
+Check the Atlas connection string in `jury-ai-app/backend/.env` and confirm your Atlas IP/network access settings.
 
 ### Problem: Python backend shows errors
 
 **Check logger.py is fixed:**
-```bash
-cd /home/aditya/Downloads/JURY-AI-main/chatbot-backend
-cat logger.py
+```powershell
+Set-Location "c:\Users\adity\Downloads\JURY-AI\chatbot-backend"
+Get-Content logger.py
 ```
 
 Should have:
@@ -212,23 +204,20 @@ logger = loguru_logger
 ### Problem: "Module not found"
 
 **Install Python dependencies:**
-```bash
-cd /home/aditya/Downloads/JURY-AI-main/chatbot-backend
-/home/aditya/Downloads/JURY-AI-main/.venv/bin/pip install -r requirements.txt
-
-cd /home/aditya/Downloads/JURY-AI-main/contract-review-backend
-/home/aditya/Downloads/JURY-AI-main/.venv/bin/pip install -r requirements.txt
+```powershell
+Set-Location "c:\Users\adity\Downloads\JURY-AI"
+.\.venv\Scripts\python -m pip install -r chatbot-backend\requirements.txt -r contract-review-backend\requirements.txt
 ```
 
 If you see `externally-managed-environment`, do not use system `pip`.
-Use `/home/aditya/Downloads/JURY-AI-main/.venv/bin/pip` commands shown above.
+Use `.\.venv\Scripts\python -m pip` commands shown above.
 
 **Install Node.js dependencies:**
-```bash
-cd /home/aditya/Downloads/JURY-AI-main/jury-ai-app/backend
+```powershell
+Set-Location "c:\Users\adity\Downloads\JURY-AI\jury-ai-app\backend"
 npm install
 
-cd /home/aditya/Downloads/JURY-AI-main/jury-ai-app/frontend
+Set-Location "c:\Users\adity\Downloads\JURY-AI\jury-ai-app\frontend"
 npm install
 ```
 
@@ -236,14 +225,14 @@ npm install
 
 ## 📋 Quick Start Checklist
 
-- [ ] MongoDB is running: `sudo systemctl start mongod`
+- [ ] Atlas connection is configured in `jury-ai-app/backend/.env`
 - [ ] Terminal 1: Python backend started on port 8000
 - [ ] Terminal 2: Node.js backend started on port 5000  
 - [ ] Terminal 3: React frontend started on port 3000
 - [ ] Terminal 4: Contract review backend started on port 8001
-- [ ] Test Python backend: `curl http://localhost:8000/health/`
-- [ ] Test Node backend: `curl http://localhost:5000/api/health`
-- [ ] Test Contract backend: `curl http://localhost:8001/health`
+- [ ] Test Python backend: `Invoke-WebRequest http://localhost:8000/health/ -UseBasicParsing`
+- [ ] Test Node backend: `Invoke-WebRequest http://localhost:5000/api/health -UseBasicParsing`
+- [ ] Test Contract backend: `Invoke-WebRequest http://localhost:8001/health -UseBasicParsing`
 - [ ] Open browser: http://localhost:3000
 - [ ] Try asking a question in the chat
 
@@ -259,14 +248,14 @@ npm install
 | Contract Review API | http://localhost:8001 | Contract document analysis |
 | FastAPI Docs | http://localhost:8000/docs | API documentation |
 | Contract Review Docs | http://localhost:8001/docs | Contract review API docs |
-| MongoDB Compass | mongodb://localhost:27017 | Database GUI |
+| MongoDB Compass | Atlas URI from `jury-ai-app/backend/.env` | Database GUI |
 
 ---
 
 ## 💡 Tips
 
 1. **Keep all 4 terminals open** - Don't close them
-2. **MongoDB must be running** before starting backends
+2. **Atlas must be reachable** and the connection string in `jury-ai-app/backend/.env` must be valid
 3. **Wait for each service to start** before testing
 4. **Check logs** if something fails
 5. **Use CTRL+C** to stop a service (not close terminal)
@@ -275,33 +264,20 @@ npm install
 
 ## 🔧 One-Command Startup (Advanced)
 
-Create this script: `start-all.sh`
+Create this script: `start-all.ps1`
 
-```bash
-#!/bin/bash
+```powershell
+Start-Process powershell -ArgumentList '-NoExit', '-Command', 'Set-Location "c:\Users\adity\Downloads\JURY-AI\chatbot-backend"; & "c:\Users\adity\Downloads\JURY-AI\.venv\Scripts\python.exe" -m uvicorn main:app --host 0.0.0.0 --port 8000 --reload'
+Start-Process powershell -ArgumentList '-NoExit', '-Command', 'Set-Location "c:\Users\adity\Downloads\JURY-AI\jury-ai-app\backend"; npm run build; npm start'
+Start-Process powershell -ArgumentList '-NoExit', '-Command', 'Set-Location "c:\Users\adity\Downloads\JURY-AI\jury-ai-app\frontend"; npm start'
+Start-Process powershell -ArgumentList '-NoExit', '-Command', 'Set-Location "c:\Users\adity\Downloads\JURY-AI\contract-review-backend"; & "c:\Users\adity\Downloads\JURY-AI\.venv\Scripts\python.exe" -m uvicorn main:app --host 0.0.0.0 --port 8001'
 
-# Start MongoDB
-sudo systemctl start mongod
-
-# Terminal 1: Python Backend
-gnome-terminal -- bash -c "cd /home/aditya/Downloads/JURY-AI-main/chatbot-backend && ./start.sh; exec bash"
-
-# Terminal 2: Node.js Backend  
-gnome-terminal -- bash -c "cd /home/aditya/Downloads/JURY-AI-main/jury-ai-app/backend && npm start; exec bash"
-
-# Terminal 3: Frontend
-gnome-terminal -- bash -c "cd /home/aditya/Downloads/JURY-AI-main/jury-ai-app/frontend && npm start; exec bash"
-
-# Terminal 4: Contract Review Backend
-gnome-terminal -- bash -c "cd /home/aditya/Downloads/JURY-AI-main/contract-review-backend && ./start.sh; exec bash"
-
-echo "✅ All services starting in separate terminals!"
+Write-Host "✅ All services starting in separate PowerShell windows!"
 ```
 
 Then run:
-```bash
-chmod +x start-all.sh
-./start-all.sh
+```powershell
+powershell -ExecutionPolicy Bypass -File .\start-all.ps1
 ```
 
 ---

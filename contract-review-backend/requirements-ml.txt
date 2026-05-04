@@ -1,0 +1,9 @@
+torch
+transformers==4.44.2
+tokenizers==0.19.1
+safetensors==0.4.5
+datasets==2.20.0
+scikit-learn==1.5.1
+pandas==2.2.2
+accelerate==0.33.0
+kaggle==1.6.17

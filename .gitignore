@@ -12,9 +12,8 @@ __pycache__/
 *.so
 .Python
 venv/
+.venv/
 chatbot-backend/venv/
-.env
-*.env
 env/
 ENV/
 build/
@@ -52,18 +51,27 @@ fastapi.pid
 # Build outputs
 jury-ai-app/backend/dist/
 jury-ai-app/frontend/build/
+jury-ai-app/frontend/dist/
 
-# Environment variables
+# Environment variables — NEVER commit secrets
 .env
 .env.local
 .env.development.local
 .env.test.local
 .env.production.local
+jury-ai-app/backend/.env
+jury-ai-app/frontend/.env
+jury-ai-app/frontend/.env.development
+jury-ai-app/frontend/.env.production
+chatbot-backend/.env
+contract-review-backend/.env
 
 # Uploads and temporary files
 uploads/
 uploaded_docs/
+uploaded_contracts/
 chatbot-backend/uploaded_docs/
+contract-review-backend/uploaded_contracts/
 jury-ai-app/backend/uploads/
 temp/
 *.tmp
@@ -83,6 +91,6 @@ coverage/
 # Test
 .pytest_cache/
 
-# MongoDB
+# MongoDB backups (keep metadata JSON, exclude large data)
 mongo-data/
-*.json
+

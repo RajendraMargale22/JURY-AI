@@ -202,12 +202,17 @@ const ChatPage: React.FC = () => {
       };
 
       if (currentChat) {
-        const updatedChat = {
-          ...currentChat,
-          messages: [...currentChat.messages, userMessage, aiMessage],
-        };
-        setCurrentChat(updatedChat);
-        updateChatInHistory(updatedChat);
+        setCurrentChat(prev => {
+          if (!prev) return prev;
+          const updated = {
+            ...prev,
+            messages: [...prev.messages, aiMessage],
+          };
+          setChatHistory(hist =>
+            hist.map(chat => chat.id === updated.id ? updated : chat)
+          );
+          return updated;
+        });
       }
     } catch (error) {
       console.error('Error fetching AI response:', error);

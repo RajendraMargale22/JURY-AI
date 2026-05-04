@@ -1,0 +1,16 @@
+@echo off
+echo Starting JURY AI Application Services...
+
+echo Starting Python Chatbot Backend (Port 8000)...
+start "Chatbot Backend" cmd /k "cd /d "%~dp0chatbot-backend" && uvicorn main:app --host 0.0.0.0 --port 8000 --reload"
+
+echo Starting Node.js Backend (Port 5000)...
+start "Node.js Backend" cmd /k "cd /d "%~dp0jury-ai-app\backend" && npm start"
+
+echo Starting React Frontend (Port 3000)...
+start "React Frontend" cmd /k "cd /d "%~dp0jury-ai-app\frontend" && npm start"
+
+echo Starting Contract Review Backend (Port 8001)...
+start "Contract Review Backend" cmd /k "cd /d "%~dp0contract-review-backend" && uvicorn main:app --host 0.0.0.0 --port 8001 --reload"
+
+echo All services started! Check the newly opened windows for logs.

@@ -1,0 +1,19 @@
+{
+  "backend": "sklearn",
+  "task": "risk_classification",
+  "text_col": "clause_text",
+  "label_col": "clause_type",
+  "default_label": "low",
+  "metrics": {
+    "accuracy": 0.8942,
+    "precision": 0.8114,
+    "recall": 0.8103,
+    "f1": 0.8103
+  },
+  "label_map_path": "contract-review-backend/scripts/risk_label_map.legal_contract.json",
+  "classes": [
+    "high",
+    "low",
+    "medium"
+  ]
+}

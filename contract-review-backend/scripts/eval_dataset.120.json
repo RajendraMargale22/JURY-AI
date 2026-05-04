@@ -1326,13 +1326,13 @@
       "risk_level": "high",
       "missing_clauses": [
         "Confidentiality",
-        "Governing Law",
-        "Liability",
-        "Termination"
+        "Governing Law"
       ],
       "key_clauses_found": [
         "Parties",
-        "Payment Terms"
+        "Payment Terms",
+        "Termination",
+        "Liability"
       ]
     }
   },
@@ -1342,14 +1342,14 @@
     "expected": {
       "risk_level": "high",
       "missing_clauses": [
+        "Parties",
         "Payment Terms",
-        "Governing Law",
-        "Liability",
-        "Parties"
+        "Governing Law"
       ],
       "key_clauses_found": [
         "Termination",
-        "Confidentiality"
+        "Confidentiality",
+        "Liability"
       ]
     }
   },
@@ -1361,10 +1361,10 @@
       "missing_clauses": [
         "Parties",
         "Payment Terms",
-        "Confidentiality",
-        "Termination"
+        "Confidentiality"
       ],
       "key_clauses_found": [
+        "Termination",
         "Liability",
         "Governing Law"
       ]
@@ -1377,13 +1377,13 @@
       "risk_level": "high",
       "missing_clauses": [
         "Parties",
-        "Liability",
-        "Termination",
         "Governing Law"
       ],
       "key_clauses_found": [
         "Payment Terms",
-        "Confidentiality"
+        "Termination",
+        "Confidentiality",
+        "Liability"
       ]
     }
   },
@@ -1394,13 +1394,13 @@
       "risk_level": "high",
       "missing_clauses": [
         "Confidentiality",
-        "Governing Law",
-        "Liability",
-        "Termination"
+        "Governing Law"
       ],
       "key_clauses_found": [
         "Parties",
-        "Payment Terms"
+        "Payment Terms",
+        "Termination",
+        "Liability"
       ]
     }
   },
@@ -1410,14 +1410,14 @@
     "expected": {
       "risk_level": "high",
       "missing_clauses": [
+        "Parties",
         "Payment Terms",
-        "Governing Law",
-        "Liability",
-        "Parties"
+        "Governing Law"
       ],
       "key_clauses_found": [
         "Termination",
-        "Confidentiality"
+        "Confidentiality",
+        "Liability"
       ]
     }
   },
@@ -1429,10 +1429,10 @@
       "missing_clauses": [
         "Parties",
         "Payment Terms",
-        "Confidentiality",
-        "Termination"
+        "Confidentiality"
       ],
       "key_clauses_found": [
+        "Termination",
         "Liability",
         "Governing Law"
       ]
@@ -1445,13 +1445,13 @@
       "risk_level": "high",
       "missing_clauses": [
         "Parties",
-        "Liability",
-        "Termination",
         "Governing Law"
       ],
       "key_clauses_found": [
         "Payment Terms",
-        "Confidentiality"
+        "Termination",
+        "Confidentiality",
+        "Liability"
       ]
     }
   },
@@ -1462,13 +1462,13 @@
       "risk_level": "high",
       "missing_clauses": [
         "Confidentiality",
-        "Governing Law",
-        "Liability",
-        "Termination"
+        "Governing Law"
       ],
       "key_clauses_found": [
         "Parties",
-        "Payment Terms"
+        "Payment Terms",
+        "Termination",
+        "Liability"
       ]
     }
   },
@@ -1478,14 +1478,14 @@
     "expected": {
       "risk_level": "high",
       "missing_clauses": [
+        "Parties",
         "Payment Terms",
-        "Governing Law",
-        "Liability",
-        "Parties"
+        "Governing Law"
       ],
       "key_clauses_found": [
         "Termination",
-        "Confidentiality"
+        "Confidentiality",
+        "Liability"
       ]
     }
   },
@@ -1497,10 +1497,10 @@
       "missing_clauses": [
         "Parties",
         "Payment Terms",
-        "Confidentiality",
-        "Termination"
+        "Confidentiality"
       ],
       "key_clauses_found": [
+        "Termination",
         "Liability",
         "Governing Law"
       ]
@@ -1513,13 +1513,13 @@
       "risk_level": "high",
       "missing_clauses": [
         "Parties",
-        "Liability",
-        "Termination",
         "Governing Law"
       ],
       "key_clauses_found": [
         "Payment Terms",
-        "Confidentiality"
+        "Termination",
+        "Confidentiality",
+        "Liability"
       ]
     }
   },
@@ -1530,13 +1530,13 @@
       "risk_level": "high",
       "missing_clauses": [
         "Confidentiality",
-        "Governing Law",
-        "Liability",
-        "Termination"
+        "Governing Law"
       ],
       "key_clauses_found": [
         "Parties",
-        "Payment Terms"
+        "Payment Terms",
+        "Termination",
+        "Liability"
       ]
     }
   },
@@ -1546,14 +1546,14 @@
     "expected": {
       "risk_level": "high",
       "missing_clauses": [
+        "Parties",
         "Payment Terms",
-        "Governing Law",
-        "Liability",
-        "Parties"
+        "Governing Law"
       ],
       "key_clauses_found": [
         "Termination",
-        "Confidentiality"
+        "Confidentiality",
+        "Liability"
       ]
     }
   },
@@ -1565,10 +1565,10 @@
       "missing_clauses": [
         "Parties",
         "Payment Terms",
-        "Confidentiality",
-        "Termination"
+        "Confidentiality"
       ],
       "key_clauses_found": [
+        "Termination",
         "Liability",
         "Governing Law"
       ]
@@ -1581,13 +1581,13 @@
       "risk_level": "high",
       "missing_clauses": [
         "Parties",
-        "Liability",
-        "Termination",
         "Governing Law"
       ],
       "key_clauses_found": [
         "Payment Terms",
-        "Confidentiality"
+        "Termination",
+        "Confidentiality",
+        "Liability"
       ]
     }
   },
@@ -1598,13 +1598,13 @@
       "risk_level": "high",
       "missing_clauses": [
         "Confidentiality",
-        "Governing Law",
-        "Liability",
-        "Termination"
+        "Governing Law"
       ],
       "key_clauses_found": [
         "Parties",
-        "Payment Terms"
+        "Payment Terms",
+        "Termination",
+        "Liability"
       ]
     }
   },
@@ -1614,14 +1614,14 @@
     "expected": {
       "risk_level": "high",
       "missing_clauses": [
+        "Parties",
         "Payment Terms",
-        "Governing Law",
-        "Liability",
-        "Parties"
+        "Governing Law"
       ],
       "key_clauses_found": [
         "Termination",
-        "Confidentiality"
+        "Confidentiality",
+        "Liability"
       ]
     }
   },
@@ -1633,10 +1633,10 @@
       "missing_clauses": [
         "Parties",
         "Payment Terms",
-        "Confidentiality",
-        "Termination"
+        "Confidentiality"
       ],
       "key_clauses_found": [
+        "Termination",
         "Liability",
         "Governing Law"
       ]
@@ -1649,13 +1649,13 @@
       "risk_level": "high",
       "missing_clauses": [
         "Parties",
-        "Liability",
-        "Termination",
         "Governing Law"
       ],
       "key_clauses_found": [
         "Payment Terms",
-        "Confidentiality"
+        "Termination",
+        "Confidentiality",
+        "Liability"
       ]
     }
   },
@@ -1666,13 +1666,13 @@
       "risk_level": "high",
       "missing_clauses": [
         "Confidentiality",
-        "Governing Law",
-        "Liability",
-        "Termination"
+        "Governing Law"
       ],
       "key_clauses_found": [
         "Parties",
-        "Payment Terms"
+        "Payment Terms",
+        "Termination",
+        "Liability"
       ]
     }
   },
@@ -1682,14 +1682,14 @@
     "expected": {
       "risk_level": "high",
       "missing_clauses": [
+        "Parties",
         "Payment Terms",
-        "Governing Law",
-        "Liability",
-        "Parties"
+        "Governing Law"
       ],
       "key_clauses_found": [
         "Termination",
-        "Confidentiality"
+        "Confidentiality",
+        "Liability"
       ]
     }
   },
@@ -1701,10 +1701,10 @@
       "missing_clauses": [
         "Parties",
         "Payment Terms",
-        "Confidentiality",
-        "Termination"
+        "Confidentiality"
       ],
       "key_clauses_found": [
+        "Termination",
         "Liability",
         "Governing Law"
       ]
@@ -1717,13 +1717,13 @@
       "risk_level": "high",
       "missing_clauses": [
         "Parties",
-        "Liability",
-        "Termination",
         "Governing Law"
       ],
       "key_clauses_found": [
         "Payment Terms",
-        "Confidentiality"
+        "Termination",
+        "Confidentiality",
+        "Liability"
       ]
     }
   },
@@ -1734,13 +1734,13 @@
       "risk_level": "high",
       "missing_clauses": [
         "Confidentiality",
-        "Governing Law",
-        "Liability",
-        "Termination"
+        "Governing Law"
       ],
       "key_clauses_found": [
         "Parties",
-        "Payment Terms"
+        "Payment Terms",
+        "Termination",
+        "Liability"
       ]
     }
   },
@@ -1750,14 +1750,14 @@
     "expected": {
       "risk_level": "high",
       "missing_clauses": [
+        "Parties",
         "Payment Terms",
-        "Governing Law",
-        "Liability",
-        "Parties"
+        "Governing Law"
       ],
       "key_clauses_found": [
         "Termination",
-        "Confidentiality"
+        "Confidentiality",
+        "Liability"
       ]
     }
   },
@@ -1769,10 +1769,10 @@
       "missing_clauses": [
         "Parties",
         "Payment Terms",
-        "Confidentiality",
-        "Termination"
+        "Confidentiality"
       ],
       "key_clauses_found": [
+        "Termination",
         "Liability",
         "Governing Law"
       ]
@@ -1785,13 +1785,13 @@
       "risk_level": "high",
       "missing_clauses": [
         "Parties",
-        "Liability",
-        "Termination",
         "Governing Law"
       ],
       "key_clauses_found": [
         "Payment Terms",
-        "Confidentiality"
+        "Termination",
+        "Confidentiality",
+        "Liability"
       ]
     }
   },
@@ -1802,13 +1802,13 @@
       "risk_level": "high",
       "missing_clauses": [
         "Confidentiality",
-        "Governing Law",
-        "Liability",
-        "Termination"
+        "Governing Law"
       ],
       "key_clauses_found": [
         "Parties",
-        "Payment Terms"
+        "Payment Terms",
+        "Termination",
+        "Liability"
       ]
     }
   },
@@ -1818,14 +1818,14 @@
     "expected": {
       "risk_level": "high",
       "missing_clauses": [
+        "Parties",
         "Payment Terms",
-        "Governing Law",
-        "Liability",
-        "Parties"
+        "Governing Law"
       ],
       "key_clauses_found": [
         "Termination",
-        "Confidentiality"
+        "Confidentiality",
+        "Liability"
       ]
     }
   },
@@ -1837,10 +1837,10 @@
       "missing_clauses": [
         "Parties",
         "Payment Terms",
-        "Confidentiality",
-        "Termination"
+        "Confidentiality"
       ],
       "key_clauses_found": [
+        "Termination",
         "Liability",
         "Governing Law"
       ]
@@ -1853,13 +1853,13 @@
       "risk_level": "high",
       "missing_clauses": [
         "Parties",
-        "Liability",
-        "Termination",
         "Governing Law"
       ],
       "key_clauses_found": [
         "Payment Terms",
-        "Confidentiality"
+        "Termination",
+        "Confidentiality",
+        "Liability"
       ]
     }
   },
@@ -1870,13 +1870,13 @@
       "risk_level": "high",
       "missing_clauses": [
         "Confidentiality",
-        "Governing Law",
-        "Liability",
-        "Termination"
+        "Governing Law"
       ],
       "key_clauses_found": [
         "Parties",
-        "Payment Terms"
+        "Payment Terms",
+        "Termination",
+        "Liability"
       ]
     }
   },
@@ -1886,14 +1886,14 @@
     "expected": {
       "risk_level": "high",
       "missing_clauses": [
+        "Parties",
         "Payment Terms",
-        "Governing Law",
-        "Liability",
-        "Parties"
+        "Governing Law"
       ],
       "key_clauses_found": [
         "Termination",
-        "Confidentiality"
+        "Confidentiality",
+        "Liability"
       ]
     }
   },
@@ -1905,10 +1905,10 @@
       "missing_clauses": [
         "Parties",
         "Payment Terms",
-        "Confidentiality",
-        "Termination"
+        "Confidentiality"
       ],
       "key_clauses_found": [
+        "Termination",
         "Liability",
         "Governing Law"
       ]
@@ -1921,13 +1921,13 @@
       "risk_level": "high",
       "missing_clauses": [
         "Parties",
-        "Liability",
-        "Termination",
         "Governing Law"
       ],
       "key_clauses_found": [
         "Payment Terms",
-        "Confidentiality"
+        "Termination",
+        "Confidentiality",
+        "Liability"
       ]
     }
   },
@@ -1938,13 +1938,13 @@
       "risk_level": "high",
       "missing_clauses": [
         "Confidentiality",
-        "Governing Law",
-        "Liability",
-        "Termination"
+        "Governing Law"
       ],
       "key_clauses_found": [
         "Parties",
-        "Payment Terms"
+        "Payment Terms",
+        "Termination",
+        "Liability"
       ]
     }
   },
@@ -1954,14 +1954,14 @@
     "expected": {
       "risk_level": "high",
       "missing_clauses": [
+        "Parties",
         "Payment Terms",
-        "Governing Law",
-        "Liability",
-        "Parties"
+        "Governing Law"
       ],
       "key_clauses_found": [
         "Termination",
-        "Confidentiality"
+        "Confidentiality",
+        "Liability"
       ]
     }
   },
@@ -1973,10 +1973,10 @@
       "missing_clauses": [
         "Parties",
         "Payment Terms",
-        "Confidentiality",
-        "Termination"
+        "Confidentiality"
       ],
       "key_clauses_found": [
+        "Termination",
         "Liability",
         "Governing Law"
       ]
@@ -1989,13 +1989,13 @@
       "risk_level": "high",
       "missing_clauses": [
         "Parties",
-        "Liability",
-        "Termination",
         "Governing Law"
       ],
       "key_clauses_found": [
         "Payment Terms",
-        "Confidentiality"
+        "Termination",
+        "Confidentiality",
+        "Liability"
       ]
     }
   }

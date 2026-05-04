@@ -1,17 +1,23 @@
 import mongoose from 'mongoose';
 import dns from 'dns';
 
+// Use a scoped DNS resolver for MongoDB Atlas SRV resolution
+// without overriding the global process-wide DNS servers
+const resolver = new dns.Resolver();
+resolver.setServers(['8.8.8.8', '8.8.4.4', '1.1.1.1']);
+
 const connectDB = async () => {
   try {
-    // Use Google DNS to resolve MongoDB Atlas SRV records
-    // (local network DNS may not support SRV record resolution)
-    dns.setServers(['8.8.8.8', '8.8.4.4', '1.1.1.1']);
-
+    // Only override global DNS if using Atlas (mongodb+srv://)
     const mongoURI = process.env.MONGODB_URI || 'mongodb://localhost:27017/jury-ai';
+    if (mongoURI.startsWith('mongodb+srv://')) {
+      // SRV resolution requires global DNS override for mongoose
+      dns.setServers(['8.8.8.8', '8.8.4.4', '1.1.1.1']);
+    }
     
     const conn = await mongoose.connect(mongoURI, {
       family: 4,
-      serverSelectionTimeoutMS: 30000,
+      serverSelectionTimeoutMS: 10000,  // 10s — avoids blocking health checks
       socketTimeoutMS: 45000,
     });
     
@@ -23,7 +29,11 @@ const connectDB = async () => {
     });
     
     mongoose.connection.on('disconnected', () => {
-      console.log('🔌 MongoDB disconnected');
+      console.log('🔌 MongoDB disconnected — Mongoose will auto-reconnect');
+    });
+
+    mongoose.connection.on('reconnected', () => {
+      console.log('🔄 MongoDB reconnected successfully');
     });
     
     // Graceful shutdown
@@ -40,3 +50,4 @@ const connectDB = async () => {
 };
 
 export default connectDB;
+

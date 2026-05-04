@@ -74,6 +74,11 @@ def evaluate(dataset_path: str, api_key: str) -> Dict[str, Any]:
         raise ValueError("Dataset must be a JSON array")
 
     client = TestClient(main.app)
+    
+    # Bypass rate limits for evaluation
+    from middlewares.security import enforce_rate_limit
+    main.app.dependency_overrides[enforce_rate_limit] = lambda: None
+    
     runtime_state.legacy_analyzer = None  # evaluate native path only
 
     stats = EvalStats(total=len(dataset))

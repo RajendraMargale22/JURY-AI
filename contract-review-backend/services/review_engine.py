@@ -1,12 +1,23 @@
 from typing import Dict, List
 
 REQUIRED_CLAUSES = {
-    "Parties": ["party", "parties", "between"],
-    "Payment Terms": ["payment", "fee", "invoice", "consideration"],
+    "Parties": [
+        "agreement is made between",
+        "parties to this contract",
+        "parties to this agreement",
+        "between",
+    ],
+    "Payment Terms": ["payment", "invoice", "consideration"],
     "Termination": ["termination", "terminate", "expiry"],
     "Confidentiality": ["confidential", "non-disclosure", "nda"],
-    "Liability": ["liability", "damages", "indemnity"],
-    "Governing Law": ["governing law", "jurisdiction", "dispute"],
+    "Liability": ["liability", "indemnity", "damages"],
+    "Governing Law": [
+        "governing law",
+        "governed by indian law",
+        "laws of india",
+        "courts at",
+        "jurisdiction",
+    ],
 }
 
 HIGH_RISK_TERMS = [

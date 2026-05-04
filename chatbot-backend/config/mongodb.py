@@ -6,11 +6,35 @@ Handles storage of chat history, queries, and analytics
 from pymongo import MongoClient
 from datetime import datetime
 import os
+from pathlib import Path
 from dotenv import load_dotenv
 from typing import List, Dict, Optional
 from logger import logger
 
-load_dotenv()
+
+def _load_env_files() -> None:
+    """Load local env files and the shared Atlas config used by the app backend."""
+    current_file = Path(__file__).resolve()
+    repo_root = current_file.parents[2]
+
+    env_candidates = [
+        current_file.parent / ".env",
+        current_file.parent.parent / ".env",
+        repo_root / ".env",
+        repo_root / "jury-ai-app" / "backend" / ".env",
+    ]
+
+    seen_paths = set()
+    for candidate in env_candidates:
+        resolved = candidate.resolve()
+        if resolved in seen_paths:
+            continue
+        seen_paths.add(resolved)
+        if candidate.exists():
+            load_dotenv(candidate, override=False)
+
+
+_load_env_files()
 
 # ---------------------------------------------------------------------------
 # Lazy MongoDB connection – avoids blocking the process at import time so
@@ -20,24 +44,39 @@ load_dotenv()
 _client = None
 _db = None
 _initialised = False
+_last_attempt = 0.0
+_RETRY_INTERVAL = 30.0  # seconds between retry attempts
 
 
 def _init_mongo():
-    """One-time lazy MongoDB initialisation with a short timeout."""
-    global _client, _db, _initialised
+    """Lazy MongoDB initialisation with retry support.
+
+    On failure the flag stays False so the next call will retry,
+    but at most once every _RETRY_INTERVAL seconds to avoid
+    hammering a down server.
+    """
+    global _client, _db, _initialised, _last_attempt
     if _initialised:
         return
-    _initialised = True
+
+    import time
+    now = time.monotonic()
+    if now - _last_attempt < _RETRY_INTERVAL:
+        return  # too soon to retry
+    _last_attempt = now
+
     uri = os.getenv("MONGODB_URI", "mongodb://localhost:27017/")
     try:
         _client = MongoClient(uri, serverSelectionTimeoutMS=5000)
         _client.admin.command("ping")
         _db = _client["jury-ai"]
+        _initialised = True  # only mark success on actual success
         logger.info("✅ MongoDB connection successful")
     except Exception as e:
-        logger.error(f"❌ MongoDB connection failed: {e}")
+        logger.error(f"❌ MongoDB connection failed (will retry in {_RETRY_INTERVAL}s): {e}")
         _client = None
         _db = None
+        _initialised = False  # allow retry on next call
 
 
 def get_db():

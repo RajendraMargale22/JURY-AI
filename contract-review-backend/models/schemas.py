@@ -29,7 +29,7 @@ class AnalyzeContractResponse(BaseModel):
     medium_risk_clauses: int = 0
     low_risk_clauses: int = 0
     clause_results: List[ClauseResult] = []
-    source: Literal["legacy", "native"]
+    source: Literal["legacy", "native", "ml"]
 
 
 class HealthResponse(BaseModel):

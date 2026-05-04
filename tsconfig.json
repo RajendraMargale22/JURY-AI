@@ -1,0 +1,11 @@
+{
+  "files": [],
+  "references": [
+    {
+      "path": "./jury-ai-app/frontend"
+    },
+    {
+      "path": "./jury-ai-app/backend"
+    }
+  ]
+}

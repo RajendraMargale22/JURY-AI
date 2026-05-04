@@ -75,19 +75,29 @@ make eval DATASET=scripts/my_eval_dataset.json REPORT=scripts/my_eval_report.jso
   - one of them is required
   - returns contract-level risk + clause-level analysis (`clause_results`)
 
-## Optional ML classifier
+## ML primary classifier
 
-By default, clause classification runs in heuristic mode and is fully runnable with current requirements.
+Clause classification now runs in ML-first mode when a trained model is available. If the ML model is missing or fails to load, the service falls back to the current native architecture (heuristics + Indian rules + native risk engine).
 
-To enable transformer-based clause classification:
+To enable a trained model, point `CONTRACT_REVIEW_MODEL_PATH` at a directory containing either a Hugging Face model or a saved sklearn pipeline (`sklearn_pipeline.joblib`).
+
+For CPU-only training on this machine, use the sklearn training script:
+
+```bash
+python scripts/train_risk_classifier_sklearn.py --dataset data/kaggle/all_reshaped_clauses.csv --label-map scripts/risk_label_map.legal_contract.json --output-dir models/risk_classifier_sklearn
+```
+
+To enable transformer-based clause classification on a machine with GPU/fast model access:
 
 1. Install optional deps:
   - `/home/aditya/Downloads/JURY-AI-main/.venv/bin/pip install torch==2.4.1 --index-url https://download.pytorch.org/whl/cpu`
   - `/home/aditya/Downloads/JURY-AI-main/.venv/bin/pip install transformers==4.44.2 tokenizers==0.19.1 safetensors==0.4.5`
 2. Optionally set env vars:
-  - `CONTRACT_REVIEW_MODEL_NAME` (default: `distilbert-base-uncased-finetuned-sst-2-english`)
-  - `CONTRACT_REVIEW_MODEL_PATH` (local fine-tuned model directory; overrides model name)
+    - `CONTRACT_REVIEW_MODEL_NAME` (default: `nlpaueb/legal-bert-base-uncased`)
+    - `CONTRACT_REVIEW_MODEL_PATH` (local fine-tuned model directory; overrides model name)
   - `USE_LEGACY_CONTRACT_REVIEW` (default: `false`; set to `true` only for legacy adapter fallback)
+
+Training instructions are available in [TRAINING.md](TRAINING.md).
 
 ## Legacy migration
 

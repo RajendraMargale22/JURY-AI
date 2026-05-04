@@ -1436,7 +1436,12 @@ def apply_indian_rules(clause_text: str, full_text: Optional[str] = None) -> Lis
 # SECTION 10 — CALIBRATED SCORING ENGINE
 # ═══════════════════════════════════════════════════════════════
 
-def compute_final_risk_score(clauses: list) -> dict:
+def compute_final_risk_score(
+    clauses: list,
+    *,
+    missing_clauses: int = 0,
+    required_clauses: int = 0,
+) -> dict:
     """
     Input:  list of dicts with key 'final_risk': 'high'|'medium'|'low'
     Output: { score, verdict, high, medium, low, total }
@@ -1452,6 +1457,9 @@ def compute_final_risk_score(clauses: list) -> dict:
     medium = sum(1 for c in clauses if (c.get("final_risk") or c.get("final_risk_level")) == "medium")
     low = total - high - medium
 
+    missing_clauses = max(0, int(missing_clauses or 0))
+    required_clauses = max(0, int(required_clauses or 0))
+
     if total == 0:
         return {"score": 0, "verdict": "low",
                 "high": 0, "medium": 0, "low": 0, "total": 0}
@@ -1460,16 +1468,26 @@ def compute_final_risk_score(clauses: list) -> dict:
     severity_score = min(48, high * 4.5 + medium * 1.5)
     base = 15 + (10 if (high + medium) > 0 else 0)
 
-    raw = int(ratio_score + severity_score + base)
+    if required_clauses > 0:
+        missing_ratio = min(1.0, missing_clauses / required_clauses)
+        missing_score = int(round(missing_ratio * 30))
+    else:
+        missing_score = min(30, missing_clauses * 5)
+
+    raw = int(ratio_score + severity_score + base + missing_score)
     if raw > 88:
         raw = 88 + int((raw - 88) * 0.3)
     score = min(92, raw)
 
-    if high >= 8 or score >= 68:
+    if missing_clauses >= 4:
         verdict = "high"
-    elif total <= 10 and high >= 2:
+    elif high >= 9 or score >= 56:
         verdict = "high"
-    elif high >= 3 or medium >= 5 or score >= 38:
+    elif total <= 10 and high >= 3:
+        verdict = "high"
+    elif missing_clauses >= 3:
+        verdict = "medium"
+    elif high >= 4 or medium >= 6 or score >= 45:
         verdict = "medium"
     else:
         verdict = "low"

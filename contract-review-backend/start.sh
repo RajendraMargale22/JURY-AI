@@ -4,7 +4,9 @@ set -e
 
 echo "🚀 Starting JURY AI Contract Review Backend..."
 
-cd /home/aditya/Downloads/JURY-AI-main/contract-review-backend
+# Use script's own directory to find the project (works on any machine)
+SCRIPT_DIR="$(cd "$(dirname "$0")" && pwd)"
+cd "$SCRIPT_DIR"
 
 if command -v lsof >/dev/null 2>&1; then
   EXISTING_PID=$(lsof -t -i:8001 -sTCP:LISTEN 2>/dev/null | head -n 1 || true)
@@ -16,10 +18,13 @@ if command -v lsof >/dev/null 2>&1; then
   fi
 fi
 
-if [ -f "/home/aditya/Downloads/JURY-AI-main/.venv/bin/activate" ]; then
-  source /home/aditya/Downloads/JURY-AI-main/.venv/bin/activate
+# Auto-detect virtual environment
+if [ -f "../.venv/bin/activate" ]; then
+  source ../.venv/bin/activate
 elif [ -f "venv/bin/activate" ]; then
   source venv/bin/activate
+elif [ -f ".venv/bin/activate" ]; then
+  source .venv/bin/activate
 fi
 
 echo "📡 Starting FastAPI server on http://localhost:8001"

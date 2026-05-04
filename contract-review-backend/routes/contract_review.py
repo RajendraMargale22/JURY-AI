@@ -9,7 +9,11 @@ from services.indian_rules_enhanced import (
     apply_indian_rules,
     compute_final_risk_score as compute_final_risk_score_enhanced,
 )
-from services.ml_classifier import classify_clause_optional, classify_clauses_optional
+from services.ml_classifier import (
+    classify_clause_optional,
+    classify_clauses_optional,
+    classify_clauses_ml_only,
+)
 from middlewares.security import enforce_rate_limit
 from services import runtime_state
 from logger import logger
@@ -124,7 +128,11 @@ def _validate_response_payload(payload: dict, request_id: Optional[str]) -> Anal
         return AnalyzeContractResponse(**adjusted)
     except ValidationError as error:
         logger.error(f"AnalyzeContractResponse validation failed: {error}")
-        adjusted["source"] = "native" if adjusted.get("source") not in {"legacy", "native"} else adjusted.get("source")
+        adjusted["source"] = (
+            "native"
+            if adjusted.get("source") not in {"legacy", "native", "ml"}
+            else adjusted.get("source")
+        )
         adjusted["document_type"] = str(adjusted.get("document_type") or "contract")
         adjusted["summary"] = str(adjusted.get("summary") or "Contract analysis completed with validation fallback.")
         adjusted["key_clauses_found"] = adjusted.get("key_clauses_found") or []
@@ -199,9 +207,195 @@ def _build_summary(clauses_analyzed: int, risky_clauses: int, clause_results: li
     )
 
 
-def compute_final_risk_score(clauses: list[dict]) -> dict:
+def compute_final_risk_score(
+    clauses: list[dict],
+    *,
+    missing_clauses: int = 0,
+    required_clauses: int = 0,
+) -> dict:
     # Compatibility wrapper for existing imports/tests.
-    return compute_final_risk_score_enhanced(clauses)
+    return compute_final_risk_score_enhanced(
+        clauses,
+        missing_clauses=missing_clauses,
+        required_clauses=required_clauses,
+    )
+
+
+def _run_current_architecture(extracted_text: str, request_id: Optional[str]) -> AnalyzeContractResponse:
+    native_result = analyze_contract_native(extracted_text)
+    clauses = split_into_clauses(extracted_text)
+    clause_results = []
+    risky_clauses = 0
+
+    ml_results = classify_clauses_optional(clauses) if clauses else []
+
+    for idx, clause in enumerate(clauses):
+        ml_result = ml_results[idx] if idx < len(ml_results) else classify_clause_optional(clause)
+        indian_risks = apply_indian_rules(clause, extracted_text)
+        final_risk = _merge_risk_levels(ml_result["risk_level"], indian_risks, ml_result["source"])
+
+        has_material_indian = any(
+            ("high risk" in note.lower()) or ("medium risk" in note.lower())
+            for note in indian_risks
+        )
+        has_material_ml = (ml_result["risk_level"] == "high") or (
+            ml_result["source"] != "heuristic" and ml_result["risk_level"] == "medium"
+        )
+
+        if final_risk in {"high", "medium"} and (has_material_indian or has_material_ml):
+            risky_clauses += 1
+
+        clause_results.append(
+            {
+                "clause_text": clause[:1000],
+                "ml_risk_level": ml_result["risk_level"],
+                "ml_confidence": ml_result["confidence"],
+                "ml_source": ml_result["source"],
+                "indian_risks": indian_risks,
+                "final_risk_level": final_risk,
+            }
+        )
+
+    if clauses:
+        required_count = len(native_result.get("missing_clauses", [])) + len(
+            native_result.get("key_clauses_found", [])
+        )
+        final_agg = compute_final_risk_score(
+            clause_results,
+            missing_clauses=len(native_result.get("missing_clauses", [])),
+            required_clauses=required_count,
+        )
+        native_result["risk_score"] = final_agg["score"]
+        native_result["risk_level"] = final_agg["verdict"]
+        native_result["high_risk_clauses"] = final_agg["high"]
+        native_result["medium_risk_clauses"] = final_agg["medium"]
+        native_result["low_risk_clauses"] = final_agg["low"]
+    else:
+        native_result["high_risk_clauses"] = 0
+        native_result["medium_risk_clauses"] = 0
+        native_result["low_risk_clauses"] = 0
+
+    extra_suggestions = []
+    for row in clause_results:
+        extra_suggestions.extend(row["indian_risks"])
+    native_result["suggestions"] = list(dict.fromkeys(native_result["suggestions"] + extra_suggestions))[:20]
+
+    summary_text = _build_summary(
+        clauses_analyzed=len(clauses),
+        risky_clauses=risky_clauses,
+        clause_results=clause_results,
+        base_summary=native_result["summary"],
+    )
+
+    return _validate_response_payload(
+        {
+            "success": True,
+            "message": "Contract analysis completed",
+            "data": {"source": "native"},
+            "summary": summary_text,
+            "document_type": native_result["document_type"],
+            "risk_level": native_result["risk_level"],
+            "risk_score": native_result["risk_score"],
+            "key_clauses_found": native_result["key_clauses_found"],
+            "missing_clauses": native_result["missing_clauses"],
+            "suggestions": native_result["suggestions"],
+            "clauses_analyzed": len(clauses),
+            "risky_clauses": risky_clauses,
+            "high_risk_clauses": int(native_result.get("high_risk_clauses", 0)),
+            "medium_risk_clauses": int(native_result.get("medium_risk_clauses", 0)),
+            "low_risk_clauses": int(native_result.get("low_risk_clauses", 0)),
+            "clause_results": clause_results,
+            "source": "native",
+        },
+        request_id,
+    )
+
+
+def _run_ml_primary(extracted_text: str, request_id: Optional[str]) -> Optional[AnalyzeContractResponse]:
+    clauses = split_into_clauses(extracted_text)
+    if not clauses:
+        return None
+
+    ml_results = classify_clauses_ml_only(clauses)
+    if ml_results is None or len(ml_results) != len(clauses):
+        return None
+
+    native_result = analyze_contract_native(extracted_text)
+    clause_results = []
+    risky_clauses = 0
+
+    for clause, ml_result in zip(clauses, ml_results):
+        indian_risks = apply_indian_rules(clause, extracted_text)
+        final_risk = _merge_risk_levels(ml_result["risk_level"], indian_risks, ml_result["source"])
+
+        has_material_indian = any(
+            ("high risk" in note.lower()) or ("medium risk" in note.lower())
+            for note in indian_risks
+        )
+        has_material_ml = (ml_result["risk_level"] == "high") or (ml_result["risk_level"] == "medium")
+
+        if final_risk in {"high", "medium"} and (has_material_indian or has_material_ml):
+            risky_clauses += 1
+
+        clause_results.append(
+            {
+                "clause_text": clause[:1000],
+                "ml_risk_level": ml_result["risk_level"],
+                "ml_confidence": ml_result["confidence"],
+                "ml_source": ml_result["source"],
+                "indian_risks": indian_risks,
+                "final_risk_level": final_risk,
+            }
+        )
+
+    required_count = len(native_result.get("missing_clauses", [])) + len(
+        native_result.get("key_clauses_found", [])
+    )
+    final_agg = compute_final_risk_score(
+        clause_results,
+        missing_clauses=len(native_result.get("missing_clauses", [])),
+        required_clauses=required_count,
+    )
+    native_result["risk_score"] = final_agg["score"]
+    native_result["risk_level"] = final_agg["verdict"]
+    native_result["high_risk_clauses"] = final_agg["high"]
+    native_result["medium_risk_clauses"] = final_agg["medium"]
+    native_result["low_risk_clauses"] = final_agg["low"]
+
+    extra_suggestions = []
+    for row in clause_results:
+        extra_suggestions.extend(row["indian_risks"])
+    native_result["suggestions"] = list(dict.fromkeys(native_result["suggestions"] + extra_suggestions))[:20]
+
+    summary_text = _build_summary(
+        clauses_analyzed=len(clauses),
+        risky_clauses=risky_clauses,
+        clause_results=clause_results,
+        base_summary=native_result["summary"],
+    )
+
+    return _validate_response_payload(
+        {
+            "success": True,
+            "message": "Contract analysis completed",
+            "data": {"source": "ml"},
+            "summary": summary_text,
+            "document_type": native_result["document_type"],
+            "risk_level": native_result["risk_level"],
+            "risk_score": native_result["risk_score"],
+            "key_clauses_found": native_result["key_clauses_found"],
+            "missing_clauses": native_result["missing_clauses"],
+            "suggestions": native_result["suggestions"],
+            "clauses_analyzed": len(clauses),
+            "risky_clauses": risky_clauses,
+            "high_risk_clauses": int(native_result.get("high_risk_clauses", 0)),
+            "medium_risk_clauses": int(native_result.get("medium_risk_clauses", 0)),
+            "low_risk_clauses": int(native_result.get("low_risk_clauses", 0)),
+            "clause_results": clause_results,
+            "source": "ml",
+        },
+        request_id,
+    )
 
 
 @router.post("/analyze", response_model=AnalyzeContractResponse)
@@ -252,6 +446,10 @@ async def analyze_contract(
             }
         )
 
+    ml_response = _run_ml_primary(extracted_text, request_id)
+    if ml_response is not None:
+        return ml_response
+
     if runtime_state.legacy_analyzer is not None:
         try:
             legacy_result = runtime_state.legacy_analyzer(extracted_text)
@@ -259,83 +457,5 @@ async def analyze_contract(
         except Exception as error:  # pylint: disable=broad-except
             logger.warning(f"Legacy analyzer failed, falling back to native engine: {error}")
 
-    native_result = analyze_contract_native(extracted_text)
-    clauses = split_into_clauses(extracted_text)
-    clause_results = []
-    risky_clauses = 0
-
-    ml_results = classify_clauses_optional(clauses) if clauses else []
-
-    for idx, clause in enumerate(clauses):
-        ml_result = ml_results[idx] if idx < len(ml_results) else classify_clause_optional(clause)
-        indian_risks = apply_indian_rules(clause, extracted_text)
-        final_risk = _merge_risk_levels(ml_result["risk_level"], indian_risks, ml_result["source"])
-
-        has_material_indian = any(
-            ("high risk" in note.lower()) or ("medium risk" in note.lower())
-            for note in indian_risks
-        )
-        has_material_ml = (ml_result["risk_level"] == "high") or (
-            ml_result["source"] != "heuristic" and ml_result["risk_level"] == "medium"
-        )
-
-        if final_risk in {"high", "medium"} and (has_material_indian or has_material_ml):
-            risky_clauses += 1
-
-        clause_results.append(
-            {
-                "clause_text": clause[:1000],
-                "ml_risk_level": ml_result["risk_level"],
-                "ml_confidence": ml_result["confidence"],
-                "ml_source": ml_result["source"],
-                "indian_risks": indian_risks,
-                "final_risk_level": final_risk,
-            }
-        )
-
-    if clauses:
-        final_agg = compute_final_risk_score(clause_results)
-        native_result["risk_score"] = final_agg["score"]
-        native_result["risk_level"] = final_agg["verdict"]
-        native_result["high_risk_clauses"] = final_agg["high"]
-        native_result["medium_risk_clauses"] = final_agg["medium"]
-        native_result["low_risk_clauses"] = final_agg["low"]
-    else:
-        native_result["high_risk_clauses"] = 0
-        native_result["medium_risk_clauses"] = 0
-        native_result["low_risk_clauses"] = 0
-
-    extra_suggestions = []
-    for row in clause_results:
-        extra_suggestions.extend(row["indian_risks"])
-    native_result["suggestions"] = list(dict.fromkeys(native_result["suggestions"] + extra_suggestions))[:20]
-
-    summary_text = _build_summary(
-        clauses_analyzed=len(clauses),
-        risky_clauses=risky_clauses,
-        clause_results=clause_results,
-        base_summary=native_result["summary"],
-    )
-
-    return _validate_response_payload(
-        {
-            "success": True,
-            "message": "Contract analysis completed",
-            "data": {"source": "native"},
-            "summary": summary_text,
-            "document_type": native_result["document_type"],
-            "risk_level": native_result["risk_level"],
-            "risk_score": native_result["risk_score"],
-            "key_clauses_found": native_result["key_clauses_found"],
-            "missing_clauses": native_result["missing_clauses"],
-            "suggestions": native_result["suggestions"],
-            "clauses_analyzed": len(clauses),
-            "risky_clauses": risky_clauses,
-            "high_risk_clauses": int(native_result.get("high_risk_clauses", 0)),
-            "medium_risk_clauses": int(native_result.get("medium_risk_clauses", 0)),
-            "low_risk_clauses": int(native_result.get("low_risk_clauses", 0)),
-            "clause_results": clause_results,
-            "source": "native",
-        },
-        request_id,
-    )
+    logger.info("ML model unavailable; using current contract review architecture")
+    return _run_current_architecture(extracted_text, request_id)

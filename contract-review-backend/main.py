@@ -9,6 +9,7 @@ from routes.contract_review import router as contract_review_router
 from models.schemas import HealthResponse
 from services.legacy_adapter import load_legacy_analyzer
 from services import runtime_state
+from services.ml_classifier import get_ml_model_status
 from logger import logger
 from prometheus_client import CONTENT_TYPE_LATEST, generate_latest
 
@@ -69,6 +70,17 @@ async def metrics():
 @app.on_event("startup")
 async def startup_event():
     logger.info("🚀 Contract Review Backend started")
+    ml_status = get_ml_model_status()
+    if ml_status.get("ready"):
+        logger.info(
+            "ML primary ready (%s): %s",
+            ml_status.get("model_type"),
+            ml_status.get("model_path"),
+        )
+    else:
+        logger.warning(
+            "ML primary not ready; set CONTRACT_REVIEW_MODEL_PATH to a trained model to enable ML-first review"
+        )
     if runtime_state.legacy_analyzer is not None:
         logger.info("✅ Legacy analyzer wired successfully")
     elif use_legacy_analyzer:
