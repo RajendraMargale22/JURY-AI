@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { toast } from 'react-toastify';
 import axios from 'axios';
@@ -45,6 +45,9 @@ const AuthModal: React.FC<AuthModalProps> = ({ isOpen, onClose, initialMode = 'l
   const [twoFactorToken, setTwoFactorToken] = useState('');
   const [twoFactorCode, setTwoFactorCode] = useState('');
   const [pendingTwoFactor, setPendingTwoFactor] = useState(false);
+
+  // Ref to prevent the auto-close useEffect from racing with completeAuthentication
+  const isAuthenticatingRef = useRef(false);
 
   const [loginData, setLoginData] = useState({ email: '', password: '' });
   const [registerData, setRegisterData] = useState({
@@ -109,15 +112,17 @@ const AuthModal: React.FC<AuthModalProps> = ({ isOpen, onClose, initialMode = 'l
 
     if (data.user.role === 'admin') {
       toast.success('Welcome back, Admin! Redirecting to dashboard...');
+      // Navigate synchronously BEFORE closing modal to avoid race condition
+      // where the auto-close useEffect unmounts the component before navigate fires
+      navigate('/admin', { replace: true });
       handleClose();
-      setTimeout(() => {
-        navigate('/admin', { replace: true });
-      }, 400);
+      isAuthenticatingRef.current = false;
       return;
     }
 
     toast.success(successMessage);
     handleClose();
+    isAuthenticatingRef.current = false;
   };
 
   const validatePassword = (password: string): string | null => {
@@ -136,9 +141,10 @@ const AuthModal: React.FC<AuthModalProps> = ({ isOpen, onClose, initialMode = 'l
     return null;
   };
 
-  // Close if user becomes authenticated
+  // Close if user becomes authenticated (e.g., from session restore or another tab)
+  // Guard with isAuthenticatingRef to prevent racing with completeAuthentication
   useEffect(() => {
-    if (isAuthenticated && user) {
+    if (isAuthenticated && user && !isAuthenticatingRef.current) {
       handleClose();
     }
   }, [isAuthenticated, user]);
@@ -160,6 +166,7 @@ const AuthModal: React.FC<AuthModalProps> = ({ isOpen, onClose, initialMode = 'l
   const handleLoginSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     setIsLoading(true);
+    isAuthenticatingRef.current = true;
     try {
       const response = await axios.post('/auth/login', loginData);
       const data = response.data as any;
@@ -180,6 +187,7 @@ const AuthModal: React.FC<AuthModalProps> = ({ isOpen, onClose, initialMode = 'l
       }
     } catch (error: any) {
       console.error('Login error:', error);
+      isAuthenticatingRef.current = false;
       if (error.code === 'ERR_NETWORK' || error.message?.includes('Network Error')) {
         toast.error('Server is not reachable. Please make sure the backend is running on port 5000.');
       } else {
@@ -219,6 +227,7 @@ const AuthModal: React.FC<AuthModalProps> = ({ isOpen, onClose, initialMode = 'l
     }
 
     setIsLoading(true);
+    isAuthenticatingRef.current = true;
     try {
       const response = await axios.post('/auth/register', {
         name: registerData.name,
@@ -232,6 +241,7 @@ const AuthModal: React.FC<AuthModalProps> = ({ isOpen, onClose, initialMode = 'l
       }
     } catch (error: any) {
       console.error('Registration error:', error);
+      isAuthenticatingRef.current = false;
       if (error.code === 'ERR_NETWORK' || error.message?.includes('Network Error')) {
         toast.error('Server is not reachable. Please make sure the backend is running on port 5000.');
       } else {
@@ -255,6 +265,7 @@ const AuthModal: React.FC<AuthModalProps> = ({ isOpen, onClose, initialMode = 'l
     }
 
     setIsLoading(true);
+    isAuthenticatingRef.current = true;
     try {
       const result = await signInWithPopup(firebaseAuth, googleProvider);
       const idToken = await result.user.getIdToken();
@@ -282,6 +293,7 @@ const AuthModal: React.FC<AuthModalProps> = ({ isOpen, onClose, initialMode = 'l
       }
     } catch (error: any) {
       console.error('Google auth error:', error);
+      isAuthenticatingRef.current = false;
       const message = getGoogleErrorMessage(error);
       toast.error(message);
     } finally {

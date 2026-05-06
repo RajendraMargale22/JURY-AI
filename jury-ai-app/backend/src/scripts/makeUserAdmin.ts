@@ -1,13 +1,14 @@
 import mongoose from 'mongoose';
 import User from '../models/User';
 import dotenv from 'dotenv';
+import connectDB from '../config/database';
 
 dotenv.config();
 
 const makeUserAdmin = async () => {
   try {
     // Connect to MongoDB
-    await mongoose.connect(process.env.MONGODB_URI || 'mongodb://localhost:27017/jury-ai');
+    await connectDB();
     
     console.log('📝 Updating user to admin role...');
     
