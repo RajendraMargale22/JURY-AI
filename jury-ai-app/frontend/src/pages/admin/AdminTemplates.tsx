@@ -63,11 +63,13 @@ const AdminTemplates: React.FC = () => {
 
   const fetchTemplates = async () => {
     try {
+      const token = localStorage.getItem('token');
       const response = await fetch(`${process.env.REACT_APP_API_URL || ''}/admin/templates`, {
         method: 'GET',
         credentials: 'include',
         headers: {
           'Content-Type': 'application/json',
+          ...(token ? { 'Authorization': `Bearer ${token}` } : {}),
         },
       });
 
@@ -86,11 +88,13 @@ const AdminTemplates: React.FC = () => {
 
   const handleStatusToggle = async (templateId: string, isActive: boolean) => {
     try {
+      const token = localStorage.getItem('token');
       const response = await fetch(`${process.env.REACT_APP_API_URL || ''}/admin/templates/${templateId}/status`, {
         method: 'PUT',
         credentials: 'include',
         headers: {
           'Content-Type': 'application/json',
+          ...(token ? { 'Authorization': `Bearer ${token}` } : {}),
         },
         body: JSON.stringify({ isActive: !isActive }),
       });
@@ -106,9 +110,13 @@ const AdminTemplates: React.FC = () => {
   const handleDeleteTemplate = async (templateId: string) => {
     if (window.confirm('Are you sure you want to delete this template? This action cannot be undone.')) {
       try {
+        const token = localStorage.getItem('token');
         const response = await fetch(`${process.env.REACT_APP_API_URL || ''}/admin/templates/${templateId}`, {
           method: 'DELETE',
           credentials: 'include',
+          headers: {
+            ...(token ? { 'Authorization': `Bearer ${token}` } : {}),
+          },
         });
 
         if (response.ok) {
@@ -124,11 +132,13 @@ const AdminTemplates: React.FC = () => {
 
   const handleCreateTemplate = async () => {
     try {
+      const token = localStorage.getItem('token');
       const response = await fetch(`${process.env.REACT_APP_API_URL || ''}/admin/templates`, {
         method: 'POST',
         credentials: 'include',
         headers: {
           'Content-Type': 'application/json',
+          ...(token ? { 'Authorization': `Bearer ${token}` } : {}),
         },
         body: JSON.stringify(formData),
       });

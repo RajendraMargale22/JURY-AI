@@ -43,11 +43,13 @@ const AdminLawyers: React.FC = () => {
         status: statusFilter
       });
 
+      const token = localStorage.getItem('token');
       const response = await fetch(`${process.env.REACT_APP_API_URL || ''}/admin/lawyers?${params}`, {
         method: 'GET',
         credentials: 'include',
         headers: {
           'Content-Type': 'application/json',
+          ...(token ? { 'Authorization': `Bearer ${token}` } : {}),
         },
       });
 
@@ -70,11 +72,13 @@ const AdminLawyers: React.FC = () => {
 
   const handleVerificationAction = async (lawyerId: string, action: 'approve' | 'reject', reason?: string) => {
     try {
+      const token = localStorage.getItem('token');
       const response = await fetch(`${process.env.REACT_APP_API_URL || ''}/admin/lawyers/${lawyerId}/verify`, {
         method: 'PUT',
         credentials: 'include',
         headers: {
           'Content-Type': 'application/json',
+          ...(token ? { 'Authorization': `Bearer ${token}` } : {}),
         },
         body: JSON.stringify({ action, reason }),
       });

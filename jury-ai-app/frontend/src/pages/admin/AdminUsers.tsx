@@ -37,11 +37,13 @@ const AdminUsers: React.FC = () => {
         status: statusFilter
       });
 
+      const token = localStorage.getItem('token');
       const response = await fetch(`${process.env.REACT_APP_API_URL || ''}/admin/users?${params}`, {
         method: 'GET',
         credentials: 'include',
         headers: {
           'Content-Type': 'application/json',
+          ...(token ? { 'Authorization': `Bearer ${token}` } : {}),
         },
       });
 
@@ -64,11 +66,13 @@ const AdminUsers: React.FC = () => {
 
   const handleStatusChange = async (userId: string, newStatus: string) => {
     try {
+      const token = localStorage.getItem('token');
       const response = await fetch(`${process.env.REACT_APP_API_URL || ''}/admin/users/${userId}/status`, {
         method: 'PUT',
         credentials: 'include',
         headers: {
           'Content-Type': 'application/json',
+          ...(token ? { 'Authorization': `Bearer ${token}` } : {}),
         },
         body: JSON.stringify({ status: newStatus }),
       });
@@ -89,9 +93,13 @@ const AdminUsers: React.FC = () => {
   const handleDeleteUser = async (userId: string) => {
     if (window.confirm('Are you sure you want to delete this user?')) {
       try {
+        const token = localStorage.getItem('token');
         const response = await fetch(`${process.env.REACT_APP_API_URL || ''}/admin/users/${userId}`, {
           method: 'DELETE',
           credentials: 'include',
+          headers: {
+            ...(token ? { 'Authorization': `Bearer ${token}` } : {}),
+          },
         });
 
         if (response.ok) {

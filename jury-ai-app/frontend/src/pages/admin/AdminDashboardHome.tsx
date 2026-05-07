@@ -32,11 +32,13 @@ const AdminDashboardHome: React.FC = () => {
 
   const fetchDashboardStats = async () => {
     try {
+      const token = localStorage.getItem('token');
       const response = await fetch(`${process.env.REACT_APP_API_URL || ''}/admin/dashboard`, {
         method: 'GET',
         credentials: 'include',
         headers: {
           'Content-Type': 'application/json',
+          ...(token ? { 'Authorization': `Bearer ${token}` } : {}),
         },
       });
 

@@ -16,6 +16,7 @@ const connectDB = async () => {
     }
     
     const conn = await mongoose.connect(mongoURI, {
+      dbName: 'jury-ai',
       family: 4,
       serverSelectionTimeoutMS: 10000,  // 10s — avoids blocking health checks
       socketTimeoutMS: 45000,
