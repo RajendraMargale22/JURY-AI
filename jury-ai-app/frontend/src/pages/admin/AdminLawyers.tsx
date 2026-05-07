@@ -5,7 +5,7 @@ interface Lawyer {
   username: string;
   email: string;
   isVerified: boolean;
-  verificationStatus: 'pending' | 'approved' | 'rejected';
+  verificationStatus: 'pending' | 'verified' | 'rejected';
   specializations: string[];
   experience: number;
   licenseNumber?: string;
@@ -100,7 +100,7 @@ const AdminLawyers: React.FC = () => {
 
   const getStatusBadgeClass = (status: string) => {
     switch (status) {
-      case 'approved': return 'bg-success';
+      case 'verified': return 'bg-success';
       case 'pending': return 'bg-warning text-dark';
       case 'rejected': return 'bg-danger';
       default: return 'bg-secondary';
@@ -155,8 +155,8 @@ const AdminLawyers: React.FC = () => {
           }}>
             <div className="card-body text-center">
               <i className="fas fa-check-circle fa-2x mb-2" style={{color: '#22c55e'}}></i>
-              <h3 style={{color: '#22c55e', marginBottom: '0.25rem'}}>{(lawyers || []).filter(l => l.verificationStatus === 'approved').length}</h3>
-              <p className="mb-0" style={{color: 'rgba(255, 255, 255, 0.6)', fontSize: '0.875rem'}}>Approved</p>
+              <h3 style={{color: '#22c55e', marginBottom: '0.25rem'}}>{(lawyers || []).filter(l => l.verificationStatus === 'verified').length}</h3>
+              <p className="mb-0" style={{color: 'rgba(255, 255, 255, 0.6)', fontSize: '0.875rem'}}>Verified</p>
             </div>
           </div>
         </div>
@@ -224,7 +224,7 @@ const AdminLawyers: React.FC = () => {
                 >
                   <option value="all">All Status</option>
                   <option value="pending">Pending</option>
-                  <option value="approved">Approved</option>
+                  <option value="verified">Verified</option>
                   <option value="rejected">Rejected</option>
                 </select>
               </div>

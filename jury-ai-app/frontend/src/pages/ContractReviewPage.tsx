@@ -335,9 +335,9 @@ const ContractReviewPage: React.FC = () => {
                 <span className="text-secondary small text-uppercase">Source: {result.source}</span>
               </div>
               <p className="mb-0 text-light" style={{ fontSize: 15, fontWeight: 600, lineHeight: 1.4 }}>
-                {result.risk_level === 'high'
+                {result.risk_score >= 70
                   ? 'This agreement is materially one-sided. Strongly review before signing.'
-                  : result.risk_level === 'medium'
+                  : result.risk_score >= 40
                     ? 'This agreement has important risks. Negotiate key clauses before signing.'
                     : 'This agreement appears relatively balanced, with some clauses to review.'}
               </p>

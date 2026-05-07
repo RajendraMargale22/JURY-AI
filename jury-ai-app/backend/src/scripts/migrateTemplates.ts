@@ -38,8 +38,16 @@ async function migrateData() {
       for (const user of users) {
         const exists = await targetUsersCollection.findOne({ _id: user._id });
         if (!exists) {
-          await targetUsersCollection.insertOne(user);
-          insertedCount++;
+          try {
+            await targetUsersCollection.insertOne(user);
+            insertedCount++;
+          } catch (err: any) {
+            if (err.code === 11000) {
+              console.log(`Skipping duplicate user email: ${user.email}`);
+            } else {
+              throw err;
+            }
+          }
         }
       }
 
