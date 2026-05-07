@@ -21,38 +21,38 @@ async function migrateData() {
   try {
     // Connect to the test database
     const testConn = await mongoose.createConnection(MONGODB_URI as string, { dbName: 'test' }).asPromise();
-    const testTemplatesCollection = testConn.collection('templates');
-    
+    const testUsersCollection = testConn.collection('users');
+
     // Connect to the jury-ai database
     const targetConn = await mongoose.createConnection(MONGODB_URI as string, { dbName: 'jury-ai' }).asPromise();
-    const targetTemplatesCollection = targetConn.collection('templates');
+    const targetUsersCollection = targetConn.collection('users');
 
     console.log("Connected to MongoDB Atlas");
 
-    // Get all templates from test
-    const templates = await testTemplatesCollection.find({}).toArray();
-    console.log(`Found ${templates.length} templates in 'test' database.`);
+    // Get all users from test
+    const users = await testUsersCollection.find({}).toArray();
+    console.log(`Found ${users.length} users in 'test' database.`);
 
-    if (templates.length > 0) {
+    if (users.length > 0) {
       let insertedCount = 0;
-      for (const template of templates) {
-        const exists = await targetTemplatesCollection.findOne({ _id: template._id });
+      for (const user of users) {
+        const exists = await targetUsersCollection.findOne({ _id: user._id });
         if (!exists) {
-          await targetTemplatesCollection.insertOne(template);
+          await targetUsersCollection.insertOne(user);
           insertedCount++;
         }
       }
-      
-      console.log(`Successfully migrated ${insertedCount} templates to 'jury-ai' database.`);
-      
-      if (insertedCount === templates.length) {
-         await testTemplatesCollection.drop();
-         console.log("Dropped templates collection from test database.");
+
+      console.log(`Successfully migrated ${insertedCount} users to 'jury-ai' database.`);
+
+      if (insertedCount === users.length) {
+        await testUsersCollection.drop();
+        console.log("Dropped users collection from test database.");
       }
     } else {
-      console.log("No templates found in 'test' database to migrate.");
+      console.log("No users found in 'test' database to migrate.");
     }
-    
+
     await testConn.close();
     await targetConn.close();
   } catch (err) {
